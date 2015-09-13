@@ -1,5 +1,3 @@
-from django.core.exceptions import ValidationError
-
 from django.db import models
 from django.conf import settings
 from django_extensions.db.models import TimeStampedModel
@@ -28,10 +26,6 @@ class Address(TimeStampedModel):
             return "{} - {}, {}, {} {}, {}".format(
                 self.address2, self.address1, self.city, self.state, self.postal_code.upper(), self.country)
         return "{}, {}, {} {}, {}".format(self.address1, self.city, self.state, self.postal_code.upper(), self.country)
-
-    def clean(self):
-        if self.type == self.TYPE_CHOICES.billing and self.privacy == self.PRIVACY_CHOICES.public:
-            raise ValidationError('Billing addresses cannot be public')
 
     class Meta:
         verbose_name_plural = "addresses"
