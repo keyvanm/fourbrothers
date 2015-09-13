@@ -59,4 +59,8 @@ target/
 # SQLite database
 *.sqlite3
 
+# Mac's DS_Store BS
 .DS_Store
+
+# local settings
+local_settings.py
