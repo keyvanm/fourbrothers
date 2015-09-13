@@ -64,3 +64,8 @@ target/
 
 # local settings
 local_settings.py
+
+# PyCharm
+.idea/
+*.backup
+*.bak
