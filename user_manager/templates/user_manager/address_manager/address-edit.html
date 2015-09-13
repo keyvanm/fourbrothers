@@ -1,0 +1,28 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load i18n %}
+{#{% load bootstrap %}#}
+{% load bootstrap3 %}
+
+{% block title %}{% trans "Edit Address" %}{% endblock %}
+
+{% block account_nav_addr_mgr %}active{% endblock %}
+
+
+{% block account_content %}
+    <div class="page-header">
+        <h1>Edit Address</h1>
+    </div>
+    <div>
+        {% bootstrap_form_errors form %}
+    </div>
+    <div class="well">
+        <form method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <a href="{% url 'address-list' %}" class="btn btn-default">Cancel</a>
+            <input class="btn btn-primary" type="submit" value="Submit"/>
+        </form>
+    </div>
+{% endblock %}

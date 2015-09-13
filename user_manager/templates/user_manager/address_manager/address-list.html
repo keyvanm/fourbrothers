@@ -1,0 +1,82 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load i18n %}
+{% load bootstrap %}
+
+{% block title %}{% trans "Account" %}{% endblock %}
+
+{% block account_nav_addr_mgr %}active{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    <style>
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .addr-options {
+            padding: 0;
+        }
+
+        .panel-title.addr-name{
+            display: inline-block;
+        }
+
+    </style>
+{% endblock %}
+
+{% block account_content %}
+    <div>
+        <h2>
+            My Shipping Addresses
+            <small>
+                <a href="{% url 'address-shipping-add' %}">
+                    <span class="glyphicon glyphicon-plus"></span> Add a shipping address
+                </a>
+            </small>
+        </h2>
+        {% for addr_group in shipping_addresses %}
+            <div class="row">
+                {% for addr in addr_group %}
+                    {% if addr %}
+                        {% include 'user_manager/address_manager/addr-block.html' %}
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        {% empty %}
+            <p>You don't have any shipping addresses. Why don't you go ahead and
+                <a href="{% url 'address-shipping-add' %}">add one?</a>
+            </p>
+        {% endfor %}
+    </div>
+
+
+    <div>
+        <h2>
+            My Billing Addresses
+            <small>
+                <a href="{% url 'address-billing-add' %}">
+                    <span class="glyphicon glyphicon-plus"></span> Add a billing address
+                </a>
+            </small>
+        </h2>
+        {% for addr_group in billing_addresses %}
+            <div class="row">
+                {% for addr in addr_group %}
+                    {% if addr %}
+                        {% include 'user_manager/address_manager/addr-block.html' %}
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        {% empty %}
+            <p>
+                You don't have any billing addresses. Why don't you go ahead and
+                <a href="{% url 'address-billing-add' %}">add one</a>?
+            </p>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
