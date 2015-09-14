@@ -1,0 +1,128 @@
+{% extends 'bootstrap3/bootstrap3.html' %}
+{% load staticfiles %}
+
+{% load url from future %}
+{% load bootstrap3 %}
+
+{% block bootstrap3_title %}{% block title %}{% endblock title %} | CineSend{% endblock bootstrap3_title %}
+
+{% block bootstrap3_extra_base_head %}
+    <link class="simplex-sheet" href="{% static 'bootstrap/bootstrap-simplex.min.css' %}" media="all" rel="stylesheet">
+    {#<link class="simplex-sheet" href="{% static 'bootstrap/bootstrap-flatly.min.css' %}" media="all" rel="stylesheet">#}
+    <link href="{% static 'css/main.css' %}" media="all" rel="stylesheet">
+    <link href="{% static 'css/main-simplex.css' %}" media="all" rel="stylesheet">
+    {#<link href="{% static 'css/main-flatly.css' %}" media="all" rel="stylesheet">#}
+    <!-- FAVICON -->
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block bootstrap3_content %}
+    {% if DEBUG %}
+        <span class="label label-warning debug-warning">DEMO MODE</span>
+    {% endif %}
+    <nav class="navbar navbar-fixed-top navbar-white navbar-default">
+        {#<nav class="navbar navbar-fixed-top navbar-inverse">#}
+        <div class="container">
+            <div class="navbar-header">
+                <!-- Collapse buttons -->
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+                        aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <!-- /Collapse buttons -->
+                <a class="navbar-brand" href="{% url 'homepage' %}">
+                    <img height="100%" src="{% static "img/cinesend_logo_beta.png" %}">
+                </a>
+            </div>
+            <!-- Collapsible navbar -->
+            <div id="navbar" class="collapse navbar-collapse">
+                {% if user.is_authenticated %}
+                    <ul class="nav navbar-nav">
+                        <li {% if request.path == '/portal/assets/' %}class="active"{% endif %}>
+                            <a href="{% url 'asset-list' %}">Assets</a>
+                        </li>
+                        <li {% if request.path == '/portal/jobs/' %}class="active"{% endif %}>
+                            <a href="{% url 'job-list' %}">Jobs</a>
+                        </li>
+                        <li {% if request.path == '/portal/flights/' %}class="active"{% endif %}>
+                            <a href="{% url 'flight-list' %}">Flights</a>
+                        </li>
+                        <li {% if request.path == '/portal/accounting/' %}class="active"{% endif %}>
+                            <a href="{% url 'accounting-home' %}">Accounting</a>
+                        </li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                               aria-expanded="false">
+                                <i class="fa fa-user"></i> Welcome {{ user.get_short_name }} <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu" role="menu">
+                                {#						<li><a href="#">Profile</a></li>#}
+                                {#						<li><a href="#">Settings</a></li>#}
+                                <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
+                                <li><a href="{% url 'account_email' %}">Manage Email Addresses</a></li>
+                                <li><a href="{% url 'address-list' %}">Manage Billing and Shipping Addresses</a></li>
+                                {% if user.is_staff or user.is_superuser %}
+                                    <li><a target="_blank" href="{% url 'admin:index' %}">Admin</a></li>
+                                {% endif %}
+                                <li class="divider"></li>
+                                <li><a href="{% url 'account_logout' %}">Logout</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{% url 'account_login' %}">Sign in</a></li>
+                        <li><a href="{% url 'account_signup' %}">Sign up</a></li>
+                    </ul>
+                {% endif %}
+            </div>
+            <!-- /Collapsible navbar -->
+        </div>
+    </nav>
+
+    <div class="container">
+        {% bootstrap_messages %}
+        {% block base_content %}
+        {% endblock base_content %}
+
+        {% block content %}
+        {% endblock content %}
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-muted" style="margin-top: 11px; margin-bottom: 11px;">
+                        <small><i class="fa fa-copyright"></i> 2015 BitCine Technologies Inc.</small>
+                    </p>
+                </div>
+                <div class="col-md-6">
+                    <h4>
+                        <a class="social-icon-footer" target="_blank" href="https://www.facebook.com/cinesend">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a class="social-icon-footer" target="_blank" href="https://twitter.com/cinesend">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a class="social-icon-footer" target="_blank"
+                           href="https://plus.google.com/111781790734678218725">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a class="social-icon-footer" target="_blank" href="https://www.linkedin.com/company/cinesend">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </h4>
+                </div>
+            </div>
+
+        </div>
+    </footer>
+{% endblock bootstrap3_content %}

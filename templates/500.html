@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load django_bootstrap_breadcrumbs %}
+{% load markdown_deux_tags %}
+{% block title %}Server Error!{% endblock title %}
+{% block base_content %}
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="page-header">
+                <h1>
+                    Server Error!
+                </h1>
+            </div>
+        </div>
+    </div>
+    <p>
+        Sorry, but the requested page is unavailable due to a server error. Our engineers have been notified, so check
+        back later. Go <a href="#" onclick="window.history.back()">back</a> or visit our
+        <a href="{% url 'homepage' %}">homepage</a>.
+    </p>
+{% endblock base_content %}
+

@@ -13,9 +13,32 @@ Including another URLconf
     1. Add an import:  from blog import urls as blog_urls
     2. Add a URL to urlpatterns:  url(r'^blog/', include(blog_urls))
 """
+from django.conf import settings
 from django.conf.urls import include, url
+from django.conf.urls.static import static
 from django.contrib import admin
+from django.contrib.auth import update_session_auth_hash
+from django.views.generic.base import TemplateView
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^$', TemplateView.as_view(template_name='base.html'), name='homepage'),
 ]
+
+# if settings.DEBUG:
+#     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+#     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler500 = TemplateView.as_view(template_name="500.html")
+
+
+# To prevent logging users out upon password change
+def update_session_hash_signal_receiver(sender, **kwargs):
+    user = kwargs["user"]
+    request = kwargs["request"]
+    update_session_auth_hash(request, user)
+
+
+    # password_changed.connect(update_session_hash_signal_receiver)
+    # password_set.connect(update_session_hash_signal_receiver)
+    # password_reset.connect(update_session_hash_signal_receiver)

@@ -1,0 +1,54 @@
+{% extends "account/base.html" %}
+
+{% load url from future %}
+{% load bootstrap %}
+{% load i18n %}
+{% load my_flatpages_tags %}
+
+{% block title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Sign Up" %}</h1>
+
+    <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+    </p>
+
+    <form id="signup_form" method="post" action="{% url 'account_signup' %}">
+        {% csrf_token %}
+        {{ form|bootstrap }}
+        {% if redirect_field_value %}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+        {% endif %}
+        <div class="form-actions">
+            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tosModal">
+                {% trans "Sign Up" %}
+            </button>
+        </div>
+    </form>
+
+    <div class="modal fade" id="tosModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">
+                        Please accept our Terms of Service to continue with
+                        registration
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    {% load_flat_page_content "/tos/" "static-content/tos.html" %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Decline</button>
+                    <button type="button" class="btn btn-primary" onclick="$('#signup_form').submit()">Accept</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block bootstrap3_extra_head %}{{ form.media }}{% endblock %}
+
+
