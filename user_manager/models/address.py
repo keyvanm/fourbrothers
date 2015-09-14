@@ -4,13 +4,13 @@ from django_extensions.db.models import TimeStampedModel
 
 
 class Address(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, related_name='personal_addresses')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     primary = models.BooleanField(default=False)
 
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    phone_number = models.CharField(max_length=200, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True)
     company_name = models.CharField(max_length=255, blank=True)
     email = models.EmailField(blank=True)
 

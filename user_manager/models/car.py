@@ -1,21 +1,23 @@
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.conf import settings
 from django_extensions.db.models import TimeStampedModel
-from user_manager.models.address import Address
 
 
 class Car(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL)
 
     make = models.CharField(max_length=100)
     model = models.CharField(max_length=100)
+    year = models.PositiveIntegerField(validators=[
+        MaxValueValidator(2050),
+        MinValueValidator(1887)
+    ])
+    color = models.CharField(max_length=50)
+    plate = models.CharField(max_length=15)
+    mileage = models.PositiveIntegerField(blank=True, null=True)
 
-    address = models.ForeignKey(Address)
+    additional_info = models.TextField(blank=True)
 
     def __unicode__(self):
-        if self.user.first_name:
-            name = self.user.first_name
-        else:
-            name = self.user.username
-
-        return "{0}'s {1} {2}".format(name, self.make, self.model)
+        return "{0}'s {1} {2} {3}".format(self.owner.first_name, self.year, self.make, self.model)

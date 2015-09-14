@@ -1,11 +1,18 @@
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
+from model_utils.choices import Choices
 
 
 class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="profile")
     stripe_customer_id = models.CharField(max_length=50, blank=True)
+
+    TYPE_CHOICES = Choices('customer', 'technician')
+    type = models.CharField(choices=TYPE_CHOICES, default=TYPE_CHOICES.customer, max_length=15)
+
+    points = models.PositiveIntegerField(default=0)
+    phone_number = models.CharField(max_length=20, blank=True)
 
     def __unicode__(self):
         return "%s's profile" % self.user.username
