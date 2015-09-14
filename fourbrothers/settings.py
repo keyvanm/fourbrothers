@@ -48,6 +48,7 @@ INSTALLED_APPS = (
     'django_extensions',
     #
     'user_manager',
+    'appt_mgmt',
 )
 
 MIDDLEWARE_CLASSES = (
