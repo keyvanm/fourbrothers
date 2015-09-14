@@ -1,10 +1,14 @@
 from django.db import models
 from django.conf import settings
 from django_extensions.db.models import TimeStampedModel
+from model_utils.choices import Choices
 
 
 class Address(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    TYPE_CHOICES = Choices('house', 'building')
+    type = models.CharField(choices=TYPE_CHOICES, max_length=20)
 
     primary = models.BooleanField(default=False)
 

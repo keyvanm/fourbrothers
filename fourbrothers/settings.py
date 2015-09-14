@@ -65,14 +65,6 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'fourbrothers.urls'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.8/howto/static-files/
-
-STATIC_URL = '/static/'
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'indie_static'),
-)
-
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -127,6 +119,47 @@ if 'RDS_DB_NAME' in os.environ:
         }
     }
 
+# Static files (CSS, JavaScript, Images)
+# https://docs.djangoproject.com/en/1.8/howto/static-files/
+
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'indie_static'),
+)
+if 'AWS_STORAGE_BUCKET_NAME' in os.environ:
+    DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
+    DEFAULT_S3_PATH = "media"
+    STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
+    STATIC_S3_PATH = "static"
+    AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
+    AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_KEY']
+    AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
+
+    MEDIA_ROOT = '/%s/' % DEFAULT_S3_PATH
+    MEDIA_URL = '//%s.s3.amazonaws.com/media/' % AWS_STORAGE_BUCKET_NAME
+    STATIC_ROOT = "/%s/" % STATIC_S3_PATH
+    STATIC_URL = '//%s.s3.amazonaws.com/static/' % AWS_STORAGE_BUCKET_NAME
+    ADMIN_MEDIA_PREFIX = STATIC_URL + 'admin/'
+    AWS_PRELOAD_METADATA = True
+else:
+    COLLECTFAST_ENABLED = False
+
+# HTTPS Security
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+
+# Email
+if 'EMAIL_HOST_USER' in os.environ:
+    EMAIL_USE_TLS = True
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+    EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/

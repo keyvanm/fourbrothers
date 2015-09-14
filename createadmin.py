@@ -34,3 +34,10 @@ if User.objects.count() == 0:
     adam.is_staff = True
     adam.save()
     adam.groups.add(fourbros_staff)
+
+    technician = User.objects.create_user('techi', 't@hc.com', 'password')
+    technician.first_name = 'Techi'
+    technician.last_name = 'Nician'
+    technician.save()
+    technician.profile.type = 'technician'
+    technician.profile.save()
