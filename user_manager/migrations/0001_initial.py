@@ -2,9 +2,9 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django_extensions.db.fields
 import django.utils.timezone
 from django.conf import settings
-import django_extensions.db.fields
 
 
 class Migration(migrations.Migration):
@@ -39,11 +39,29 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='Car',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('make', models.CharField(max_length=100)),
+                ('model', models.CharField(max_length=100)),
+                ('address', models.ForeignKey(to='user_manager.Address')),
+                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+                'ordering': ('-modified', '-created'),
+                'abstract': False,
+                'get_latest_by': 'modified',
+            },
+        ),
+        migrations.CreateModel(
             name='CreditCard',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('card_id', models.CharField(max_length=50)),
                 ('fingerprint', models.CharField(max_length=50)),
+                ('last_4_digits', models.CharField(max_length=4)),
                 ('user', models.ForeignKey(related_name='creditcards', to=settings.AUTH_USER_MODEL)),
             ],
         ),
@@ -51,7 +69,7 @@ class Migration(migrations.Migration):
             name='UserProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=20, blank=True)),
+                ('stripe_customer_id', models.CharField(max_length=50, blank=True)),
                 ('user', models.OneToOneField(related_name='profile', to=settings.AUTH_USER_MODEL)),
             ],
         ),

@@ -7,10 +7,10 @@
 {% block bootstrap3_title %}{% block title %}{% endblock title %} | CineSend{% endblock bootstrap3_title %}
 
 {% block bootstrap3_extra_base_head %}
-{#    <link class="simplex-sheet" href="{% static 'bootstrap/bootstrap-simplex.min.css' %}" media="all" rel="stylesheet">#}
+    {#    <link class="simplex-sheet" href="{% static 'bootstrap/bootstrap-simplex.min.css' %}" media="all" rel="stylesheet">#}
     <link class="simplex-sheet" href="{% static 'bootstrap/bootstrap-flatly.min.css' %}" media="all" rel="stylesheet">
     <link href="{% static 'css/main.css' %}" media="all" rel="stylesheet">
-{#    <link href="{% static 'css/main-simplex.css' %}" media="all" rel="stylesheet">#}
+    {#    <link href="{% static 'css/main-simplex.css' %}" media="all" rel="stylesheet">#}
     <link href="{% static 'css/main-flatly.css' %}" media="all" rel="stylesheet">
     <!-- FAVICON -->
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
@@ -35,27 +35,27 @@
                 </button>
                 <!-- /Collapse buttons -->
                 <a class="navbar-brand" href="{% url 'homepage' %}">
-{#                    <img height="100%" src="{% static "img/cinesend_logo_beta.png" %}">#}
+                    {#                    <img height="100%" src="{% static "img/cinesend_logo_beta.png" %}">#}
                     FourBrothers
                 </a>
             </div>
             <!-- Collapsible navbar -->
             <div id="navbar" class="collapse navbar-collapse">
                 {% if user.is_authenticated %}
-{#                    <ul class="nav navbar-nav">#}
-{#                        <li {% if request.path == '/portal/assets/' %}class="active"{% endif %}>#}
-{#                            <a href="{% url 'asset-list' %}">Assets</a>#}
-{#                        </li>#}
-{#                        <li {% if request.path == '/portal/jobs/' %}class="active"{% endif %}>#}
-{#                            <a href="{% url 'job-list' %}">Jobs</a>#}
-{#                        </li>#}
-{#                        <li {% if request.path == '/portal/flights/' %}class="active"{% endif %}>#}
-{#                            <a href="{% url 'flight-list' %}">Flights</a>#}
-{#                        </li>#}
-{#                        <li {% if request.path == '/portal/accounting/' %}class="active"{% endif %}>#}
-{#                            <a href="{% url 'accounting-home' %}">Accounting</a>#}
-{#                        </li>#}
-{#                    </ul>#}
+                    {#                    <ul class="nav navbar-nav">#}
+                    {#                        <li {% if request.path == '/portal/assets/' %}class="active"{% endif %}>#}
+                    {#                            <a href="{% url 'asset-list' %}">Assets</a>#}
+                    {#                        </li>#}
+                    {#                        <li {% if request.path == '/portal/jobs/' %}class="active"{% endif %}>#}
+                    {#                            <a href="{% url 'job-list' %}">Jobs</a>#}
+                    {#                        </li>#}
+                    {#                        <li {% if request.path == '/portal/flights/' %}class="active"{% endif %}>#}
+                    {#                            <a href="{% url 'flight-list' %}">Flights</a>#}
+                    {#                        </li>#}
+                    {#                        <li {% if request.path == '/portal/accounting/' %}class="active"{% endif %}>#}
+                    {#                            <a href="{% url 'accounting-home' %}">Accounting</a>#}
+                    {#                        </li>#}
+                    {#                    </ul>#}
 
                     <ul class="nav navbar-nav navbar-right">
                         <li class="dropdown">
@@ -68,7 +68,7 @@
                                 {#						<li><a href="#">Settings</a></li>#}
                                 <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
                                 <li><a href="{% url 'account_email' %}">Manage Email Addresses</a></li>
-{#                                <li><a href="{% url 'address-list' %}">Manage Billing and Shipping Addresses</a></li>#}
+                                {#                                <li><a href="{% url 'address-list' %}">Manage Billing and Shipping Addresses</a></li>#}
                                 {% if user.is_staff or user.is_superuser %}
                                     <li><a target="_blank" href="{% url 'admin:index' %}">Admin</a></li>
                                 {% endif %}

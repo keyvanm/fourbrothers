@@ -1,7 +1,14 @@
 Django==1.8.4
+django-allauth==0.23.0
+django-bootstrap-form==3.2
+django-bootstrap3==6.2.2
 django-extensions==1.5.5
 django-model-utils==2.3.1
+oauthlib==1.0.3
 pbr==1.7.0
+python-openid==2.2.5
+requests==2.7.0
+requests-oauthlib==0.5.0
 six==1.9.0
 stevedore==1.8.0
 virtualenv==13.1.2

@@ -16,9 +16,9 @@
             <a href="{% url 'account_change_password' %}">{% trans 'Change Password' %}</a>
         </li>
 
-        <li class="{% block account_nav_addr_mgr %}{% endblock %}">
-            <a href="{% url 'address-list' %}">{% trans 'Billing and Shipping Addresses' %}</a>
-        </li>
+        {# <li class="{% block account_nav_addr_mgr %}{% endblock %}">#}
+        {#     <a href="{% url 'address-list' %}">{% trans 'Billing and Shipping Addresses' %}</a>#}
+        {# </li>#}
         {#  {% url 'socialaccount_connections' as connections_url %}#}
         {#  {% if connections_url %}#}
         {#  <li class="{% block account_nav_socialaccount_connections %}{% endblock %}">#}
