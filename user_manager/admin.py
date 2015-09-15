@@ -4,3 +4,5 @@ from models import *
 
 admin.site.register(UserProfile)
 admin.site.register(Address)
+admin.site.register(Car)
+admin.site.register(CreditCard)

@@ -1,18 +1,20 @@
-from django.core.exceptions import ValidationError
-
 from django.db import models
 from django.conf import settings
 from django_extensions.db.models import TimeStampedModel
+from model_utils.choices import Choices
 
 
 class Address(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, related_name='personal_addresses')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+
+    TYPE_CHOICES = Choices('house', 'building')
+    type = models.CharField(choices=TYPE_CHOICES, max_length=20)
 
     primary = models.BooleanField(default=False)
 
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
-    phone_number = models.CharField(max_length=200, blank=True)
+    phone_number = models.CharField(max_length=20, blank=True)
     company_name = models.CharField(max_length=255, blank=True)
     email = models.EmailField(blank=True)
 
@@ -28,10 +30,6 @@ class Address(TimeStampedModel):
             return "{} - {}, {}, {} {}, {}".format(
                 self.address2, self.address1, self.city, self.state, self.postal_code.upper(), self.country)
         return "{}, {}, {} {}, {}".format(self.address1, self.city, self.state, self.postal_code.upper(), self.country)
-
-    def clean(self):
-        if self.type == self.TYPE_CHOICES.billing and self.privacy == self.PRIVACY_CHOICES.public:
-            raise ValidationError('Billing addresses cannot be public')
 
     class Meta:
         verbose_name_plural = "addresses"
