@@ -17,7 +17,7 @@
         {% csrf_token %}
         {{ form|bootstrap }}
 {#        {% if redirect_field_value %}#}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'profile-edit' %}"/>
+            <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'profile-populate' %}"/>
 {#        {% endif %}#}
         <div class="form-actions">
 {#            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tosModal">#}

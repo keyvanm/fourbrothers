@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block title %}Add car{% endblock title %}
+
+{% block content %}
+    <div class="page-header">
+        <h1>{{ car }}</h1>
+    </div>
+    <div class="well">
+        <a href="#" class="btn btn-success">Continue</a>
+        <a href="{% url 'car-create' %}" class="btn btn-primary">Add another car</a>
+
+    </div>
+
+
+{% endblock content %}

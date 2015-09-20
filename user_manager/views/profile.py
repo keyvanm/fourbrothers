@@ -1,5 +1,7 @@
+from django.core.urlresolvers import reverse
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
+
 from django.contrib import messages
 
 from fourbrothers.utils import LoginRequiredMixin
@@ -19,8 +21,6 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         form = super(ProfileEditView, self).get_form(self.get_form_class())
         form.initial.update({'first_name': self.request.user.first_name, 'last_name': self.request.user.last_name})
         return form
-            #self.get_form_class()(
-            #initial={'first_name': self.request.user.first_name, 'last_name': self.request.user.last_name})
 
     def form_valid(self, form):
         form.instance.user.first_name = form.cleaned_data['first_name']
@@ -28,6 +28,11 @@ class ProfileEditView(LoginRequiredMixin, UpdateView):
         form.instance.user.save()
         messages.success(self.request, 'Profile saved successfully')
         return super(ProfileEditView, self).form_valid(form)
+
+
+class ProfilePopulateView(ProfileEditView):
+    def get_success_url(self):
+        return reverse('car-create')
 
 
 class ProfileDetailView(LoginRequiredMixin, DetailView):
