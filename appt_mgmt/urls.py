@@ -1,6 +1,8 @@
-try:
-    from django.conf.urls import *
-except ImportError:  # django < 1.4
-    from django.conf.urls.defaults import *
+from django.conf.urls import *
 
 # place app url patterns here
+from appt_mgmt.views import ApptCreateView
+
+urlpatterns = [
+    url('^$', ApptCreateView.as_view(), name='appt-book'),
+]

@@ -19,11 +19,13 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic.base import TemplateView
+import appt_mgmt
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^$', TemplateView.as_view(template_name='base.html'), name='homepage'),
+    url(r'^book/', include('appt_mgmt.urls')),
 ]
 
 # if settings.DEBUG:
