@@ -2,21 +2,19 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 
-{% block title %}Book Appointment{% endblock title %}
 
 {% block content %}
     <div class="page-header">
-        <h1>Book Appointment</h1>
+        <h1>Edit profile</h1>
     </div>
-    <div>
-        {% bootstrap_form_errors form %}
-    </div>
+
     <div class="well">
         <form enctype="multipart/form-data" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
-            <a href="{% url 'homepage' %}" class="btn btn-default">Cancel</a>
-            <input class="btn btn-primary" type="submit" value="Request"/>
+            <input class="btn btn-primary" type="submit" value="Next"/>
         </form>
     </div>
+
+
 {% endblock content %}

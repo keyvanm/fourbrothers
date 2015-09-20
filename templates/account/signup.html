@@ -16,9 +16,9 @@
     <form id="signup_form" method="post" action="{% url 'account_signup' %}">
         {% csrf_token %}
         {{ form|bootstrap }}
-        {% if redirect_field_value %}
-            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-        {% endif %}
+{#        {% if redirect_field_value %}#}
+            <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'profile-populate' %}"/>
+{#        {% endif %}#}
         <div class="form-actions">
 {#            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tosModal">#}
 {#                {% trans "Sign Up" %}#}

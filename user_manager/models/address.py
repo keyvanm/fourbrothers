@@ -12,12 +12,6 @@ class Address(TimeStampedModel):
 
     primary = models.BooleanField(default=False)
 
-    first_name = models.CharField(max_length=200)
-    last_name = models.CharField(max_length=200)
-    phone_number = models.CharField(max_length=20, blank=True)
-    company_name = models.CharField(max_length=255, blank=True)
-    email = models.EmailField(blank=True)
-
     address1 = models.CharField(max_length=255, verbose_name="Street Address")
     address2 = models.CharField(max_length=255, blank=True, verbose_name="Apt/Suite/Bldg")
     city = models.CharField(max_length=200)

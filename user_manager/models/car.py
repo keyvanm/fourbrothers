@@ -6,6 +6,7 @@ from django_extensions.db.models import TimeStampedModel
 
 class Car(TimeStampedModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL)
+    deleted = models.BooleanField(default=False)
 
     make = models.CharField(max_length=100)
     model = models.CharField(max_length=100)

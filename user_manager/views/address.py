@@ -5,7 +5,7 @@ from django.views.generic.base import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 
-from cinesend.utils import LoginRequiredMixin, grouper
+from fourbrothers.utils import LoginRequiredMixin#, grouper
 from user_manager.forms import AddressForm
 from user_manager.models.address import Address
 

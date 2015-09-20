@@ -6,4 +6,4 @@ from appt_mgmt.models import Appointment
 class AppointmentForm(ModelForm):
     class Meta:
         model = Appointment
-        exclude = ['cars', 'technician']
+        exclude = ['user', 'deleted', 'cars', 'technician']

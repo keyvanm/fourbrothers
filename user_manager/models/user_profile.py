@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -15,12 +16,15 @@ class UserProfile(models.Model):
     loyalty_points = models.PositiveIntegerField(default=0)
     phone_number = models.CharField(max_length=20, blank=True)
 
-    promos_used = models.ManyToManyField(PromoCode)
+    promos_used = models.ManyToManyField(PromoCode, blank=True)
 
     inviter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="invitees", blank=True, null=True)
 
     def __unicode__(self):
         return "%s's profile" % self.user.username
+
+    def get_absolute_url(self):
+        return reverse('profile-detail')
 
 
 class CreditCard(models.Model):

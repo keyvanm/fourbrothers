@@ -21,6 +21,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('deleted', models.BooleanField(default=False)),
                 ('date', models.DateField()),
                 ('time_slot', models.CharField(blank=True, max_length=10, choices=[(b'8am', b'8 - 11 AM'), (b'11am', b'11 AM - 2 PM'), (b'2pm', b'2 - 5 PM'), (b'5pm', b'5 - 8 PM')])),
                 ('gratuity', models.PositiveSmallIntegerField(default=10, choices=[(0, b'0%'), (5, b'5%'), (10, b'10%'), (15, b'15%'), (20, b'20%')])),
@@ -60,6 +61,11 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='appointment',
             name='technician',
-            field=models.ManyToManyField(to=settings.AUTH_USER_MODEL),
+            field=models.ManyToManyField(related_name='assigned_appts', to=settings.AUTH_USER_MODEL),
+        ),
+        migrations.AddField(
+            model_name='appointment',
+            name='user',
+            field=models.ForeignKey(related_name='appointments', to=settings.AUTH_USER_MODEL),
         ),
     ]
