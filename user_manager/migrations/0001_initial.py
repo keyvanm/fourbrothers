@@ -42,6 +42,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('deleted', models.BooleanField(default=False)),
                 ('make', models.CharField(max_length=100)),
                 ('model', models.CharField(max_length=100)),
                 ('year', models.PositiveIntegerField(validators=[django.core.validators.MaxValueValidator(2050), django.core.validators.MinValueValidator(1887)])),
