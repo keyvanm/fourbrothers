@@ -6,10 +6,10 @@
 
 {% block bootstrap3_extra_base_head %}
     {#    <link class="simplex-sheet" href="{% static 'bootstrap/bootstrap-simplex.min.css' %}" media="all" rel="stylesheet">#}
-    <link class="simplex-sheet" href="{% static 'bootstrap/bootstrap-flatly.min.css' %}" media="all" rel="stylesheet">
+{#    <link class="simplex-sheet" href="{% static 'bootstrap/bootstrap-flatly.min.css' %}" media="all" rel="stylesheet">#}
     <link href="{% static 'css/main.css' %}" media="all" rel="stylesheet">
     {#    <link href="{% static 'css/main-simplex.css' %}" media="all" rel="stylesheet">#}
-    <link href="{% static 'css/main-flatly.css' %}" media="all" rel="stylesheet">
+{#    <link href="{% static 'css/main-flatly.css' %}" media="all" rel="stylesheet">#}
     <!-- FAVICON -->
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
@@ -75,6 +75,7 @@
                                 <li><a href="{% url 'account_logout' %}">Logout</a></li>
                             </ul>
                         </li>
+                        <li><a>Loyalty points <span class="badge">{{ user.profile.loyalty_points }}</span></a></li>
                     </ul>
                 {% else %}
                     <ul class="nav navbar-nav navbar-right">
