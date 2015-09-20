@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
 from model_utils.choices import Choices
+from user_manager.models.promo import PromoCode
 
 
 class UserProfile(models.Model):
@@ -11,8 +12,12 @@ class UserProfile(models.Model):
     TYPE_CHOICES = Choices('customer', 'technician')
     type = models.CharField(choices=TYPE_CHOICES, default=TYPE_CHOICES.customer, max_length=15)
 
-    points = models.PositiveIntegerField(default=0)
+    loyalty_points = models.PositiveIntegerField(default=0)
     phone_number = models.CharField(max_length=20, blank=True)
+
+    promos_used = models.ManyToManyField(PromoCode)
+
+    inviter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="invitees", blank=True, null=True)
 
     def __unicode__(self):
         return "%s's profile" % self.user.username
