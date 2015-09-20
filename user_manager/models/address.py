@@ -7,8 +7,11 @@ from model_utils.choices import Choices
 class Address(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
 
-    TYPE_CHOICES = Choices('house', 'building')
+    TYPE_CHOICES = Choices('home', 'work')
     type = models.CharField(choices=TYPE_CHOICES, max_length=20)
+
+    BLDG_TYPE_CHOICES = Choices('house', 'building')
+    building_type = models.CharField(choices=BLDG_TYPE_CHOICES, max_length=20)
 
     primary = models.BooleanField(default=False)
 

@@ -1,12 +1,14 @@
 from django.conf.urls import url
 
 from user_manager.views.address import AddressListView, AddressEditView, AddressMakePrimaryView, AddressDeleteView, \
-    AddressCreateView
+    AddressCreateView, FirstAddressCreateView
 
 urlpatterns = [
     url(r'^$', AddressListView.as_view(), name='address-list'),
 
     url(r'^add/$', AddressCreateView.as_view(), name='address-add'),
+
+    url(r'^add-first/$', FirstAddressCreateView.as_view(), name='address-add-first'),
 
     url(r'^(?P<pk>\d+)/edit/$', AddressEditView.as_view(),
         name='address-edit'),

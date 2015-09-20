@@ -37,6 +37,13 @@ class AddressCreateView(LoginRequiredMixin, CreateView):
         return super(AddressCreateView, self).form_valid(form)
 
 
+class FirstAddressCreateView(AddressCreateView):
+    template_name = 'user_manager/address_manager/address-create-first.html'
+
+    def get_success_url(self):
+        return reverse('car-add-first')
+
+
 class AddressEditView(LoginRequiredMixin, UpdateView):
     model = Address
     form_class = AddressForm
@@ -66,7 +73,7 @@ class AddressMakePrimaryView(LoginRequiredMixin, View):
 
         # Unprimarify the previous primary address if it exists. If there are multiple primary addresses
         # (which should not happen), unprimarify all
-        Address.objects.filter(user=request.user, primary=True, type=address.type).update(primary=False)
+        Address.objects.filter(user=request.user, primary=True, type=address.building_type).update(primary=False)
 
         address.primary = True
         address.save(update_fields=('primary',))
