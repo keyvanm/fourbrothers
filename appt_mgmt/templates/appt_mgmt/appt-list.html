@@ -1,0 +1,54 @@
+{% extends "account/base.html" %}
+
+
+{% load i18n %}
+{% load bootstrap %}
+
+{% block title %}{% trans "Account" %}{% endblock %}
+
+{% block account_nav_appt %}active{% endblock %}
+
+{% block bootstrap3_extra_head %}
+    <style>
+        h2 {
+            margin-bottom: 20px;
+        }
+
+        .addr-options {
+            padding: 0;
+        }
+
+        .panel-title.addr-name{
+            display: inline-block;
+        }
+
+    </style>
+{% endblock %}
+
+{% block account_content %}
+    <div>
+        <h2>
+            My Appointments
+            <small>
+                <a href="{% url 'appt-choose-type' %}">
+                    <span class="glyphicon glyphicon-plus"></span> Book an appointment
+                </a>
+            </small>
+        </h2>
+        {% for appt_group in appts %}
+            <div class="row">
+                {% for appt in appt_group %}
+                    {% if appt %}
+                        {% include 'appt_mgmt/appt-block.html' %}
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        {% empty %}
+            <p>You don't have any appointments. Why don't you go ahead and
+                <a href="{% url 'appt-choose-type' %}">book one?</a>
+            </p>
+        {% endfor %}
+    </div>
+{% endblock %}
+

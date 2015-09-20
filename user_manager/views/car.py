@@ -53,7 +53,7 @@ class CarEditView(LoginRequiredMixin, UpdateView):
         return reverse('car-list')
 
     def get_object(self, queryset=None):
-        return get_object_or_404(Car, pk=self.kwargs[self.pk_url_kwarg], owner=self.request.user)
+        return get_car_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
 
     def form_valid(self, form):
         messages.success(self.request, 'Car edited successfully')

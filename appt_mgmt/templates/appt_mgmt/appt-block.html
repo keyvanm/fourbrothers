@@ -1,0 +1,33 @@
+<div class="col-md-4">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title addr-name">{{ appt }}</h3>
+
+            <div class="dropdown pull-right">
+                <button class="btn btn-link dropdown-toggle addr-options" type="button"
+                        data-toggle="dropdown">
+                    <i class="fa fa-cog"></i>
+                </button>
+                <ul class="dropdown-menu">
+                    {# <li><a href="{% url 'appt-edit' pk=car.pk %}">Edit</a></li> #}
+                    <li class="divider"></li>
+                    {# <li><a class="delete-addr" href="{% url 'appt-delete' pk=appt.pk %}">Delete</a></li> #}
+                </ul>
+            </div>
+        </div>
+        <div class="panel-body">
+            <ul class="list-unstyled">
+                <li>Date: {{ appt.date }}</li>
+                <li>Model: {{ appt.time_slot }}</li>
+                <li>
+                    Technician:
+                    {% if appt.technicia %}
+                         {{ appt.technician }}
+                    {% else %}
+                         None
+                    {% endif %}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

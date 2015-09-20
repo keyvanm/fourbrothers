@@ -24,6 +24,9 @@
         <li class="{% block account_nav_car %}{% endblock %}">
             <a href="{% url 'car-list' %}">{% trans 'Cars' %}</a>
         </li>
+        <li class="{% block account_nav_appt %}{% endblock %}">
+            <a href="{% url 'appt-list' %}">{% trans 'Appointments' %}</a>
+        </li>
         {#  {% url 'socialaccount_connections' as connections_url %}#}
         {#  {% if connections_url %}#}
         {#  <li class="{% block account_nav_socialaccount_connections %}{% endblock %}">#}
