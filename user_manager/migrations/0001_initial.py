@@ -6,6 +6,7 @@ import django_extensions.db.fields
 import django.utils.timezone
 from django.conf import settings
 import django.core.validators
+import user_manager.models.promo
 
 
 class Migration(migrations.Migration):
@@ -72,13 +73,32 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='PromoCode',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('code', models.CharField(max_length=20)),
+                ('type', models.CharField(max_length=50, choices=[(b'percent', b'percent'), (b'amount', b'amount'), (b'first-percent', b'first-percent'), (b'first-amount', b'first-amount')])),
+                ('discount', models.PositiveSmallIntegerField()),
+                ('expiry_date', models.DateField(default=user_manager.models.promo.thirty_days_from_now)),
+            ],
+            options={
+                'ordering': ('-modified', '-created'),
+                'abstract': False,
+                'get_latest_by': 'modified',
+            },
+        ),
+        migrations.CreateModel(
             name='UserProfile',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('stripe_customer_id', models.CharField(max_length=50, blank=True)),
                 ('type', models.CharField(default=b'customer', max_length=15, choices=[(b'customer', b'customer'), (b'technician', b'technician')])),
-                ('points', models.PositiveIntegerField(default=0)),
+                ('loyalty_points', models.PositiveIntegerField(default=0)),
                 ('phone_number', models.CharField(max_length=20, blank=True)),
+                ('inviter', models.ForeignKey(related_name='invitees', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('promos_used', models.ManyToManyField(to='user_manager.PromoCode')),
                 ('user', models.OneToOneField(related_name='profile', to=settings.AUTH_USER_MODEL)),
             ],
         ),

@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block bootstrap3_extra_head %}
+	<link href="{% static 'css/index.css' %}" media="all" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<div class="banner">
+		<h1>Lorem ipsum dolor sit amet</h1>
+		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum dictum ante. Proin nec elit ut augue auctor eleifend et</p>
+		<a href="#" class="btn btn-primary">
+			Book an Appointment!
+		</a>
+	</div>
+	<div class="services">
+		<div class="row">
+			<div class="col-md-4">
+				<img src="https://placehold.it/300x300">
+			</div>
+			<div class="col-md-4">
+				<img src="https://placehold.it/300x300">
+			</div>
+			<div class="col-md-4">
+				<img src="https://placehold.it/300x300">
+			</div>
+		</div>
+	</div>
+{% endblock content %}
