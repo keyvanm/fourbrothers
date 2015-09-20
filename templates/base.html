@@ -88,14 +88,15 @@
         </div>
     </nav>
 
-    {# <div class="container-fluid"> #}
+    {% block no_container_content %}
+    {% endblock no_container_content %}
+
+    <div class="container">
         {% bootstrap_messages %}
-        {% block base_content %}
-        {% endblock base_content %}
 
         {% block content %}
         {% endblock content %}
-    {# </div> #}
+    </div>
 
     <footer class="footer">
         <div class="container">
