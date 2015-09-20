@@ -3,36 +3,58 @@
 {% load bootstrap3 %}
 
 {% block bootstrap3_extra_head %}
-	<link href="{% static 'css/index.css' %}" media="all" rel="stylesheet">
+    <link href="{% static 'css/index.css' %}" media="all" rel="stylesheet">
 {% endblock %}
 
+
 {% block no_container_content %}
-	<div class="banner jumbotron">
-		<h1>Lorem ipsum dolor sit amet</h1>
-		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum dictum ante. Proin nec elit ut augue auctor eleifend et</p>
-		<a href="{% url 'appt-choose-type' %}" class="btn btn-primary">
-			Book an Appointment!
-		</a>
-	</div>
-	<div class="services">
-		<div class="row">
-			<div class="col-md-3"></div>
-			<div class="col-md-2">
-				<img src="https://placehold.it/200x200">
-				<h2>Lorem ipsum</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu posuere. Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
-			</div>
-			<div class="col-md-2">
-				<img src="https://placehold.it/200x200">
-				<h2>Lorem ipsum</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu posuere. Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
-			</div>
-			<div class="col-md-2">
-				<img src="https://placehold.it/200x200">
-				<h2>Lorem ipsum</h2>
-				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu posuere. Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
-			</div>
-			<div class="col-md-3"></div>
-		</div>
-	</div>
+    <div class="banner jumbotron">
+        <div class="container">
+            <h1>Lorem ipsum dolor sit amet</h1>
+
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum dictum ante. Proin nec elit ut
+                augue auctor eleifend et</p>
+            <a href="{% url 'appt-choose-type' %}" class="btn btn-primary">
+                Book an Appointment!
+            </a>
+        </div>
+    </div>
 {% endblock no_container_content %}
+{% block content %}
+    <div class="services">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="row">
+                    <div class="col-md-4">
+                        <img src="https://placehold.it/200x200">
+
+                        <h2>Lorem ipsum</h2>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu
+                            posuere.
+                            Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="https://placehold.it/200x200">
+
+                        <h2>Lorem ipsum</h2>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu
+                            posuere.
+                            Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <img src="https://placehold.it/200x200">
+
+                        <h2>Lorem ipsum</h2>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu
+                            posuere.
+                            Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+        </div>
+    </div>
+{% endblock content %}
