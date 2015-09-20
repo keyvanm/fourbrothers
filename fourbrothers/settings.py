@@ -98,6 +98,7 @@ ACCOUNT_USER_DISPLAY = lambda user: user.get_full_name()
 ACCOUNT_EMAIL_VERIFICATION = "none"
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "FourBrothers - "
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
+ACCOUNT_SIGNUP_FORM_CLASS = "user_manager.forms.MySignupForm"
 
 SITE_ID = 1
 
