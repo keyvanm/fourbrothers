@@ -1,11 +1,8 @@
 .banner {
 	text-align: center;
-	background-image: url("https://placehold.it/900x300");
-	padding: 40px;
-	padding-top: 100px;
+	/*background-image: url("https://placehold.it/900x300");*/
 	background-repeat: no-repeat;
 	background-size: 100%;
-	height: 500px;
 }
 
 .services {
