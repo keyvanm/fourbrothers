@@ -22,11 +22,13 @@ from django.views.generic.base import TemplateView
 import appt_mgmt
 
 urlpatterns = [
+    url(r'^accounts/address/', include('user_manager.addr_urls')),
+    url(r'^accounts/cars/', include('user_manager.car_urls')),
+    url(r'^accounts/profile/', include('user_manager.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='homepage'),
     url(r'^book/', include('appt_mgmt.urls')),
-    url(r'^profile/', include('user_manager.urls')),
 ]
 
 # if settings.DEBUG:
