@@ -7,6 +7,9 @@
     <h1>{% trans 'My Account' %}</h1>
 
     <ul class="nav nav-tabs" style="margin-bottom: 20px; margin-top: 20px;">
+        <li class="{% block account_nav_profile %}{% endblock %}">
+            <a href="{% url 'profile-detail' %}">{% trans 'Profile' %}</a>
+        </li>
         <li class="{% block account_nav_email %}{% endblock %}">
             <a href="{% url 'account_email' %}">{% trans 'E-mail Addresses' %}</a>
         </li>
