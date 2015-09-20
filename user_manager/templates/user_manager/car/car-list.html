@@ -6,7 +6,7 @@
 
 {% block title %}{% trans "Account" %}{% endblock %}
 
-{% block account_nav_addr_mgr %}active{% endblock %}
+{% block account_nav_car %}active{% endblock %}
 
 {% block bootstrap3_extra_head %}
     <style>
@@ -28,25 +28,25 @@
 {% block account_content %}
     <div>
         <h2>
-            My Addresses
+            My Cars
             <small>
-                <a href="{% url 'address-add' %}">
-                    <span class="glyphicon glyphicon-plus"></span> Add an address
+                <a href="{% url 'car-add' %}">
+                    <span class="glyphicon glyphicon-plus"></span> Add a car
                 </a>
             </small>
         </h2>
-        {% for addr_group in addresses %}
+        {% for car_group in cars %}
             <div class="row">
-                {% for addr in addr_group %}
-                    {% if addr %}
-                        {% include 'user_manager/address_manager/addr-block.html' %}
+                {% for car in car_group %}
+                    {% if car %}
+                        {% include 'user_manager/car/car-block.html' %}
                     {% endif %}
                 {% endfor %}
 
             </div>
         {% empty %}
-            <p>You don't have any addresses. Why don't you go ahead and
-                <a href="{% url 'address-add' %}">add one?</a>
+            <p>You don't have any cars. Why don't you go ahead and
+                <a href="{% url 'car-add' %}">add one?</a>
             </p>
         {% endfor %}
     </div>

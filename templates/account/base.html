@@ -7,6 +7,9 @@
     <h1>{% trans 'My Account' %}</h1>
 
     <ul class="nav nav-tabs" style="margin-bottom: 20px; margin-top: 20px;">
+        <li class="{% block account_nav_profile %}{% endblock %}">
+            <a href="{% url 'profile-detail' %}">{% trans 'Profile' %}</a>
+        </li>
         <li class="{% block account_nav_email %}{% endblock %}">
             <a href="{% url 'account_email' %}">{% trans 'E-mail Addresses' %}</a>
         </li>
@@ -15,9 +18,12 @@
             <a href="{% url 'account_change_password' %}">{% trans 'Change Password' %}</a>
         </li>
 
-        {# <li class="{% block account_nav_addr_mgr %}{% endblock %}">#}
-        {#     <a href="{% url 'address-list' %}">{% trans 'Billing and Shipping Addresses' %}</a>#}
-        {# </li>#}
+        <li class="{% block account_nav_addr_mgr %}{% endblock %}">
+            <a href="{% url 'address-list' %}">{% trans 'Addresses' %}</a>
+        </li>
+        <li class="{% block account_nav_car %}{% endblock %}">
+            <a href="{% url 'car-list' %}">{% trans 'Cars' %}</a>
+        </li>
         {#  {% url 'socialaccount_connections' as connections_url %}#}
         {#  {% if connections_url %}#}
         {#  <li class="{% block account_nav_socialaccount_connections %}{% endblock %}">#}

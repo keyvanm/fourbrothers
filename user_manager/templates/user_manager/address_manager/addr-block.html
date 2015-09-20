@@ -17,12 +17,6 @@
                     {% if not addr.primary %}
                         <li><a href="{% url 'address-make-primary' pk=addr.pk %}">Make Primary</a></li>
                     {% endif %}
-                    <li>
-                        <a href="{% url 'address-duplicate' pk=addr.pk %}">
-                            Duplicate as a {% if addr.type == 'shipping' %}billing{% else %}shipping{% endif %} address
-                        </a>
-                    </li>
-                    {#                                <li><a href="{% url 'address-make-public' pk=addr.pk %}">Make public</a></li>#}
                     <li class="divider"></li>
                     <li><a class="delete-addr" href="{% url 'address-delete' pk=addr.pk %}">Delete</a></li>
                 </ul>

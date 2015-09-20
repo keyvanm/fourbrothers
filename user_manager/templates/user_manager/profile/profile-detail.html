@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends 'account/base.html' %}
 
-</body>
-</html>
+{% block account_nav_profile %} active {% endblock account_nav_profile %}
+{% block account_content %}
+    <dl class="dl-horizontal">
+        <dt>Name</dt>
+        <dd>{{ user.get_full_name }}</dd>
+        <dt>Phone</dt>
+        <dd>{{ user.profile.phone_number }}</dd>
+    </dl>
+    <a href="{% url 'profile-edit' %}" class="btn btn-primary">Edit</a>
+{% endblock %}
