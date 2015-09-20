@@ -31,6 +31,13 @@ class CarCreateView(LoginRequiredMixin, CreateView):
         return super(CarCreateView, self).form_valid(form)
 
 
+class FirstCarCreateView(CarCreateView):
+    template_name = 'user_manager/car/car-create-first.html'
+
+    def get_success_url(self):
+        return reverse('appt-choose-type')
+
+
 class CarListView(LoginRequiredMixin, ListView):
     model = Car
     template_name = 'user_manager/car/car-list.html'

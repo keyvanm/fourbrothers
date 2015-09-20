@@ -1,10 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-adsfadfasdfsa
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <dl class="dl-horizontal">
+        <dt>Date</dt>
+        <dd>{{ appt.date }}</dd>
+        <dt>Time</dt>
+        <dd>{{ appt.get_time_slot_display }}</dd>
+        <dt>Address</dt>
+        <dd>{{ appt.address }}</dd>
+        <dt>Technician Assigned</dt>
+        <dd>
+            {% if appt.techinican %}
+                {{ appt.technician }}
+            {% else %}
+                None
+            {% endif %}
+        </dd>
+    </dl>
+{% endblock %}

@@ -9,6 +9,7 @@ from django.views.generic.edit import CreateView
 from appt_mgmt.forms import AppointmentForm
 from appt_mgmt.models import Appointment
 from fourbrothers.utils import LoginRequiredMixin, grouper
+from user_manager.models.address import Address
 
 
 def get_appt_or_404(pk, user):
@@ -21,7 +22,6 @@ def get_appt_or_404(pk, user):
 class ApptCreateView(LoginRequiredMixin, CreateView):
     model = Appointment
     form_class = AppointmentForm
-    # template_name = 'appt_mgmt/appt-create.html'
 
     def get_success_url(self):
         return reverse('appt-detail', kwargs={'pk': self.object.pk})
@@ -32,12 +32,23 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
         return super(ApptCreateView, self).form_valid(form)
 
 
+class HouseApptCreateView(ApptCreateView):
+    template_name = 'appt_mgmt/house-appt-create.html'
+
+    def get_form(self, form_class):
+        form = super(HouseApptCreateView, self).get_form(form_class)
+        form.fields['address'].queryset = Address.objects.filter(user=self.request.user, type='house')
+        return form
+
+
 class BuildingApptCreateView(ApptCreateView):
     template_name = 'appt_mgmt/building-appt-create.html'
 
+    def get_form(self, form_class):
+        form = super(BuildingApptCreateView, self).get_form(form_class)
+        form.fields['address'].queryset = Address.objects.filter(user=self.request.user, type='building')
+        return form
 
-class HouseApptCreateView(ApptCreateView):
-    template_name = 'appt_mgmt/house-appt-create.html'
 
 
 class ApptDetailView(LoginRequiredMixin, DetailView):
