@@ -1,3 +1,4 @@
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -21,6 +22,9 @@ class UserProfile(models.Model):
 
     def __unicode__(self):
         return "%s's profile" % self.user.username
+
+    def get_absolute_url(self):
+        return reverse('profile-detail')
 
 
 class CreditCard(models.Model):

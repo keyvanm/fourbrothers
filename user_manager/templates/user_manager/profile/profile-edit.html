@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+
+{% block content %}
+    <div class="page-header">
+        <h1>Edit profile</h1>
+    </div>
+
+    <div class="well">
+        <form enctype="multipart/form-data" method="post">
+            {% csrf_token %}
+            {% bootstrap_form form %}
+            <input class="btn btn-primary" type="submit" value="Next"/>
+        </form>
+    </div>
+
+
+{% endblock content %}

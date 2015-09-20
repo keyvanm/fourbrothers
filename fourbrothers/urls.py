@@ -26,6 +26,7 @@ urlpatterns = [
     url(r'^accounts/', include('allauth.urls')),
     url(r'^$', TemplateView.as_view(template_name='index.html'), name='homepage'),
     url(r'^book/', include('appt_mgmt.urls')),
+    url(r'^profile/', include('user_manager.urls')),
 ]
 
 # if settings.DEBUG:
