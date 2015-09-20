@@ -63,10 +63,10 @@
                                 <i class="fa fa-user"></i> Welcome {{ user.get_short_name }} <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu" role="menu">
-                                {#						<li><a href="#">Profile</a></li>#}
-                                {#						<li><a href="#">Settings</a></li>#}
+                                <li><a href="{% url 'profile-detail' %}">Profile</a></li>
                                 <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
                                 <li><a href="{% url 'account_email' %}">Manage Email Addresses</a></li>
+                                <li><a href="{% url 'car-list' %}">Cars</a></li>
                                 {#                                <li><a href="{% url 'address-list' %}">Manage Billing and Shipping Addresses</a></li>#}
                                 {% if user.is_staff or user.is_superuser %}
                                     <li><a target="_blank" href="{% url 'admin:index' %}">Admin</a></li>
