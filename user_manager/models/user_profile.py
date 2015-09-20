@@ -15,7 +15,7 @@ class UserProfile(models.Model):
     loyalty_points = models.PositiveIntegerField(default=0)
     phone_number = models.CharField(max_length=20, blank=True)
 
-    promos_used = models.ManyToManyField(PromoCode)
+    promos_used = models.ManyToManyField(PromoCode, blank=True)
 
     inviter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="invitees", blank=True, null=True)
 

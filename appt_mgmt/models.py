@@ -7,7 +7,9 @@ from user_manager.models.car import Car
 
 
 class Appointment(TimeStampedModel):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='appointments')
     cars = models.ManyToManyField(Car, through='ServicedCar')
+    deleted = models.BooleanField(default=False)
 
     date = models.DateField()
     TIME_SLOT_CHOICES = (
@@ -18,7 +20,8 @@ class Appointment(TimeStampedModel):
     )
     time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES, blank=True)
     address = models.ForeignKey(Address)
-    technician = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'})
+    technician = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'},
+                                        related_name='assigned_appts')
     GRATUITY_CHOICES = (
         (0, '0%'),
         (5, '5%'),
