@@ -69,3 +69,8 @@ local_settings.py
 .idea/
 *.backup
 *.bak
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
