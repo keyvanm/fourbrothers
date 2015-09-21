@@ -89,12 +89,15 @@
         </div>
     </nav>
 
+
+    <div class="containter">
+        {% bootstrap_messages %}
+    </div>
+
     {% block no_container_content %}
     {% endblock no_container_content %}
 
     <div class="container">
-        {% bootstrap_messages %}
-
         {% block content %}
         {% endblock content %}
     </div>
