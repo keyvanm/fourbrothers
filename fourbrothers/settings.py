@@ -131,6 +131,7 @@ STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'indie_static'),
 )
 if 'AWS_STORAGE_BUCKET_NAME' in os.environ:
+    COLLECTFAST_ENABLED = True
     DEFAULT_FILE_STORAGE = 's3_folder_storage.s3.DefaultStorage'
     DEFAULT_S3_PATH = "media"
     STATICFILES_STORAGE = 's3_folder_storage.s3.StaticStorage'
