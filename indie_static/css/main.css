@@ -104,7 +104,7 @@ a.social-icon-footer {
 }
 
 .navbar {
-    background-color:#31A6FF!important;
+    background-color:#71C89C!important;
     border: 0px;
     box-shadow: 0px -5px 10px 2px #000;
 }
@@ -128,14 +128,14 @@ a.social-icon-footer {
 
 .org-btn {
     border-radius:0px;
-    background-color:#FF6223;
+    background-color:#097290;
     border:0px;
     text-shadow:none;
     transition: all 0.5s ease!important;
 }
 
 .org-btn:hover {
-    background-color:#FF814F;
+    background-color:#0DA3CD;
 }
 
 /* Shrink */
@@ -158,3 +158,56 @@ a.social-icon-footer {
   transform: scale(0.9);
 }
 
+.dropdown-menu {
+    border:0px;
+}
+
+.footer {
+    background-color:#C2E2D2;
+}
+
+.angle {
+  display: block;
+  background: #fff;
+  height: 100px;
+  position: absolute;
+  bottom: -30px;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  -webkit-transform-style: preserve-3d;
+  background-clip: padding-box;
+  -webkit-backface-visibility: hidden;
+}
+
+.angle.top {
+  bottom: auto;
+  top: -30px;
+}
+
+.angle.right-corner {
+  -webkit-transform: skewY(1.8deg);
+  -ms-transform: skewY(1.8deg);
+  transform: skewY(1.8deg);
+}
+
+.angle.left-corner {
+  -webkit-transform: skewY(-1.8deg);
+  -ms-transform: skewY(-1.8deg);
+  transform: skewY(-1.8deg);
+}
+
+#how_to {
+    position:relative;
+    padding:100px 0px;
+}
+
+.services, #book_now {
+  background: #f5f3f2;
+  padding:100px 0px;
+}
+
+.jumbotron {
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}

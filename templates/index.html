@@ -18,10 +18,8 @@
             </a>
         </div>
     </div>
-{% endblock no_container_content %}
-{% block content %}
-<hr>
-    <div class="services">
+<div class="services">
+     <div class="container">
         <div class="row">
             <div class="col-lg-12">
                 <div class="row">
@@ -56,8 +54,10 @@
             </div>
         </div>
     </div>
-<hr>
- <div class="how_to">
+ </div>
+ <div id="how_to">
+    <div class="container">
+      <div class="angle right-corner top"></div>
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="text-center">How it Works..</h1>
@@ -71,5 +71,18 @@
                     </div>
             </div>
         </div>
+       <div class="angle left-corner"></div>
     </div>
+</div>
+<div id="book_now">
+     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1>Ready to Book Now!</h1>
+            </div>
+        </div>
+    </div>
+ </div>
+{% endblock no_container_content %}
+{% block content %}
 {% endblock content %}
