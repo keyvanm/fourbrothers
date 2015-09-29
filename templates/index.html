@@ -10,10 +10,9 @@
 {% block no_container_content %}
     <div class="banner jumbotron">
         <div class="container">
-            <h1>Lorem ipsum dolor sit amet</h1>
+            <h1>Save time & money let us come to you!</h1>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec condimentum dictum ante. Proin nec elit ut
-                augue auctor eleifend et</p>
+            <p>Have an expert auto service technician come to you. Don't waste time on car maintenence anymore.</p>
             <a href="{% url 'appt-choose-type' %}" class="btn btn-primary">
                 Book an Appointment!
             </a>
@@ -21,32 +20,33 @@
     </div>
 {% endblock no_container_content %}
 {% block content %}
+<hr>
     <div class="services">
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="row">
-                    <div class="col-md-4">
-                        <img src="https://placehold.it/200x200">
+                    <div class="col-md-4 call_to_action">
+                        <i class="fa fa-users" style="color:#87CAFE;"></i>
 
-                        <h2>Lorem ipsum</h2>
-
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu
-                            posuere.
-                            Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
-                    </div>
-                    <div class="col-md-4">
-                        <img src="https://placehold.it/200x200">
-
-                        <h2>Lorem ipsum</h2>
+                        <h4>Expert Technicians</h4>
 
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu
                             posuere.
                             Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
                     </div>
-                    <div class="col-md-4">
-                        <img src="https://placehold.it/200x200">
+                    <div class="col-md-4 call_to_action">
+                        <i class="fa fa-calendar" style="color:#FF814F;"></i>
 
-                        <h2>Lorem ipsum</h2>
+                        <h4>Scheduled Time Slots</h4>
+
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu
+                            posuere.
+                            Aliquam vitae purus massa. Morbi pretium viverra odio. Vestibulum aliquam purus.</p>
+                    </div>
+                    <div class="col-md-4 call_to_action">
+                        <i class="fa fa-trophy" style="color:#FFD34F;"></i>
+
+                        <h4>Earn Loyalty Points</h4>
 
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed facilisis consectetur magna eu
                             posuere.
@@ -55,6 +55,22 @@
                 </div>
             </div>
             <div class="col-md-2"></div>
+        </div>
+    </div>
+<hr>
+ <div class="how_to">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="text-center">How it Works..</h1>
+                    <div class="row">
+                        <div class="col-lg-6">
+                        <h2>Create A Profile</h2>
+                        </div>
+                        <div class="col-lg-6">
+                        <h2></h2>
+                        </div>
+                    </div>
+            </div>
         </div>
     </div>
 {% endblock content %}

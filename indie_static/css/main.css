@@ -99,3 +99,18 @@ a.social-icon-footer {
   float: none;
 }
 
+.call_to_action .fa {
+  font-size: 150px;
+}
+
+.navbar {
+    background-color:#31A6FF!important;
+}
+
+.navbar-default .navbar-brand {
+  color: #fff;
+}
+
+.navbar-default .navbar-nav>li>a {
+  color: #fff;
+}
