@@ -20,8 +20,8 @@ class Appointment(TimeStampedModel):
     )
     time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES, blank=True)
     address = models.ForeignKey(Address)
-    technician = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'},
-                                        related_name='assigned_appts')
+    technicians = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'},
+                                        related_name='assigned_appts', blank=True)
     GRATUITY_CHOICES = (
         (0, '0%'),
         (5, '5%'),
