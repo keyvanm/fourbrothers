@@ -30,3 +30,16 @@ class Address(TimeStampedModel):
 
     class Meta:
         verbose_name_plural = "addresses"
+
+
+class Building(TimeStampedModel):
+    name = models.CharField(max_length=200)
+    address = models.OneToOneField(Address)
+    next_scheduled_time = models.DateField()
+    TIME_SLOT_CHOICES = (
+        ('8am', '8 - 11 AM'),
+        ('11am', '11 AM - 2 PM'),
+        ('2pm', '2 - 5 PM'),
+        ('5pm', '5 - 8 PM'),
+    )
+    time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES, blank=True)
