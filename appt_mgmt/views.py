@@ -47,7 +47,7 @@ class HouseApptCreateView(ApptCreateView):
 
     def get_form(self, form_class):
         form = super(HouseApptCreateView, self).get_form(form_class)
-        form.fields['address'].queryset = Address.objects.filter(user=self.request.user, type='house')
+        form.fields['address'].queryset = Address.objects.filter(user=self.request.user, building_type='house')
         return form
 
 
@@ -56,7 +56,7 @@ class BuildingApptCreateView(ApptCreateView):
 
     def get_form(self, form_class):
         form = super(BuildingApptCreateView, self).get_form(form_class)
-        form.fields['address'].queryset = Address.objects.filter(user=self.request.user, type='building')
+        form.fields['address'].queryset = Address.objects.filter(user=self.request.user, building_type='building')
         return form
 
 
@@ -156,8 +156,7 @@ class ApptPayView(LoginRequiredMixin, View):
                         currency="cad",
                         source=cc.card_id,
                         customer=customer.id,
-                        description="Paid ${} for jobs {}".format(total_price,
-                                                                  " ".join([job.slug for job in jobs_to_pay_list]))
+                        description="Paid ${}".format(total_price)
                     )
             return redirect('appt-detail', pk=pk)
         except stripe.CardError, e:

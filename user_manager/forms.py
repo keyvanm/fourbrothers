@@ -9,7 +9,7 @@ from user_manager.models.user_profile import UserProfile
 class AddressForm(ModelForm):
     class Meta:
         model = Address
-        exclude = ['user', 'type', 'primary', ]
+        exclude = ['user', 'primary', ]
 
 
 class UserProfileForm(ModelForm):
