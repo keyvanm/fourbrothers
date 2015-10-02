@@ -11,12 +11,11 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-
 from django.views.generic.edit import CreateView
 import stripe
 
-from appt_mgmt.forms import AppointmentForm
-from appt_mgmt.models import Appointment
+from appt_mgmt.forms import AppointmentForm, CarServiceForm
+from appt_mgmt.models import Appointment, Service, ServicedCar
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import Address
 from user_manager.models.user_profile import CreditCard
@@ -34,7 +33,7 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
     form_class = AppointmentForm
 
     def get_success_url(self):
-        return reverse('appt-pay', kwargs={'pk': self.object.pk})
+        return reverse('appt-service', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -163,3 +162,18 @@ class ApptPayView(LoginRequiredMixin, View):
             # The card has been declined
             messages.warning(request, 'Transaction unsuccessful. Please try again.')
             return redirect('appt-pay', pk=pk)
+
+
+class ApptServiceCreateView(LoginRequiredMixin, CreateView):
+    model = ServicedCar
+    form_class = CarServiceForm
+    template_name = 'appt_mgmt/appt-service.html'
+
+    def get_success_url(self):
+        return reverse('appt-pay', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        form.instance.appointment = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
+        # messages.success(self.request, 'Appointment booked successfully')
+        return super(ApptServiceCreateView, self).form_valid(form)
+

@@ -37,9 +37,12 @@ class Appointment(TimeStampedModel):
 class Service(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    picture = models.ImageField(upload_to='service-pics')
+    picture = models.ImageField(upload_to='service-pics', blank=True)
     fee = models.DecimalField(max_digits=10, decimal_places=2)
     duration = models.DurationField()
+
+    def __unicode__(self):
+        return "{0} | {1} | {2} | {3}".format(self.name, self.description, self.fee, self.duration)
 
 
 class ServicedCar(models.Model):
