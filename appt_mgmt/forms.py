@@ -12,4 +12,4 @@ class AppointmentForm(ModelForm):
 
     class Meta:
         model = Appointment
-        exclude = ['user', 'deleted', 'cars', 'technician']
+        exclude = ['user', 'deleted', 'cars', 'technician', 'paid']
