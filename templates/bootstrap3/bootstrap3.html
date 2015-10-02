@@ -17,6 +17,7 @@
     {% if 'javascript_in_head'|bootstrap_setting %}{% bootstrap_javascript jquery=True %}{% endif %}
     {% block bootstrap3_extra_base_head %}{% endblock %}
     {% block bootstrap3_extra_head %}{% endblock %}
+    {{ form.media }}
 </head>
 
 <body>

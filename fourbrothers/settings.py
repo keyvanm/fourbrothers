@@ -26,6 +26,8 @@ if 'DJANGO_DEBUG' in os.environ:
 
 ALLOWED_HOSTS = []
 
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = '%sez1v1@)hi-$b6la@wjc-zq6kp=!bbxk!*7emy8k6y&tgr^ij'
 
 # Application definition
 
@@ -46,6 +48,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'bootstrapform',
     'django_extensions',
+    'bootstrap3_datetime',
     #
     'user_manager',
     'appt_mgmt',
@@ -89,6 +92,10 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
+BOOTSTRAP3 = {
+    'javascript_in_head': True,
+}
+
 LOGIN_REDIRECT_URL = '/'
 # Django all auth settings
 ACCOUNT_AUTHENTICATION_METHOD = "email"
@@ -117,6 +124,14 @@ if 'RDS_DB_NAME' in os.environ:
             'PASSWORD': os.environ['RDS_PASSWORD'],
             'HOST': os.environ['RDS_HOSTNAME'],
             'PORT': os.environ['RDS_PORT'],
+        }
+    }
+else:
+    # sqlite is the quick an easy development db
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3')
         }
     }
 
