@@ -104,7 +104,7 @@ a.social-icon-footer {
 }
 
 .navbar {
-    background-color:#71C89C!important;
+    background-color: #2EB2D6 !important;
     border: 0px;
     box-shadow: 0px -5px 10px 2px #000;
 }
@@ -163,7 +163,7 @@ a.social-icon-footer {
 }
 
 .footer {
-    background-color:#C2E2D2;
+    background-color: rgba(46, 178, 214, 0.4);
 }
 
 .angle {
@@ -210,4 +210,8 @@ a.social-icon-footer {
 .jumbotron {
   padding-bottom: 0px;
   margin-bottom: 0px;
+}
+
+.navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
+    background-color: #1DA0C3;
 }
