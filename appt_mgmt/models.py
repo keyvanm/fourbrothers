@@ -20,7 +20,7 @@ class Appointment(TimeStampedModel):
     )
     time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES, blank=True)
     address = models.ForeignKey(Address)
-    technicians = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'},
+    technician = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'},
                                         related_name='assigned_appts', blank=True)
     GRATUITY_CHOICES = (
         (0, '0%'),
@@ -30,6 +30,8 @@ class Appointment(TimeStampedModel):
         (20, '20%'),
     )
     gratuity = models.PositiveSmallIntegerField(choices=GRATUITY_CHOICES, default=10)
+
+    paid = models.BooleanField(default=False)
 
 
 class Service(models.Model):
