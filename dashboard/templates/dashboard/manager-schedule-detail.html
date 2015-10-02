@@ -2,6 +2,7 @@
 
 {% block content %}
     <dl class="dl-horizontal">
+
         <dt>Date</dt>
         <dd>{{ appt.date }}</dd>
         <dt>Time</dt>
@@ -10,9 +11,8 @@
         <dd>{{ appt.address }}</dd>
         <dt>Technician Assigned</dt>
         <dd>
-            {% if appt.user %}
-{#                {{ appt.technician }}#}
-                HEY
+            {% if appt.user %} {# doesn't show technician #}
+                {{ appt.user }}
             {% else %}
                 None
             {% endif %}

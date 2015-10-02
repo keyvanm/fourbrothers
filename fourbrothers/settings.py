@@ -49,6 +49,7 @@ INSTALLED_APPS = (
     #
     'user_manager',
     'appt_mgmt',
+    'dashboard',
 )
 
 MIDDLEWARE_CLASSES = (

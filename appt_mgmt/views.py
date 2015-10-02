@@ -50,7 +50,6 @@ class BuildingApptCreateView(ApptCreateView):
         return form
 
 
-
 class ApptDetailView(LoginRequiredMixin, DetailView):
     template_name = 'appt_mgmt/appt-detail.html'
     context_object_name = 'appt'
@@ -64,9 +63,13 @@ class ApptListView(LoginRequiredMixin, ListView):
     template_name = 'appt_mgmt/appt-list.html'
 
     def get_queryset(self):
-        return Appointment.objects.filter(user=self.request.user)
+        return self.request.user.appointments
 
     def get_context_data(self, **kwargs):
         context = super(ApptListView, self).get_context_data(**kwargs)
         context['appts'] = grouper(self.object_list.all(), 3)
         return context
+
+
+
+

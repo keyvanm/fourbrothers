@@ -10,7 +10,7 @@ class UserProfile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name="profile")
     stripe_customer_id = models.CharField(max_length=50, blank=True)
 
-    TYPE_CHOICES = Choices('customer', 'technician')
+    TYPE_CHOICES = Choices('customer', 'technician', 'manager')
     type = models.CharField(choices=TYPE_CHOICES, default=TYPE_CHOICES.customer, max_length=15)
 
     loyalty_points = models.PositiveIntegerField(default=0)
