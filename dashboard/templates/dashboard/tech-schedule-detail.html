@@ -1,23 +1,71 @@
 {% extends 'base.html' %}
 
-{% block content %}
-    <dl class="dl-horizontal">
+{% block bootstrap3_extra_head %}
+    <style>
+        h2 {
+            margin-bottom: 20px;
+        }
 
-        <dt>Date</dt>
-        <dd>{{ appt.date }}</dd>
-        <dt>Time</dt>
-        <dd>{{ appt.get_time_slot_display }}</dd>
-        <dt>Address</dt>
-        <dd>{{ appt.address }}</dd>
-        <dt>Technician Assigned</dt>
-        <dd>
-            {% if appt.technician %} {# doesn't show technician #}
-                {{ appt.technician.all }}
-            {% else %}
-                None
-            {% endif %}
-        </dd>
-    </dl>
+        .addr-options {
+            padding: 0;
+        }
+
+        .panel-title.addr-name{
+            display: inline-block;
+        }
+
+    </style>
+{% endblock %}
+
+{% block content %}
+
+    <div>
+        <h2>
+            My Appointments
+        </h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title addr-name">Appointment Info</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li>Date: {{ appt.date }}</li>
+                            <li>Time: {{ appt.time_slot }}</li>
+                            <li>
+                                Technician:
+                                {% if appt.technician %}
+                                    <ul>
+                                     {% for tech in appt.technician.all %}
+                                         <li>{{ tech }}</li>
+                                     {% endfor %}
+                                    </ul>
+                                {% else %}
+                                     None
+                                {% endif %}
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title addr-name">Contact Info</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            <li>Customer Name: {{ appt.user.get_full_name }}</li>
+                            <li>Phone Number: {{ appt.user.profile.phone_number}}</li>
+                            <li>Address: {{ appt.address }}</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <a href="#" class="btn btn-primary btn-lg org-btn hvr-shrink">
         Charge
     </a>

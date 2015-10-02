@@ -2,7 +2,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
-# from model_utils.choices import Choices
+from model_utils.choices import Choices
 from user_manager.models.promo import PromoCode
 
 
