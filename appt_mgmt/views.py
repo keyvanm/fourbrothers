@@ -120,7 +120,6 @@ class ApptPayView(LoginRequiredMixin, View):
         total_price_before_tax = 100
         total_price = (total_price_before_tax * Decimal("1.13")).quantize(Decimal("1.00"))
         total_tax = (total_price_before_tax * Decimal("0.13")).quantize(Decimal("1.00"))
-        raise
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         return render(request, 'appt_mgmt/appt-pay.html',
                       {'total_price': total_price, 'stripe_public_key': stripe_public_key,
