@@ -134,6 +134,13 @@ a.social-icon-footer {
     transition: all 0.5s ease!important;
 }
 
+.cancel-btn {
+    border-radius:0px;
+    border:0px;
+    text-shadow:none;
+    transition: all 0.5s ease!important;
+}
+
 .org-btn:hover {
     background-color:#0DA3CD;
 }
