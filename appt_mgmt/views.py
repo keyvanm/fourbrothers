@@ -106,43 +106,49 @@ def create_and_charge_new_customer(request, token, total_price):
 
 
 class ApptPayView(LoginRequiredMixin, View):
+    def get_price(self, appt, sales_tax_percent):
+        total_price_before_tax = 0
+        for serviced_cars in appt.servicedcar_set.all():
+            for service in serviced_cars.services.all():
+                total_price_before_tax += service.fee
+
+        total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
+        total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent/100.0)).quantize(Decimal("1.00"))
+        total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
+        total_price_after_gratuity = total_price * Decimal(1 + appt.gratuity/100.0)
+
+        if total_price == 0:
+            messages.warning(self.request, 'Your cart is empty')
+            raise Http404
+        return total_price_before_tax, total_sales_tax, total_price, total_price_after_gratuity
+
     def get(self, request, pk):
-        # jobs_to_pay_slug_list = request.GET.getlist("pay")
-        # jobs_to_pay_list = get_jobs_to_pay_list(jobs_to_pay_slug_list, request.user)
-        # total_price_before_tax = Decimal(0)
-        # for job in jobs_to_pay_list:
-        #     total_price_before_tax += job.fee
-        #
-        # if not jobs_to_pay_list or total_price_before_tax == 0:
-        #     messages.warning(request, 'All items in your cart are already paid for.')
-        #     raise Http404
-        total_price_before_tax = 100
-        total_price = (total_price_before_tax * Decimal("1.13")).quantize(Decimal("1.00"))
-        total_tax = (total_price_before_tax * Decimal("0.13")).quantize(Decimal("1.00"))
+        appt = get_appt_or_404(pk, request.user)
+        total_price_before_tax, total_sales_tax, total_price, total_price_after_gratuity = self.get_price(appt, 13)
+
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         return render(request, 'appt_mgmt/appt-pay.html',
-                      {'total_price': total_price, 'stripe_public_key': stripe_public_key,
-                       'total_price_before_tax': total_price_before_tax, 'total_tax': total_tax,
+                      {'appt': appt, 'stripe_public_key': stripe_public_key,
+                       'total_price_before_tax': total_price_before_tax, 'total_tax': total_sales_tax,
+                       'total_price':total_price ,'total_price_after_gratuity': total_price_after_gratuity,
                        'total_price_cents': int(total_price * 100)})
 
     @method_decorator(csrf_protect)
     def post(self, request, pk):
-        total_price = 100
-        total_price *= Decimal("1.13")
+        appt = get_appt_or_404(pk, request.user)
 
-        if total_price == 0:
-            messages.warning(request, 'All items in your cart are already paid for.')
-            raise Http404
+        _, _, _, total_payable = self.get_price(appt, 13)
+
         stripe.api_key = settings.STRIPE_SECRET_KEY
-        stripe_public_key = settings.STRIPE_PUBLIC_KEY
+        # stripe_public_key = settings.STRIPE_PUBLIC_KEY
         token = request.POST['stripeToken']
         try:
             if not request.user.profile.stripe_customer_id:
-                create_and_charge_new_customer(request, token, total_price)
+                create_and_charge_new_customer(request, token, total_payable)
             else:
                 customer = stripe.Customer.retrieve(request.user.profile.stripe_customer_id)
                 if customer.get("deleted", None):
-                    create_and_charge_new_customer(request, token, total_price)
+                    create_and_charge_new_customer(request, token, total_payable)
                 else:
                     token_object = stripe.Token.retrieve(token)
                     cc = get_or_none(CreditCard, user=request.user, fingerprint=token_object.card.fingerprint)
@@ -151,12 +157,13 @@ class ApptPayView(LoginRequiredMixin, View):
                         cc = CreditCard(user=request.user, fingerprint=card.fingerprint, card_id=card.id)
                         cc.save()
                     stripe.Charge.create(
-                        amount=int(total_price * 100),  # amount in cents, again
+                        amount=int(total_payable * 100),  # amount in cents, again
                         currency="cad",
                         source=cc.card_id,
                         customer=customer.id,
-                        description="Paid ${}".format(total_price)
+                        description="Paid ${}".format(total_payable)
                     )
+            messages.success(request, 'Transaction successful')
             return redirect('appt-detail', pk=pk)
         except stripe.CardError, e:
             # The card has been declined

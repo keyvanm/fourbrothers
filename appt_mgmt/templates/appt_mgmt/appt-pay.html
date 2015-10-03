@@ -18,16 +18,20 @@
                 </h3>
             </div>
             <div class="panel-body">
-{#                <ul class="list-unstyled">#}
-{#                    {% for service in appt.car %}#}
-{#                        <li>#}
-{#                            <label>#}
-{#                                <input type="hidden" checked name="pay" value="{{ job.slug }}">#}
-{#                                {{ job }} (C${{ job.fee }})#}
-{#                            </label>#}
-{#                        </li>#}
-{#                    {% endfor %}#}
-{#                </ul>#}
+                <ul class="list-unstyled">
+                    {% for serviced_car in appt.servicedcar_set.all %}
+                        <li>
+                            {{ serviced_car.car }}
+                            <ul>
+                                {% for service in serviced_car.services.all %}
+                                    <li>
+                                        {{ service }} (C${{ service.fee }})
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
                 <a href="{% url 'homepage' %}" class="btn btn-default">Cancel</a>
                 {#                <input class="btn btn-primary" type="submit" value="Pay"/>#}
                 <script
@@ -36,7 +40,7 @@
                         data-amount="{{ total_price_cents }}"
                         data-name="FourBrothers"
                         data-description="${{ total_price }}"
-{#                        data-image="https://s3.amazonaws.com/stripe-uploads/acct_14sgA4LTjRqtW0Rpmerchant-icon-1414533378555-fb_logo.png"#}
+                        {#                        data-image="https://s3.amazonaws.com/stripe-uploads/acct_14sgA4LTjRqtW0Rpmerchant-icon-1414533378555-fb_logo.png"#}
                         data-zip-code="true"
                         data-currency="CAD"
                         data-email="{{ user.email }}">

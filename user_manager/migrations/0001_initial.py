@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
-import django_extensions.db.fields
 import django.utils.timezone
 from django.conf import settings
 import django.core.validators
+import django_extensions.db.fields
 import user_manager.models.promo
 
 
@@ -22,7 +22,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
-                ('type', models.CharField(max_length=20, choices=[(b'house', b'house'), (b'building', b'building')])),
+                ('building_type', models.CharField(max_length=20, choices=[(b'house', b'house'), (b'building', b'building')])),
                 ('primary', models.BooleanField(default=False)),
                 ('address1', models.CharField(max_length=255, verbose_name=b'Street Address')),
                 ('address2', models.CharField(max_length=255, verbose_name=b'Apt/Suite/Bldg', blank=True)),
@@ -34,6 +34,23 @@ class Migration(migrations.Migration):
             ],
             options={
                 'verbose_name_plural': 'addresses',
+            },
+        ),
+        migrations.CreateModel(
+            name='Building',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('name', models.CharField(max_length=200)),
+                ('next_scheduled_time', models.DateField()),
+                ('time_slot', models.CharField(blank=True, max_length=10, choices=[(b'8am', b'8 - 11 AM'), (b'11am', b'11 AM - 2 PM'), (b'2pm', b'2 - 5 PM'), (b'5pm', b'5 - 8 PM')])),
+                ('address', models.OneToOneField(to='user_manager.Address')),
+            ],
+            options={
+                'ordering': ('-modified', '-created'),
+                'abstract': False,
+                'get_latest_by': 'modified',
             },
         ),
         migrations.CreateModel(
@@ -90,7 +107,7 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('stripe_customer_id', models.CharField(max_length=50, blank=True)),
-                ('type', models.CharField(default=b'customer', max_length=15, choices=[(b'customer', b'customer'), (b'technician', b'technician')])),
+                ('type', models.CharField(default=b'customer', max_length=15, choices=[(b'customer', b'customer'), (b'technician', b'technician'), (b'manager', b'manager')])),
                 ('loyalty_points', models.PositiveIntegerField(default=0)),
                 ('phone_number', models.CharField(max_length=20, blank=True)),
                 ('inviter', models.ForeignKey(related_name='invitees', blank=True, to=settings.AUTH_USER_MODEL, null=True)),

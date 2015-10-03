@@ -33,6 +33,9 @@ class Appointment(TimeStampedModel):
 
     paid = models.BooleanField(default=False)
 
+    def __unicode__(self):
+        return "{}'s appointment on {}, {}".format(self.user.get_full_name(), self.date, self.get_time_slot_display())
+
 
 class Service(models.Model):
     name = models.CharField(max_length=100)
