@@ -1,3 +1,4 @@
+from allauth.account.utils import get_next_redirect_url
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http.response import Http404
@@ -21,14 +22,25 @@ class CarCreateView(LoginRequiredMixin, CreateView):
     model = Car
     form_class = CarForm
     template_name = 'user_manager/car/car-create.html'
+    redirect_field_name = 'next'
 
     def get_success_url(self):
-        return reverse('car-list')
+        next_url = self.request.POST.get(self.redirect_field_name)
+        if next_url:
+            return next_url
+        r = reverse('car-list')
+        return r
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
         messages.success(self.request, 'Car added successfully')
         return super(CarCreateView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(CarCreateView, self).get_context_data(**kwargs)
+        context['redirect_field_name'] = self.redirect_field_name
+        context['redirect_field_value'] = self.request.GET.get(self.redirect_field_name)
+        return context
 
 
 class FirstCarCreateView(CarCreateView):

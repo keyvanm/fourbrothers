@@ -4,13 +4,14 @@ from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse
 from django.contrib import messages
-from django.http.response import Http404
+from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+
 from django.views.generic.edit import CreateView
 import stripe
 
@@ -109,14 +110,14 @@ def create_and_charge_new_customer(request, token, total_price):
 class ApptPayView(LoginRequiredMixin, View):
     def get_price(self, appt, sales_tax_percent):
         total_price_before_tax = 0
-        for serviced_cars in appt.servicedcar_set.all():
-            for service in serviced_cars.services.all():
+        for serviced_car in appt.servicedcar_set.all():
+            for service in serviced_car.services.all():
                 total_price_before_tax += service.fee
 
         total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
-        total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent/100.0)).quantize(Decimal("1.00"))
+        total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
-        total_price_after_gratuity = total_price * Decimal(1 + appt.gratuity/100.0)
+        total_price_after_gratuity = total_price * Decimal(1 + appt.gratuity / 100.0)
 
         if total_price == 0:
             messages.warning(self.request, 'Your cart is empty')
@@ -131,7 +132,7 @@ class ApptPayView(LoginRequiredMixin, View):
         return render(request, 'appt_mgmt/appt-pay.html',
                       {'appt': appt, 'stripe_public_key': stripe_public_key,
                        'total_price_before_tax': total_price_before_tax, 'total_tax': total_sales_tax,
-                       'total_price':total_price ,'total_price_after_gratuity': total_price_after_gratuity,
+                       'total_price': total_price, 'total_price_after_gratuity': total_price_after_gratuity,
                        'total_price_cents': int(total_price * 100)})
 
     @method_decorator(csrf_protect)
@@ -176,18 +177,47 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
     model = ServicedCar
     form_class = CarServiceForm
     template_name = 'appt_mgmt/appt-service.html'
+    _cars = None
+    _appt = None
+
+    @property
+    def appt(self):
+        if not self._appt:
+            self._appt = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
+        return self._appt
+
+    @property
+    def available_cars(self):
+        if not self._cars:
+            self._cars = Car.objects.filter(owner=self.request.user).exclude(
+                id__in=Car.objects.filter(servicedcar__appointment=self.appt)
+            )
+        return self._cars
 
     def get_success_url(self):
-
         if '_addanother' not in self.request.POST:
             return reverse('appt-pay', kwargs={'pk': self.object.pk})
         else:
             return reverse('appt-service', kwargs={'pk': self.object.pk})
 
+    def dispatch(self, request, *args, **kwargs):
+        if self.available_cars:
+            return super(ApptServiceCreateView, self).dispatch(request, *args, **kwargs)
+        else:
+            redirect_url = reverse('car-add')
+            extra_params = '?next={}'.format(request.path)
+            full_redirect_url = '{}{}'.format(redirect_url, extra_params)
+            return HttpResponseRedirect(full_redirect_url)
+
     def get_form(self, form_class):
         form = super(ApptServiceCreateView, self).get_form(form_class)
-        form.fields['car'].queryset = Car.objects.filter(owner=self.request.user)
+        form.fields['car'].queryset = self.available_cars
         return form
+
+    def get_context_data(self, **kwargs):
+        context = super(ApptServiceCreateView, self).get_context_data(**kwargs)
+        context['available_cars'] = self.available_cars
+        return context
 
     def form_valid(self, form):
         form.instance.appointment = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
