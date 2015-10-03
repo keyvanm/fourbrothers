@@ -18,6 +18,7 @@ from appt_mgmt.forms import AppointmentForm, CarServiceForm
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import Address
+from user_manager.models.car import Car
 from user_manager.models.user_profile import CreditCard
 
 
@@ -182,6 +183,11 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
             return reverse('appt-pay', kwargs={'pk': self.object.pk})
         else:
             return reverse('appt-service', kwargs={'pk': self.object.pk})
+
+    def get_form(self, form_class):
+        form = super(ApptServiceCreateView, self).get_form(form_class)
+        form.fields['car'].queryset = Car.objects.filter(owner=self.request.user)
+        return form
 
     def form_valid(self, form):
         form.instance.appointment = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
