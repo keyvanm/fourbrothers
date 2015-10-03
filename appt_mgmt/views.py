@@ -15,7 +15,7 @@ from django.views.generic.edit import CreateView
 import stripe
 
 from appt_mgmt.forms import AppointmentForm, CarServiceForm
-from appt_mgmt.models import Appointment, Service, ServicedCar
+from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import Address
 from user_manager.models.user_profile import CreditCard
@@ -170,10 +170,13 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
     template_name = 'appt_mgmt/appt-service.html'
 
     def get_success_url(self):
-        return reverse('appt-pay', kwargs={'pk': self.object.pk})
+
+        if '_addanother' not in self.request.POST:
+            return reverse('appt-pay', kwargs={'pk': self.object.pk})
+        else:
+            return reverse('appt-service', kwargs={'pk': self.object.pk})
 
     def form_valid(self, form):
         form.instance.appointment = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
         # messages.success(self.request, 'Appointment booked successfully')
         return super(ApptServiceCreateView, self).form_valid(form)
-

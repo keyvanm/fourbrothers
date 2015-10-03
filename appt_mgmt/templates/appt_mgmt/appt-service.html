@@ -19,8 +19,9 @@
         <form enctype="multipart/form-data" method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
-            <a href="{% url 'homepage' %}" class="btn btn-default">Cancel</a>
-            <input class="btn btn-primary" type="submit" value="Request"/>
+            <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
+            <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Save and Add Another" name="_addanother">
+            <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Checkout"/>
         </form>
     </div>
 {% endblock content %}
