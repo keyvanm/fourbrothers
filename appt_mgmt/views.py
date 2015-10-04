@@ -28,7 +28,7 @@ from user_manager.models.user_profile import CreditCard
 
 def get_appt_or_404(pk, user):
     appt = get_object_or_404(Appointment, pk=pk)
-    if (appt.user != user) or appt.deleted:
+    if (appt.user != user) or appt.canceled:
         raise Http404
     return appt
 
@@ -210,29 +210,31 @@ class ApptPayView(LoginRequiredMixin, View):
         total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
-        total_price_after_gratuity = total_price * Decimal(1 + appt.gratuity / 100.0)
+        total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
+        total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
 
         if total_price == 0:
             messages.warning(self.request, 'Your cart is empty')
             raise Http404
-        return total_price_before_tax, total_sales_tax, total_price, total_price_after_gratuity
+        return total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity
 
     def get(self, request, pk):
         appt = get_appt_or_404(pk, request.user)
-        total_price_before_tax, total_sales_tax, total_price, total_price_after_gratuity = self.get_price(appt, 13)
+        total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(appt, 13)
 
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         return render(request, 'appt_mgmt/appt-pay.html',
                       {'appt': appt, 'stripe_public_key': stripe_public_key,
                        'total_price_before_tax': total_price_before_tax, 'total_tax': total_sales_tax,
-                       'total_price': total_price, 'total_price_after_gratuity': total_price_after_gratuity,
-                       'total_price_cents': int(total_price * 100)})
+                       'total_price': total_price, 'total_gratuity': total_gratuity,
+                       'total_price_after_gratuity': total_price_after_gratuity,
+                       'total_price_cents': int(total_price_after_gratuity * 100)})
 
     @method_decorator(csrf_protect)
     def post(self, request, pk):
         appt = get_appt_or_404(pk, request.user)
 
-        _, _, _, total_payable = self.get_price(appt, 13)
+        _, _, _, _, total_payable = self.get_price(appt, 13)
 
         stripe.api_key = settings.STRIPE_SECRET_KEY
         # stripe_public_key = settings.STRIPE_PUBLIC_KEY

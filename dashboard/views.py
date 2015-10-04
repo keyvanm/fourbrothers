@@ -1,22 +1,13 @@
 # Create your views here.
 from django.core.urlresolvers import reverse
-from django.http.response import Http404
-
 from django.shortcuts import get_object_or_404
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
-from appt_mgmt.forms import ApptTechForm
 
+from appt_mgmt.forms import ApptTechForm
 from appt_mgmt.models import Appointment
 from fourbrothers.utils import LoginRequiredMixin, grouper
-
-
-def get_appt_or_404(pk, user):
-    appt = get_object_or_404(Appointment, pk=pk)
-    # if (appt.user != user) or appt.deleted:
-    #     raise Http404
-    return appt
 
 
 class ManagerScheduleListView(LoginRequiredMixin, ListView):
@@ -67,6 +58,6 @@ class ApptTechUpdate(UpdateView):
     model = Appointment
     form_class = ApptTechForm
     template_name = 'appt_mgmt/appt-tech-update.html'
-    
+
     def get_success_url(self):
         return reverse('manager-schedule-list')
