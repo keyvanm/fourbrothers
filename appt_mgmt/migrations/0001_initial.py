@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
                 ('deleted', models.BooleanField(default=False)),
                 ('date', models.DateField()),
-                ('time_slot', models.CharField(blank=True, max_length=10, choices=[(b'8am', b'8 - 11 AM'), (b'11am', b'11 AM - 2 PM'), (b'2pm', b'2 - 5 PM'), (b'5pm', b'5 - 8 PM')])),
+                ('time_slot', models.CharField(max_length=10, choices=[(b'8am', b'8 - 11 AM'), (b'11am', b'11 AM - 2 PM'), (b'2pm', b'2 - 5 PM'), (b'5pm', b'5 - 8 PM')])),
                 ('gratuity', models.PositiveSmallIntegerField(default=10, choices=[(0, b'0%'), (5, b'5%'), (10, b'10%'), (15, b'15%'), (20, b'20%')])),
                 ('paid', models.BooleanField(default=False)),
                 ('address', models.ForeignKey(to='user_manager.ParkingLocation')),

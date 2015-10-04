@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django import forms
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.urlresolvers import reverse
@@ -12,11 +13,13 @@ from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import CreateView, UpdateView
 import stripe
+import dateutil.parser
 
-from appt_mgmt.forms import AppointmentForm, CarServiceForm, ApptTechForm
+from appt_mgmt.forms import AppointmentForm, CarServiceForm
 from appt_mgmt.models import Appointment, ServicedCar
+from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation
 from user_manager.models.car import Car
@@ -33,14 +36,51 @@ def get_appt_or_404(pk, user):
 class ApptCreateView(LoginRequiredMixin, CreateView):
     model = Appointment
     form_class = AppointmentForm
+    TIME_SLOT_CHOICES = Appointment.TIME_SLOT_CHOICES
+    _time_slot_choices = []
+
+    @property
+    def time_slot_choices(self):
+        self._time_slot_choices = []
+        if not self.request.GET.get('date'):
+            return self._time_slot_choices
+
+        date = dateutil.parser.parse(self.request.GET.get('date'))
+        for time_slot, time_slot_display in self.TIME_SLOT_CHOICES:
+            if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() < MAX_NUM_APPT_TIME_SLOT:
+                self._time_slot_choices.append((time_slot, time_slot_display))
+
+        return self._time_slot_choices
 
     def get_success_url(self):
         return reverse('appt-service', kwargs={'pk': self.object.pk})
+
+    def get_form(self, form_class=None):
+        form = super(ApptCreateView, self).get_form(form_class)
+        if self.request.GET.get('date'):
+            date = dateutil.parser.parse(self.request.GET.get('date'))
+            form.fields['date'].initial = date
+
+            form.fields['time_slot'].choices = self.time_slot_choices
+
+            if not self.time_slot_choices:
+                form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
+        else:
+            form.fields['time_slot'].widget = forms.HiddenInput()
+            form.fields['address'].widget = forms.HiddenInput()
+            form.fields['gratuity'].widget = forms.HiddenInput()
+        return form
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         # messages.success(self.request, 'Appointment booked successfully')
         return super(ApptCreateView, self).form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super(ApptCreateView, self).get_context_data(**kwargs)
+        context['date'] = self.request.GET.get('date')
+        context['time_slot_choices'] = self.time_slot_choices
+        return context
 
 
 class PrivatePLApptCreateView(ApptCreateView):
@@ -183,6 +223,9 @@ class ApptPayView(LoginRequiredMixin, View):
                         customer=customer.id,
                         description="Paid ${}".format(total_payable)
                     )
+            appt.paid = True
+            appt.save(update_fields=('paid',))
+
             messages.success(request, 'Appointment booked successfully!')
             return redirect('appt-detail', pk=pk)
         except stripe.CardError, e:
@@ -242,13 +285,4 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
         # messages.success(self.request, 'Appointment booked successfully')
         return super(ApptServiceCreateView, self).form_valid(form)
 
-
-class ApptEdit(UpdateView):
-
-    model = Appointment
-    form_class = AppointmentForm
-    template_name = 'appt_mgmt/appt-edit.html'
-
-    def get_success_url(self):
-        return reverse('appt-list')
 

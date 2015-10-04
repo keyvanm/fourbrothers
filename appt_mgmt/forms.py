@@ -5,6 +5,7 @@ from django import forms
 from django.forms.models import ModelForm
 
 from appt_mgmt.models import Appointment, ServicedCar, Service
+from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 
 
 class AppointmentForm(ModelForm):
@@ -25,11 +26,11 @@ class AppointmentForm(ModelForm):
 
     def clean(self):
         cleaned_data = super(AppointmentForm, self).clean()
-        date = cleaned_data['date']
-        time_slot = cleaned_data['time_slot']
-
-        if Appointment.objects.filter(date=date, time_slot=time_slot).count() > 10:
-            raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
+        date = cleaned_data.get('date')
+        if date:
+            time_slot = cleaned_data['time_slot']
+            if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() >= MAX_NUM_APPT_TIME_SLOT:
+                raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
 
 
 # class ServiceForm(ModelForm):

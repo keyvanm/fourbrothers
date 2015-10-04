@@ -23,7 +23,7 @@ class Appointment(TimeStampedModel):
         ('2pm', '2 - 5 PM'),
         ('5pm', '5 - 8 PM'),
     )
-    time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES, blank=True)
+    time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES)
     address = models.ForeignKey(ParkingLocation)
     technician = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'},
                                         related_name='assigned_appts', blank=True)
