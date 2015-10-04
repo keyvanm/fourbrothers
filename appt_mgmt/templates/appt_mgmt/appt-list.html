@@ -18,7 +18,7 @@
             padding: 0;
         }
 
-        .panel-title.addr-name{
+        .panel-title.addr-name {
             display: inline-block;
         }
 
@@ -35,25 +35,14 @@
                 </a>
             </small>
         </h2>
-        <h3>
-            Past Appointments
-        </h3>
-        {% for appt_group in appts %}
-            <div class="row">
-                {% for appt in appt_group %}
-                    {% if appt.date < now %}
-                        {% include 'appt_mgmt/appt-block.html' %}
-                    {% endif %}
-                {% endfor %}
-            </div>
-        {% endfor %}
+
         <h3>
             Upcoming Appointments
         </h3>
-        {% for appt_group in appts2 %}
+        {% for appt_group in upcoming_appointments %}
             <div class="row">
                 {% for appt in appt_group %}
-                    {% if appt.date > now %}
+                    {% if appt %}
                         {% include 'appt_mgmt/appt-block.html' %}
                     {% endif %}
                 {% endfor %}
@@ -63,6 +52,32 @@
                 <a href="{% url 'appt-choose-type' %}">book one?</a>
             </p>
         {% endfor %}
+
+        <h3>
+            Past Appointments
+        </h3>
+        {% for appt_group in past_appointments %}
+            <div class="row">
+                {% for appt in appt_group %}
+                    {% if appt %}
+                        {% include 'appt_mgmt/appt-block.html' %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+
+{#        <h3>#}
+{#            Pending Appointments#}
+{#        </h3>#}
+{#        {% for appt_group in pending_appointments %}#}
+{#            <div class="row">#}
+{#                {% for appt in appt_group %}#}
+{#                    {% if appt %}#}
+{#                        {% include 'appt_mgmt/appt-block.html' %}#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{#            </div>#}
+{#        {% endfor %}#}
     </div>
 {% endblock %}
 

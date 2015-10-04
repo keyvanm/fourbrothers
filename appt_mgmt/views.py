@@ -172,11 +172,13 @@ class ApptListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApptListView, self).get_context_data(**kwargs)
-        # passed_appointments = self.object_list.filter(date < date.today())
-        # context['passed_appointments'] = passed_appointments
-        context['appts'] = grouper(self.object_list.all(), 3)
-        context['appts2'] = grouper(self.object_list.all(), 3)
-        context['now'] = date.today()
+        past_appointments = self.object_list.filter(date__lt=date.today(), paid=True)
+        upcoming_appointments = self.object_list.filter(date__gte=date.today(), paid=True)
+        # pending_appointments = self.object_list.filter(date__gte=date.today(), paid=False)
+
+        context['past_appointments'] = grouper(past_appointments, 3)
+        context['upcoming_appointments'] = grouper(upcoming_appointments, 3)
+        # context['pending_appointments'] = grouper(pending_appointments, 3)
         return context
 
 
