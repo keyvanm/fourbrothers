@@ -20,7 +20,9 @@
             {% csrf_token %}
             {% bootstrap_form form %}
             <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
-            <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Save and Add Another" name="_addanother">
+            {% if available_cars.count > 1 %}
+                <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Save and Add Another" name="_addanother">
+            {% endif %}
             <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Checkout"/>
         </form>
     </div>
