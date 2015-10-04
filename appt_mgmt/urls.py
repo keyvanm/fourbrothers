@@ -15,4 +15,5 @@ urlpatterns = [
     url(r'^appointments/$', ApptListView.as_view(), name='appt-list'),
     url(r'^appointments/(?P<pk>\d+)/$', ApptDetailView.as_view(), name='appt-detail'),
     url(r'^appointments/(?P<pk>\d+)/add-service/$', ApptServiceCreateView.as_view(), name='appt-service'),
+
 ]

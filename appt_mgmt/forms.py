@@ -68,3 +68,12 @@ class CarServiceForm(forms.ModelForm):
     #         self.save_m2m()
     #
     #     return instance
+
+
+class ApptTechForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['technician']
+
+    # services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple())
+

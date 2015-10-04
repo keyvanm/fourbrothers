@@ -1,9 +1,12 @@
 # Create your views here.
+from django.core.urlresolvers import reverse
 from django.http.response import Http404
 
 from django.shortcuts import get_object_or_404
 from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
 from django.views.generic.list import ListView
+from appt_mgmt.forms import ApptTechForm
 
 from appt_mgmt.models import Appointment
 from fourbrothers.utils import LoginRequiredMixin, grouper
@@ -43,11 +46,11 @@ class TechScheduleListView(LoginRequiredMixin, ListView):
     template_name = 'dashboard/tech-schedule-list.html'
 
     def get_queryset(self):
-        return self.request.user.assigned_appts
+        return Appointment.objects.filter(technician=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super(TechScheduleListView, self).get_context_data(**kwargs)
-        # context['appts'] = grouper(self.object_list.all(), 3)
+        context['appts'] = grouper(self.object_list.all(), 3)
         return context
 
 
@@ -58,3 +61,12 @@ class TechScheduleDetailView(LoginRequiredMixin, DetailView):
 
     def get_object(self, queryset=None):
         return get_object_or_404(Appointment, pk=self.kwargs[self.pk_url_kwarg], technician=self.request.user)
+
+
+class ApptTechUpdate(UpdateView):
+    model = Appointment
+    form_class = ApptTechForm
+    template_name = 'appt_mgmt/appt-tech-update.html'
+    
+    def get_success_url(self):
+        return reverse('manager-schedule-list')

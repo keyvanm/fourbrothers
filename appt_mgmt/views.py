@@ -12,10 +12,10 @@ from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 import stripe
 
-from appt_mgmt.forms import AppointmentForm, CarServiceForm
+from appt_mgmt.forms import AppointmentForm, CarServiceForm, ApptTechForm
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import Address
@@ -223,3 +223,4 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
         form.instance.appointment = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
         # messages.success(self.request, 'Appointment booked successfully')
         return super(ApptServiceCreateView, self).form_valid(form)
+
