@@ -8,7 +8,8 @@ from appt_mgmt.views import SharedPLApptCreateView, PrivatePLApptCreateView, App
     ApptServiceCreateView
 
 urlpatterns = [
-    url(r'^$', login_required(TemplateView.as_view(template_name='appt_mgmt/appt-choose-type.html')),
+    url(r'^$', login_required(TemplateView.as_view(template_name='appt_mgmt/appt-choose-type.html'),
+                              login_url="/accounts/signup/"),
         name='appt-choose-type'),
     url(r'^building/$', SharedPLApptCreateView.as_view(), name='appt-book-building'),
     url(r'^house/$', PrivatePLApptCreateView.as_view(), name='appt-book-house'),

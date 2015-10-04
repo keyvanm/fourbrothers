@@ -1,5 +1,6 @@
-from bootstrap3_datetime.widgets import DateTimePicker
 import datetime
+
+from bootstrap3_datetime.widgets import DateTimePicker
 from django import forms
 from django.forms.models import ModelForm
 
@@ -21,6 +22,14 @@ class AppointmentForm(ModelForm):
         if date < datetime.date.today():
             raise forms.ValidationError("You can't pick a date in the past!")
         return date
+
+    def clean(self):
+        cleaned_data = super(AppointmentForm, self).clean()
+        date = cleaned_data['date']
+        time_slot = cleaned_data['time_slot']
+
+        if Appointment.objects.filter(date=date, time_slot=time_slot).count() > 10:
+            raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
 
 
 # class ServiceForm(ModelForm):
@@ -83,5 +92,4 @@ class ApptTechForm(forms.ModelForm):
         model = Appointment
         fields = ['technician']
 
-    # services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple())
-
+        # services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple())
