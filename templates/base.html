@@ -86,9 +86,14 @@
                             <li><a href="{% url 'profile-detail' %}">Profile</a></li>
                             <li><a href="{% url 'account_change_password' %}">Change Password</a></li>
                             <li><a href="{% url 'account_email' %}">Manage Email Addresses</a></li>
-                            <li><a href="{% url 'address-list' %}">Manage Addresses</a></li>
-                            <li><a href="{% url 'car-list' %}">Cars</a></li>
-                            <li><a href="{% url 'appt-list' %}">Appointments</a></li>
+{#                        {% if user.is_authenticated  %}#}
+                            {% if user.profile.type == 'customer' %}
+                                <li><a href="{% url 'address-list' %}">Manage Addresses</a></li>
+                                <li><a href="{% url 'car-list' %}">Cars</a></li>
+                                <li><a href="{% url 'appt-list' %}">Appointments</a></li>
+                            {% endif %}
+{#                        {% endif %}#}
+
                             {% if user.is_staff or user.is_superuser %}
                                 <li><a target="_blank" href="{% url 'admin:index' %}">Admin</a></li>
                             {% endif %}

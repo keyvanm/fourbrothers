@@ -20,6 +20,7 @@ from django.contrib import admin
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic.base import TemplateView
 import appt_mgmt
+from fourbrothers.views import index_view
 
 urlpatterns = [
     url(r'^accounts/address/', include('user_manager.addr_urls')),
@@ -27,7 +28,7 @@ urlpatterns = [
     url(r'^accounts/profile/', include('user_manager.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^$', TemplateView.as_view(template_name='index.html'), name='homepage'),
+    url(r'^$', index_view, name='homepage'),
     url(r'^book/', include('appt_mgmt.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
 ]
