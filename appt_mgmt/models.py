@@ -2,7 +2,7 @@ from django.conf import settings
 from django.db import models
 from django_extensions.db.models import TimeStampedModel
 
-from user_manager.models.address import Address
+from user_manager.models.address import Address, ParkingLocation
 from user_manager.models.car import Car
 
 
@@ -19,7 +19,7 @@ class Appointment(TimeStampedModel):
         ('5pm', '5 - 8 PM'),
     )
     time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES, blank=True)
-    address = models.ForeignKey(Address)
+    address = models.ForeignKey(ParkingLocation)
     technician = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'},
                                         related_name='assigned_appts', blank=True)
     GRATUITY_CHOICES = (
@@ -36,6 +36,8 @@ class Appointment(TimeStampedModel):
     def __unicode__(self):
         return "{}'s appointment on {}, {}".format(self.user.get_full_name(), self.date, self.get_time_slot_display())
 
+    def get_full_name(self):
+        return "Appointment on {}, {}".format(self.date, self.get_time_slot_display())
 
 class Service(models.Model):
     name = models.CharField(max_length=100)

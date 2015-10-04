@@ -1,11 +1,15 @@
 <div class="col-md-4">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <h3 class="panel-title addr-name">{{ addr.first_name }} {{ addr.last_name }}</h3>
-            {% if addr.primary %}
-                <span class="label label-primary">Primary</span>
-            {% endif %}
-            <span class="label label-info invisible">{{ addr.get_privacy_display }}</span>
+            <h3 class="panel-title addr-name">
+                {% if pl.privateparkinglocation %}
+                    <i class="fa fa-home"></i>
+                    {% else %}
+                    <i class="fa fa-building"></i>
+                {% endif %}
+
+                {{ pl.get_full_name }}
+            </h3>
 
             <div class="dropdown pull-right">
                 <button class="btn btn-link dropdown-toggle addr-options" type="button"
@@ -13,30 +17,19 @@
                     <i class="fa fa-cog"></i>
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a href="{% url 'address-edit' pk=addr.pk %}">Edit</a></li>
-                    {% if not addr.primary %}
-                        <li><a href="{% url 'address-make-primary' pk=addr.pk %}">Make Primary</a></li>
+                    {% if pl.privateparkinglocation %}
+                        <li><a href="{% url 'address-edit' pk=pl.pk %}">Edit</a></li>
+                        <li class="divider"></li>
                     {% endif %}
-                    <li class="divider"></li>
-                    <li><a class="delete-addr" href="{% url 'address-delete' pk=addr.pk %}">Delete</a></li>
+                    <li><a class="delete-addr" href="{% url 'address-delete' pk=pl.pk %}">Delete</a></li>
                 </ul>
             </div>
         </div>
         <div class="panel-body">
             <ul class="list-unstyled">
-                <strong>
-                    {% if addr.company_name %}
-                        <li>{{ addr.company_name }}</li>
-                    {% endif %}
-                </strong>
-                <li>{{ addr.address1 }} {% if addr.address2 %}, {{ addr.address2 }}{% endif %}</li>
-                {{ addr.city }}, {{ addr.state }} {{ addr.postal_code.upper }}<br>
-                {% if addr.phone_number %}
-                    <li><i class="fa fa-phone"></i> {{ addr.phone_number }}</li>
-                {% endif %}
-                {% if addr.email %}
-                    <li><i class="fa fa-envelope-o"></i> {{ addr.email }}</li>
-                {% endif %}
+                <li>{{ pl.address.address1 }} {% if pl.address.address2 %}, {{ pl.address.address2 }}{% endif %}</li>
+                <li>{{ pl.address.city }}, {{ addr.state }} {{ pl.address.postal_code.upper }}</li>
+                <li>{{ pl.address.country }}</li>
             </ul>
         </div>
     </div>

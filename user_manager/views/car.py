@@ -25,11 +25,8 @@ class CarCreateView(LoginRequiredMixin, CreateView):
     redirect_field_name = 'next'
 
     def get_success_url(self):
-        next_url = self.request.POST.get(self.redirect_field_name)
-        if next_url:
-            return next_url
-        r = reverse('car-list')
-        return r
+        return self.request.POST.get(self.redirect_field_name) or reverse('car-list')
+
 
     def form_valid(self, form):
         form.instance.owner = self.request.user
