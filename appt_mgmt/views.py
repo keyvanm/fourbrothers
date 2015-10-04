@@ -135,7 +135,7 @@ class SharedPLApptCreateView(ApptCreateView):
             pl = get_object_or_404(SharedParkingLocation, pk=self.request.GET.get('building'))
             form.fields['building'].initial = pl.id
             building = pl.building
-            available_dates = [x['date'] for x in building.available_slots.values('date')]
+            available_dates = list(set([x['date'] for x in building.available_slots.values('date')]))
             available_dates.sort()
             if available_dates:
                 form.fields['date'] = DateChoiceField(
