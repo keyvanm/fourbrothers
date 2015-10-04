@@ -1,3 +1,4 @@
+from datetime import date, datetime
 from decimal import Decimal
 
 from django import forms
@@ -171,7 +172,11 @@ class ApptListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApptListView, self).get_context_data(**kwargs)
+        # passed_appointments = self.object_list.filter(date < date.today())
+        # context['passed_appointments'] = passed_appointments
         context['appts'] = grouper(self.object_list.all(), 3)
+        context['appts2'] = grouper(self.object_list.all(), 3)
+        context['now'] = date.today()
         return context
 
 
@@ -264,7 +269,7 @@ class ApptPayView(LoginRequiredMixin, View):
             appt.save(update_fields=('paid',))
 
             messages.success(request, 'Appointment booked successfully!')
-            return redirect('appt-detail', pk=pk)
+            return redirect('appt-list')
         except stripe.CardError, e:
             # The card has been declined
             messages.warning(request, 'Transaction unsuccessful. Please try again.')
