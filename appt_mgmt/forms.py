@@ -1,4 +1,5 @@
 from bootstrap3_datetime.widgets import DateTimePicker
+import datetime
 from django import forms
 from django.forms.models import ModelForm
 
@@ -8,11 +9,18 @@ from appt_mgmt.models import Appointment, ServicedCar, Service
 class AppointmentForm(ModelForm):
     date = forms.DateField(
         widget=DateTimePicker(options={"format": "YYYY-MM-DD",
-                                       "pickTime": False}))
+                                       "pickTime": False,
+                                       "startDate": str(datetime.date.today())}))
 
     class Meta:
         model = Appointment
         exclude = ['user', 'deleted', 'cars', 'technician', 'paid']
+
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        if date < datetime.date.today():
+            raise forms.ValidationError("You can't pick a date in the past!")
+        return date
 
 
 # class ServiceForm(ModelForm):

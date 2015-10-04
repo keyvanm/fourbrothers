@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+
 from django_extensions.db.models import TimeStampedModel
 
 from user_manager.models.address import Address, ParkingLocation
@@ -11,7 +12,11 @@ class Appointment(TimeStampedModel):
     cars = models.ManyToManyField(Car, through='ServicedCar')
     deleted = models.BooleanField(default=False)
 
-    date = models.DateField()
+    date = models.DateField(
+        # validators=[
+        #     MinValueValidator(datetime.date.today())
+        # ]
+    )
     TIME_SLOT_CHOICES = (
         ('8am', '8 - 11 AM'),
         ('11am', '11 AM - 2 PM'),
@@ -38,6 +43,7 @@ class Appointment(TimeStampedModel):
 
     def get_full_name(self):
         return "Appointment on {}, {}".format(self.date, self.get_time_slot_display())
+
 
 class Service(models.Model):
     name = models.CharField(max_length=100)
