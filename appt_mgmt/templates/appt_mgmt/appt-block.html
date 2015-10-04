@@ -14,8 +14,8 @@
                     {% elif user.profile.type == 'customer' %}
                         <li><a href="{% url 'appt-edit' pk=appt.pk %}">Edit</a></li>
                     {% endif %} 
-                    <li class="divider"></li>
-{#                     <li><a class="delete-addr" href="{% url 'appt-delete' pk=appt.pk %}">Delete</a></li> #}
+{#                    <li class="divider"></li>#}
+{#                    <li><a class="delete-addr" href="{% url 'appt-delete' pk=appt.pk %}">Delete</a></li>#}
                 </ul>
             </div>
         </div>
@@ -23,18 +23,19 @@
             <ul class="list-unstyled">
                 <li>Date: {{ appt.date }}</li>
                 <li>Time: {{ appt.time_slot }}</li>
-                <li>
-                    Technician:
-                    {% if appt.technician %}
-                        <ul>
-                         {% for tech in appt.technician.all %}
-                             <li>{{ tech }}</li>
-                         {% endfor %}
-                        </ul>
-                    {% else %}
-                         None
-                    {% endif %}
-                </li>
+                <li>Address: {{ appt.address }}</li>
+{#                <li>#}
+{#                    Technician:#}
+{#                    {% if appt.technician %}#}
+{#                        <ul>#}
+{#                         {% for tech in appt.technician.all %}#}
+{#                             <li>{{ tech }}</li>#}
+{#                         {% endfor %}#}
+{#                        </ul>#}
+{#                    {% else %}#}
+{#                         None#}
+{#                    {% endif %}#}
+{#                </li>#}
             </ul>
         </div>
     </div>

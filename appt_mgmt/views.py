@@ -12,7 +12,7 @@ from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 import stripe
 
 from appt_mgmt.forms import AppointmentForm, CarServiceForm, ApptTechForm
@@ -223,4 +223,14 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
         form.instance.appointment = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
         # messages.success(self.request, 'Appointment booked successfully')
         return super(ApptServiceCreateView, self).form_valid(form)
+
+
+class ApptEdit(UpdateView):
+
+    model = Appointment
+    form_class = AppointmentForm
+    template_name = 'appt_mgmt/appt-edit.html'
+
+    def get_success_url(self):
+        return reverse('appt-list')
 
