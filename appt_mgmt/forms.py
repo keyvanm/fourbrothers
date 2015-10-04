@@ -3,10 +3,47 @@ import datetime
 from bootstrap3_datetime.widgets import DateTimePicker
 from django import forms
 from django.forms.models import ModelForm
+from django.utils import formats, six
+from django.utils.encoding import force_str, force_text
+from django.utils.translation import ugettext_lazy as _
 
 from appt_mgmt.models import Appointment, ServicedCar, Service
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
-from user_manager.models.address import Building
+from user_manager.models.address import SharedParkingLocation
+
+
+class DateChoiceField(forms.ChoiceField):
+    input_formats = formats.get_format_lazy('DATE_INPUT_FORMATS')
+    default_error_messages = {
+        'invalid': _('Enter a valid date.'),
+    }
+
+    def to_python(self, value):
+        """
+        Validates that the input can be converted to a date. Returns a Python
+        datetime.date object.
+        """
+        if value in self.empty_values:
+            return None
+        if isinstance(value, datetime.datetime):
+            return value.date()
+        if isinstance(value, datetime.date):
+            return value
+
+        unicode_value = force_text(value, strings_only=True)
+        if isinstance(unicode_value, six.text_type):
+            value = unicode_value.strip()
+        # If unicode, try to strptime against each input format.
+        if isinstance(value, six.text_type):
+            for format in self.input_formats:
+                try:
+                    return self.strptime(value, format)
+                except (ValueError, TypeError):
+                    continue
+        raise forms.ValidationError(self.error_messages['invalid'], code='invalid')
+
+    def strptime(self, value, format):
+        return datetime.datetime.strptime(force_str(value), format).date()
 
 
 class AppointmentForm(ModelForm):
@@ -35,7 +72,7 @@ class AppointmentForm(ModelForm):
 
 
 class BuildingAppointmentForm(AppointmentForm):
-    building = forms.ModelChoiceField(Building.objects.all())
+    building = forms.ModelChoiceField(SharedParkingLocation.objects.all())
 
     class Meta:
         model = Appointment

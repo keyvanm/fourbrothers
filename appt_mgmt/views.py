@@ -17,7 +17,7 @@ from django.contrib.humanize.templatetags.humanize import naturalday
 import stripe
 import dateutil.parser
 
-from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm
+from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
@@ -37,20 +37,18 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
     model = Appointment
     form_class = AppointmentForm
     TIME_SLOT_CHOICES = Appointment.TIME_SLOT_CHOICES
-    _time_slot_choices = []
 
-    @property
     def time_slot_choices(self):
-        self._time_slot_choices = []
         if not self.request.GET.get('date'):
-            return self._time_slot_choices
+            return []
 
         date = dateutil.parser.parse(self.request.GET.get('date'))
+        _time_slot_choices = []
         for time_slot, time_slot_display in self.TIME_SLOT_CHOICES:
             if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() < MAX_NUM_APPT_TIME_SLOT:
-                self._time_slot_choices.append((time_slot, time_slot_display))
+                _time_slot_choices.append((time_slot, time_slot_display))
 
-        return self._time_slot_choices
+        return _time_slot_choices
 
     def get_success_url(self):
         return reverse('appt-service', kwargs={'pk': self.object.pk})
@@ -61,9 +59,9 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
             date = dateutil.parser.parse(self.request.GET.get('date'))
             form.fields['date'].initial = date
 
-            form.fields['time_slot'].choices = self.time_slot_choices
+            form.fields['time_slot'].choices = self.time_slot_choices()
 
-            if not self.time_slot_choices:
+            if not form.fields['time_slot'].choices:
                 form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
         else:
             form.fields['time_slot'].widget = forms.HiddenInput()
@@ -78,7 +76,7 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(ApptCreateView, self).get_context_data(**kwargs)
         context['date'] = self.request.GET.get('date')
-        context['time_slot_choices'] = self.time_slot_choices
+        context['time_slot_choices'] = self.time_slot_choices()
         return context
 
 
@@ -115,24 +113,45 @@ class SharedPLApptCreateView(ApptCreateView):
             full_redirect_url = '{}{}'.format(redirect_url, extra_params)
             return HttpResponseRedirect(full_redirect_url)
 
+    def time_slot_choices(self):
+        _time_slot_choices = super(SharedPLApptCreateView, self).time_slot_choices()
+        if self.request.GET.get('building') and self.request.GET.get('date'):
+            pl = get_object_or_404(SharedParkingLocation, pk=self.request.GET.get('building'))
+            building = pl.building
+            prescheduled_time_slots = [x['time_slot'] for x in building.available_slots.filter(date=self.request.GET.get('date')).values('time_slot')]
+
+            new_time_slot_choices = []
+            for i, time_slot in enumerate(_time_slot_choices):
+                if time_slot[0] in prescheduled_time_slots:
+                    new_time_slot_choices.append(time_slot)
+            return new_time_slot_choices
+        return _time_slot_choices
+
     def get_form(self, form_class):
         form = super(SharedPLApptCreateView, self).get_form(form_class)
-        form.fields['building'].queryset = Building.objects.filter(
-            name__in=SharedParkingLocation.objects.filter(owner=self.request.user).distinct().values('name'))
+        form.fields['building'].queryset = SharedParkingLocation.objects.filter(owner=self.request.user)
         if self.request.GET.get('building'):
-            building = get_object_or_404(Building, pk=self.request.GET.get('building'))
-            form.fields['building'].initial = building.id
+            pl = get_object_or_404(SharedParkingLocation, pk=self.request.GET.get('building'))
+            form.fields['building'].initial = pl.id
+            building = pl.building
             available_dates = [x['date'] for x in building.available_slots.values('date')]
             available_dates.sort()
             if available_dates:
-                form.fields['date'] = forms.ChoiceField(
+                form.fields['date'] = DateChoiceField(
                     choices=[("", "-------------")] + zip(available_dates, map(naturalday, available_dates)))
+                if self.request.GET.get('date'):
+                    form.fields['date'].initial = self.request.GET.get('date')
             else:
                 form.fields['date'] = forms.CharField(initial="There are no available dates for {}".format(building),
                                                       widget=forms.TextInput(attrs={'readonly': 'readonly'}))
         else:
             form.fields['date'].widget = forms.HiddenInput()
         return form
+
+    def form_valid(self, form):
+        pl = get_object_or_404(SharedParkingLocation, pk=self.request.GET.get('building'))
+        form.instance.address = pl
+        return super(SharedPLApptCreateView, self).form_valid(form)
 
 
 class ApptDetailView(LoginRequiredMixin, DetailView):
