@@ -1,15 +1,23 @@
 from django.forms.models import ModelForm
 from django import forms
 
-from user_manager.models.address import Address
+from user_manager.models.address import Address, SharedParkingLocation, PrivateParkingLocation
 from user_manager.models.car import Car
 from user_manager.models.user_profile import UserProfile
 
 
-class AddressForm(ModelForm):
+class PrivateAddressForm(ModelForm):
+    name = forms.CharField(label='Short name')
+
     class Meta:
         model = Address
-        exclude = ['user', 'primary', ]
+        fields = ('name', 'address1', 'address2', 'city', 'state', 'postal_code', 'country')
+
+
+class SharedParkingLocationForm(ModelForm):
+    class Meta:
+        model = SharedParkingLocation
+        fields = ('building',)
 
 
 class UserProfileForm(ModelForm):
@@ -33,7 +41,7 @@ class MySignupForm(forms.Form):
     last_name = forms.CharField(max_length=40, required=True,
                                 widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
     phone_number = forms.CharField(max_length=40, required=True,
-                                widget=forms.TextInput(attrs={'placeholder': 'Phone number'}))
+                                   widget=forms.TextInput(attrs={'placeholder': 'Phone number'}))
 
     def signup(self, request, user):
         form = MySignupForm(request.POST)
@@ -44,4 +52,3 @@ class MySignupForm(forms.Form):
             user.profile.phone_number = form.cleaned_data['phone_number']
             user.profile.save()
             user.save()
-

@@ -18,7 +18,7 @@ import stripe
 from appt_mgmt.forms import AppointmentForm, CarServiceForm, ApptTechForm
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.utils import LoginRequiredMixin, grouper
-from user_manager.models.address import Address
+from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation
 from user_manager.models.car import Car
 from user_manager.models.user_profile import CreditCard
 
@@ -43,21 +43,39 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
         return super(ApptCreateView, self).form_valid(form)
 
 
-class HouseApptCreateView(ApptCreateView):
+class PrivatePLApptCreateView(ApptCreateView):
     template_name = 'appt_mgmt/house-appt-create.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if PrivateParkingLocation.objects.filter(owner=self.request.user).exists():
+            return super(PrivatePLApptCreateView, self).dispatch(request, *args, **kwargs)
+        else:
+            redirect_url = reverse('address-add-private')
+            extra_params = '?next={}'.format(request.path)
+            full_redirect_url = '{}{}'.format(redirect_url, extra_params)
+            return HttpResponseRedirect(full_redirect_url)
+
     def get_form(self, form_class):
-        form = super(HouseApptCreateView, self).get_form(form_class)
-        form.fields['address'].queryset = Address.objects.filter(user=self.request.user, building_type='house')
+        form = super(PrivatePLApptCreateView, self).get_form(form_class)
+        form.fields['address'].queryset = PrivateParkingLocation.objects.filter(owner=self.request.user)
         return form
 
 
-class BuildingApptCreateView(ApptCreateView):
+class SharedPLApptCreateView(ApptCreateView):
     template_name = 'appt_mgmt/building-appt-create.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if SharedParkingLocation.objects.filter(owner=self.request.user).exists():
+            return super(SharedPLApptCreateView, self).dispatch(request, *args, **kwargs)
+        else:
+            redirect_url = reverse('address-add-shared')
+            extra_params = '?next={}'.format(request.path)
+            full_redirect_url = '{}{}'.format(redirect_url, extra_params)
+            return HttpResponseRedirect(full_redirect_url)
+
     def get_form(self, form_class):
-        form = super(BuildingApptCreateView, self).get_form(form_class)
-        form.fields['address'].queryset = Address.objects.filter(user=self.request.user, building_type='building')
+        form = super(SharedPLApptCreateView, self).get_form(form_class)
+        form.fields['address'].queryset = SharedParkingLocation.objects.filter(owner=self.request.user)
         return form
 
 
@@ -165,7 +183,7 @@ class ApptPayView(LoginRequiredMixin, View):
                         customer=customer.id,
                         description="Paid ${}".format(total_payable)
                     )
-            messages.success(request, 'Transaction successful')
+            messages.success(request, 'Appointment booked successfully!')
             return redirect('appt-detail', pk=pk)
         except stripe.CardError, e:
             # The card has been declined

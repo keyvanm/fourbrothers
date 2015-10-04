@@ -22,15 +22,12 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
-                ('building_type', models.CharField(max_length=20, choices=[(b'house', b'house'), (b'building', b'building')])),
-                ('primary', models.BooleanField(default=False)),
                 ('address1', models.CharField(max_length=255, verbose_name=b'Street Address')),
                 ('address2', models.CharField(max_length=255, verbose_name=b'Apt/Suite/Bldg', blank=True)),
                 ('city', models.CharField(max_length=200)),
                 ('state', models.CharField(max_length=200, verbose_name=b'State/Province')),
                 ('postal_code', models.CharField(max_length=20, verbose_name=b'ZIP/Postal Code')),
-                ('country', models.CharField(max_length=200)),
-                ('user', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
+                ('country', models.CharField(default=b'Canada', max_length=200)),
             ],
             options={
                 'verbose_name_plural': 'addresses',
@@ -43,7 +40,7 @@ class Migration(migrations.Migration):
                 ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
                 ('name', models.CharField(max_length=200)),
-                ('next_scheduled_time', models.DateField()),
+                ('next_scheduled_date', models.DateField()),
                 ('time_slot', models.CharField(blank=True, max_length=10, choices=[(b'8am', b'8 - 11 AM'), (b'11am', b'11 AM - 2 PM'), (b'2pm', b'2 - 5 PM'), (b'5pm', b'5 - 8 PM')])),
                 ('address', models.OneToOneField(to='user_manager.Address')),
             ],
@@ -86,6 +83,20 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
+            name='ParkingLocation',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
+                ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
+                ('name', models.CharField(max_length=200, verbose_name=b'Short name')),
+            ],
+            options={
+                'ordering': ('-modified', '-created'),
+                'abstract': False,
+                'get_latest_by': 'modified',
+            },
+        ),
+        migrations.CreateModel(
             name='PromoCode',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -114,5 +125,40 @@ class Migration(migrations.Migration):
                 ('promos_used', models.ManyToManyField(to='user_manager.PromoCode', blank=True)),
                 ('user', models.OneToOneField(related_name='profile', to=settings.AUTH_USER_MODEL)),
             ],
+        ),
+        migrations.CreateModel(
+            name='PrivateParkingLocation',
+            fields=[
+                ('parkinglocation_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='user_manager.ParkingLocation')),
+            ],
+            options={
+                'ordering': ('-modified', '-created'),
+                'abstract': False,
+                'get_latest_by': 'modified',
+            },
+            bases=('user_manager.parkinglocation',),
+        ),
+        migrations.CreateModel(
+            name='SharedParkingLocation',
+            fields=[
+                ('parkinglocation_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='user_manager.ParkingLocation')),
+                ('building', models.ForeignKey(to='user_manager.Building')),
+            ],
+            options={
+                'ordering': ('-modified', '-created'),
+                'abstract': False,
+                'get_latest_by': 'modified',
+            },
+            bases=('user_manager.parkinglocation',),
+        ),
+        migrations.AddField(
+            model_name='parkinglocation',
+            name='address',
+            field=models.OneToOneField(related_name='parkinglocation_set', to='user_manager.Address'),
+        ),
+        migrations.AddField(
+            model_name='parkinglocation',
+            name='owner',
+            field=models.ForeignKey(related_name='parkinglocation_set', to=settings.AUTH_USER_MODEL),
         ),
     ]

@@ -30,23 +30,30 @@
         <h2>
             My Addresses
             <small>
-                <a href="{% url 'address-add' %}">
-                    <span class="glyphicon glyphicon-plus"></span> Add an address
-                </a>
+                <p>Add an address</p>
+                <p>
+                    <a href="{% url 'address-add-private' %}">
+                        <span class="glyphicon glyphicon-plus">Private</span>
+                    </a>
+                </p>
+                <p>
+                    <a href="{% url 'address-add-shared' %}">
+                        <span class="glyphicon glyphicon-plus">Shared</span>
+                    </a>
+                </p>
             </small>
         </h2>
         {% for addr_group in addresses %}
             <div class="row">
-                {% for addr in addr_group %}
-                    {% if addr %}
+                {% for pl in addr_group %}
+                    {% if pl %}
                         {% include 'user_manager/address_manager/addr-block.html' %}
                     {% endif %}
                 {% endfor %}
 
             </div>
         {% empty %}
-            <p>You don't have any addresses. Why don't you go ahead and
-                <a href="{% url 'address-add' %}">add one?</a>
+            <p>You don't have any addresses. Why don't you go ahead and add one?
             </p>
         {% endfor %}
     </div>
