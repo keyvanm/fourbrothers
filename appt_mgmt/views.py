@@ -195,13 +195,13 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
         return self._cars
 
     def get_success_url(self):
-        if '_addanother' not in self.request.POST:
-            return reverse('appt-pay', kwargs={'pk': self.object.pk})
+        if '_addanother' in self.request.POST:
+            return reverse('appt-service', kwargs={'pk': self.appt.pk})
         else:
-            return reverse('appt-service', kwargs={'pk': self.object.pk})
+            return reverse('appt-pay', kwargs={'pk': self.appt.pk})
 
     def dispatch(self, request, *args, **kwargs):
-        if self.available_cars:
+        if Car.objects.filter(owner=self.request.user).exists():
             return super(ApptServiceCreateView, self).dispatch(request, *args, **kwargs)
         else:
             redirect_url = reverse('car-add')

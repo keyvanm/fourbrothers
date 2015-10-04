@@ -12,7 +12,7 @@
                     {% if user.profile.type == 'manager' %}
                         <li><a href="{% url 'appt-tech-edit' pk=appt.pk %}">Assign Technician</a></li>
                     {% elif user.profile.type == 'customer' %}
-                        <li><a href="{% url 'appt-edit' pk=car.pk %}">Edit</a></li>
+                        <li><a href="{% url 'appt-edit' pk=appt.pk %}">Edit</a></li>
                     {% endif %} 
                     <li class="divider"></li>
 {#                     <li><a class="delete-addr" href="{% url 'appt-delete' pk=appt.pk %}">Delete</a></li> #}

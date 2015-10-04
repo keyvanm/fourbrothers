@@ -8,14 +8,5 @@
         <dd>{{ appt.get_time_slot_display }}</dd>
         <dt>Address</dt>
         <dd>{{ appt.address }}</dd>
-        <dt>Technician Assigned</dt>
-        <dd>
-            {% if appt.user %}
-{#                {{ appt.technician }}#}
-                HEY
-            {% else %}
-                None
-            {% endif %}
-        </dd>
     </dl>
 {% endblock %}
