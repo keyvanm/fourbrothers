@@ -35,14 +35,28 @@
                 </a>
             </small>
         </h2>
+        <h3>
+            Past Appointments
+        </h3>
         {% for appt_group in appts %}
             <div class="row">
                 {% for appt in appt_group %}
-                    {% if appt %}
+                    {% if appt.date < now %}
                         {% include 'appt_mgmt/appt-block.html' %}
                     {% endif %}
                 {% endfor %}
-
+            </div>
+        {% endfor %}
+        <h3>
+            Upcoming Appointments
+        </h3>
+        {% for appt_group in appts2 %}
+            <div class="row">
+                {% for appt in appt_group %}
+                    {% if appt.date > now %}
+                        {% include 'appt_mgmt/appt-block.html' %}
+                    {% endif %}
+                {% endfor %}
             </div>
         {% empty %}
             <p>You don't have any appointments. Why don't you go ahead and
