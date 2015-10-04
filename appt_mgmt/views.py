@@ -13,7 +13,7 @@ from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView
-from model_utils.choices import Choices
+from django.contrib.humanize.templatetags.humanize import naturalday
 import stripe
 import dateutil.parser
 
@@ -120,11 +120,13 @@ class SharedPLApptCreateView(ApptCreateView):
         form.fields['building'].queryset = Building.objects.filter(
             name__in=SharedParkingLocation.objects.filter(owner=self.request.user).distinct().values('name'))
         if self.request.GET.get('building'):
-            building = get_object_or_404(Building, name=self.request.GET.get('building'))
+            building = get_object_or_404(Building, pk=self.request.GET.get('building'))
             form.fields['building'].initial = building.id
-            available_dates = building.available_slots.values('date')
+            available_dates = [x['date'] for x in building.available_slots.values('date')]
+            available_dates.sort()
             if available_dates:
-                form.fields['date'] = forms.ChoiceField(choices=Choices(*available_dates))
+                form.fields['date'] = forms.ChoiceField(
+                    choices=[("", "-------------")] + zip(available_dates, map(naturalday, available_dates)))
             else:
                 form.fields['date'] = forms.CharField(initial="There are no available dates for {}".format(building),
                                                       widget=forms.TextInput(attrs={'readonly': 'readonly'}))

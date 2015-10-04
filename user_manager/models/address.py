@@ -40,6 +40,9 @@ class BuildingPreScheduledTimeSlot(TimeStampedModel):
     )
     time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES, blank=True)
 
+    def __unicode__(self):
+        return "{}, {} @ {}".format(self.date, self.time_slot, self.building.name)
+
 
 class ParkingLocation(TimeStampedModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='%(class)s_set')

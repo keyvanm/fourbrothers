@@ -9,14 +9,32 @@
         <h1>Book Appointment</h1>
     </div>
     <div>
-        {% bootstrap_form_errors form %}
+        {% if not time_slot_choices and date %}
+            <div class="alert alert-warning" role="alert">
+                No more time slots left on this date
+            </div>
+        {% endif %}
     </div>
     <div class="well col-lg-6 column">
-        <form enctype="multipart/form-data" method="post">
+        <form method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
             <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
-            <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Request"/>
+            <input
+                    class="btn btn-primary btn-lg org-btn hvr-shrink"
+                    {% if not time_slot_choices %}disabled{% endif %}
+                    type="submit"
+                    value="Request"/>
         </form>
     </div>
 {% endblock content %}
+
+{% block bootstrap3_extra_script %}
+    <script type="text/javascript">
+            $(function() {
+                $("#id_date_picker").on('change.dp',function(){
+                    window.location.assign(window.location.pathname+"?date=" + $("#id_date").val())
+                });
+            });
+    </script>
+{% endblock %}
