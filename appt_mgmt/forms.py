@@ -6,6 +6,7 @@ from django.forms.models import ModelForm
 
 from appt_mgmt.models import Appointment, ServicedCar, Service
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
+from user_manager.models.address import Building
 
 
 class AppointmentForm(ModelForm):
@@ -16,7 +17,7 @@ class AppointmentForm(ModelForm):
 
     class Meta:
         model = Appointment
-        exclude = ['user', 'deleted', 'cars', 'technician', 'paid']
+        fields = ['address', 'date', 'time_slot', 'gratuity']
 
     def clean_date(self):
         date = self.cleaned_data['date']
@@ -31,6 +32,14 @@ class AppointmentForm(ModelForm):
             time_slot = cleaned_data['time_slot']
             if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() >= MAX_NUM_APPT_TIME_SLOT:
                 raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
+
+
+class BuildingAppointmentForm(AppointmentForm):
+    building = forms.ModelChoiceField(Building.objects.all())
+
+    class Meta:
+        model = Appointment
+        fields = ['building', 'date', 'time_slot', 'gratuity']
 
 
 # class ServiceForm(ModelForm):

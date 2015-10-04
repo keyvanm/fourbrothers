@@ -22,9 +22,16 @@ class Address(TimeStampedModel):
 
 
 class Building(TimeStampedModel):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     address = models.OneToOneField(Address)
-    next_scheduled_date = models.DateField()
+
+    def __unicode__(self):
+        return "{} @ {}".format(self.name, self.address.address1)
+
+
+class BuildingPreScheduledTimeSlot(TimeStampedModel):
+    building = models.ForeignKey(Building, related_name="available_slots")
+    date = models.DateField()
     TIME_SLOT_CHOICES = (
         ('8am', '8 - 11 AM'),
         ('11am', '11 AM - 2 PM'),
@@ -32,9 +39,6 @@ class Building(TimeStampedModel):
         ('5pm', '5 - 8 PM'),
     )
     time_slot = models.CharField(max_length=10, choices=TIME_SLOT_CHOICES, blank=True)
-
-    def __unicode__(self):
-        return "{} @ {}".format(self.name, self.address.address1)
 
 
 class ParkingLocation(TimeStampedModel):

@@ -10,7 +10,7 @@ from user_manager.models.car import Car
 class Appointment(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='appointments')
     cars = models.ManyToManyField(Car, through='ServicedCar')
-    deleted = models.BooleanField(default=False)
+    canceled = models.BooleanField(default=False)
 
     date = models.DateField(
         # validators=[

@@ -12,16 +12,16 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView
+from model_utils.choices import Choices
 import stripe
 import dateutil.parser
 
-from appt_mgmt.forms import AppointmentForm, CarServiceForm
+from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
-from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation
+from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation, Building
 from user_manager.models.car import Car
 from user_manager.models.user_profile import CreditCard
 
@@ -67,7 +67,6 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
                 form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
         else:
             form.fields['time_slot'].widget = forms.HiddenInput()
-            form.fields['address'].widget = forms.HiddenInput()
             form.fields['gratuity'].widget = forms.HiddenInput()
         return form
 
@@ -98,11 +97,14 @@ class PrivatePLApptCreateView(ApptCreateView):
     def get_form(self, form_class):
         form = super(PrivatePLApptCreateView, self).get_form(form_class)
         form.fields['address'].queryset = PrivateParkingLocation.objects.filter(owner=self.request.user)
+        if not self.request.GET.get('date'):
+            form.fields['address'].widget = forms.HiddenInput()
         return form
 
 
 class SharedPLApptCreateView(ApptCreateView):
     template_name = 'appt_mgmt/building-appt-create.html'
+    form_class = BuildingAppointmentForm
 
     def dispatch(self, request, *args, **kwargs):
         if SharedParkingLocation.objects.filter(owner=self.request.user).exists():
@@ -115,7 +117,19 @@ class SharedPLApptCreateView(ApptCreateView):
 
     def get_form(self, form_class):
         form = super(SharedPLApptCreateView, self).get_form(form_class)
-        form.fields['address'].queryset = SharedParkingLocation.objects.filter(owner=self.request.user)
+        form.fields['building'].queryset = Building.objects.filter(
+            name__in=SharedParkingLocation.objects.filter(owner=self.request.user).distinct().values('name'))
+        if self.request.GET.get('building'):
+            building = get_object_or_404(Building, name=self.request.GET.get('building'))
+            form.fields['building'].initial = building.id
+            available_dates = building.available_slots.values('date')
+            if available_dates:
+                form.fields['date'] = forms.ChoiceField(choices=Choices(*available_dates))
+            else:
+                form.fields['date'] = forms.CharField(initial="There are no available dates for {}".format(building),
+                                                      widget=forms.TextInput(attrs={'readonly': 'readonly'}))
+        else:
+            form.fields['date'].widget = forms.HiddenInput()
         return form
 
 
@@ -284,5 +298,3 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
         form.instance.appointment = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
         # messages.success(self.request, 'Appointment booked successfully')
         return super(ApptServiceCreateView, self).form_valid(form)
-
-
