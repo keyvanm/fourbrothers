@@ -13,6 +13,7 @@
     <!-- FAVICON -->
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/animate.css' %}">
 {% endblock %}
 
 {% block bootstrap3_content %}
@@ -117,12 +118,12 @@
         {% bootstrap_messages %}
     </div>
 
-{#    {% block no_container_content %}#}
-{#    {% endblock no_container_content %}#}
+    {% block no_container_content %}
+    {% endblock no_container_content %}
 
 {#    <div class="container">#}
-    {% block content %}
-    {% endblock content %}
+        {% block content %}
+        {% endblock content %}
 {#    </div>#}
 
     <footer class="footer">
