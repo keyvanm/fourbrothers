@@ -37,6 +37,7 @@ class Appointment(TimeStampedModel):
     gratuity = models.PositiveSmallIntegerField(choices=GRATUITY_CHOICES, default=10)
 
     paid = models.BooleanField(default=False)
+    additional_info = models.TextField(blank=True)
 
     def __unicode__(self):
         return "{}'s appointment on {}, {}".format(self.user.get_full_name(), self.date, self.get_time_slot_display())

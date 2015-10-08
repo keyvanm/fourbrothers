@@ -13,12 +13,13 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView
 from django.contrib.humanize.templatetags.humanize import naturalday
 import stripe
 import dateutil.parser
 
-from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField
+from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField, \
+    AppointmentEditForm
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
@@ -66,7 +67,7 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
                 form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
         else:
             form.fields['time_slot'].widget = forms.HiddenInput()
-            form.fields['gratuity'].widget = forms.HiddenInput()
+            # form.fields['gratuity'].widget = forms.HiddenInput()
         return form
 
     def form_valid(self, form):
@@ -153,6 +154,31 @@ class SharedPLApptCreateView(ApptCreateView):
         pl = get_object_or_404(SharedParkingLocation, pk=self.request.GET.get('building'))
         form.instance.address = pl
         return super(SharedPLApptCreateView, self).form_valid(form)
+
+
+class ApptEdit(UpdateView):
+
+    model = Appointment
+    form_class = AppointmentEditForm
+    template_name = 'appt_mgmt/appt-edit.html'
+    # context_object_name = 'appt'
+
+    # def dispatch(self, *args, **kwargs):
+    #     if not (
+    #         self.object.date
+    #     ):
+    #         raise Http404
+
+    def get_success_url(self):
+        return reverse('appt-list')
+
+
+class ApptDelete(LoginRequiredMixin, DetailView):
+    template_name = 'appt_mgmt/appt-delete.html'
+    context_object_name = 'appt'
+
+    def get_object(self, queryset=None):
+        return get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
 
 
 class ApptDetailView(LoginRequiredMixin, DetailView):

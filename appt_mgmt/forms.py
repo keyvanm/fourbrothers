@@ -54,7 +54,7 @@ class AppointmentForm(ModelForm):
 
     class Meta:
         model = Appointment
-        fields = ['date', 'address', 'time_slot', 'gratuity']
+        fields = ['date', 'address', 'time_slot', 'additional_info']
 
     def clean_date(self):
         date = self.cleaned_data['date']
@@ -71,12 +71,37 @@ class AppointmentForm(ModelForm):
                 raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
 
 
+class AppointmentEditForm(ModelForm):
+    date = forms.DateField(
+        widget=DateTimePicker(options={"format": "YYYY-MM-DD",
+                                       "pickTime": False,
+                                       "startDate": str(datetime.date.today())}))
+
+    class Meta:
+        model = Appointment
+        fields = ['date', 'time_slot']
+
+    def clean_date(self):
+        date = self.cleaned_data['date']
+        if date < datetime.date.today():
+            raise forms.ValidationError("You can't pick a date in the past!")
+        return date
+
+    def clean(self):
+        cleaned_data = super(AppointmentEditForm, self).clean()
+        date = cleaned_data.get('date')
+        if date:
+            time_slot = cleaned_data['time_slot']
+            if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() >= MAX_NUM_APPT_TIME_SLOT:
+                raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
+
+
 class BuildingAppointmentForm(AppointmentForm):
     building = forms.ModelChoiceField(SharedParkingLocation.objects.all())
 
     class Meta:
         model = Appointment
-        fields = ['building', 'date', 'time_slot', 'gratuity']
+        fields = ['building', 'date', 'time_slot']
 
 
 # class ServiceForm(ModelForm):
@@ -94,6 +119,7 @@ class CarServiceForm(forms.ModelForm):
         exclude = ['appointment']
 
     services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple())
+    appointment = forms.fields_for_model(Appointment, fields=['gratuity'])
 
     # Overriding __init__ here allows us to provide initial
     # data for 'toppings' field

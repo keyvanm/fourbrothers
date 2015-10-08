@@ -2,11 +2,14 @@
 {% load staticfiles %}
 {% load bootstrap3 %}
 
-{% block title %}Update Technicians{% endblock title %}
+{% block title %}Update Appointment{% endblock title %}
 
 {% block content %}
+{#    {% if less_than_24h == True %}#}
+{#        {{ appt.date }}#}
+{#    {% endif %}#}
     <div class="page-header">
-        <h1>Update Technicians</h1>
+        <h1>Update Appointment</h1>
     </div>
     <div>
         {% bootstrap_form_errors form %}
