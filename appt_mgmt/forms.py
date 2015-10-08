@@ -3,6 +3,7 @@ import datetime
 from bootstrap3_datetime.widgets import DateTimePicker
 from django import forms
 from django.forms.models import ModelForm
+from django.template.context_processors import request
 from django.utils import formats, six
 from django.utils.encoding import force_str, force_text
 from django.utils.translation import ugettext_lazy as _
@@ -113,13 +114,18 @@ class BuildingAppointmentForm(AppointmentForm):
 #         exclude = ['appointment']
 
 
+class Gratuity(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['gratuity']
+
+
 class CarServiceForm(forms.ModelForm):
     class Meta:
         model = ServicedCar
         exclude = ['appointment']
 
     services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple())
-    appointment = forms.fields_for_model(Appointment, fields=['gratuity'])
 
     # Overriding __init__ here allows us to provide initial
     # data for 'toppings' field
