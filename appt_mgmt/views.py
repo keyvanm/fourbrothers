@@ -35,6 +35,17 @@ def get_appt_or_404(pk, user):
     return appt
 
 
+class TermsView(LoginRequiredMixin, View):
+    # template_name = "appt_mgmt/terms.html"
+    # return render(request, 'appt_mgmt/terms.html')
+
+    def get(self, request, pk):
+        return render(request, template_name="appt_mgmt/terms.html", context={"pk":pk})
+
+    # def get_success_url(self):
+    #     return reverse('appt-pay', kwargs={'pk': self.appt.pk})
+
+
 class ApptCreateView(LoginRequiredMixin, CreateView):
     model = Appointment
     form_class = AppointmentForm
@@ -338,7 +349,7 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
         if '_addanother' in self.request.POST:
             return reverse('appt-service', kwargs={'pk': self.appt.pk})
         else:
-            return reverse('appt-pay', kwargs={'pk': self.appt.pk})
+            return reverse('appt-terms', kwargs={'pk': self.appt.pk})
 
     def dispatch(self, request, *args, **kwargs):
         if Car.objects.filter(owner=self.request.user).exists():

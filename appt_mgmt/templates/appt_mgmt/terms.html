@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container">
+        <h2>Terms and Conditions</h2>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et nisl quis lacus congue posuere accumsan non
+            est. Nam vitae nunc nec felis pellentesque egestas vulputate quis sapien. Aliquam sed justo facilisis,
+            dapibus massa at, tristique tellus. Etiam sit amet pharetra nulla, sed aliquam ligula. Sed dictum suscipit
+            tellus, a tincidunt enim. Aliquam lacinia ut lacus sed convallis. Curabitur enim velit, sagittis nec
+            elementum at, volutpat in sapien. Phasellus nec est quis odio tempor gravida. Vestibulum ante ipsum primis
+            in faucibus orci luctus et ultrices posuere cubilia Curae; Nam hendrerit justo in rhoncus varius. Etiam
+            blandit auctor tellus et auctor. Nullam id euismod lectus. Vestibulum purus nibh, commodo mollis accumsan
+            in, gravida eget erat. Donec magna libero, faucibus et nibh sed, tincidunt iaculis augue.
+        </p>
+        <p>
+            Donec interdum velit quis ultrices euismod. Vestibulum quam mi, imperdiet sit amet placerat eget,
+            scelerisque at augue. Aliquam erat volutpat. Nunc risus purus, elementum eget massa mattis, aliquam
+            accumsan magna. Nunc facilisis elementum mauris eget viverra. Mauris eu elit vulputate, venenatis
+            dolor ac, dignissim est. Sed sed lorem at mi pellentesque ultricies. Aliquam porta ex non hendrerit
+            sodales. Integer id lorem non lacus ultricies faucibus vel nec dolor. Integer interdum luctus lacus sed
+            imperdiet. Donec ornare mi risus, vitae iaculis lorem posuere eget. Aenean quis elit nec lorem bibendum
+            egestas. Cras in viverra lorem. Vestibulum ultrices augue quis urna faucibus sollicitudin. Aenean
+            fringilla, ligula ut vulputate dictum, neque massa fermentum odio, et pulvinar nunc tortor sit amet lorem.
+        </p>
+        <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Reject</a>
+        <a href="{% url 'appt-pay' pk=pk %}" class="btn btn-primary btn-lg org-btn hvr-shrink">Accept</a>
+{#        <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Accept"/>#}
+    </div>
+{% endblock %}
