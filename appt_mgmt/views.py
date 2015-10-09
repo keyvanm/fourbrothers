@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date
 from decimal import Decimal
 
 from django import forms
@@ -23,7 +23,7 @@ from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointment
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
-from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation, Building
+from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation
 from user_manager.models.car import Car
 from user_manager.models.user_profile import CreditCard
 
@@ -67,7 +67,7 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
                 form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
         else:
             form.fields['time_slot'].widget = forms.HiddenInput()
-            # form.fields['gratuity'].widget = forms.HiddenInput()
+            form.fields['additional_info'].widget = forms.HiddenInput()
         return form
 
     def form_valid(self, form):
@@ -120,7 +120,9 @@ class SharedPLApptCreateView(ApptCreateView):
         if self.request.GET.get('building') and self.request.GET.get('date'):
             pl = get_object_or_404(SharedParkingLocation, pk=self.request.GET.get('building'))
             building = pl.building
-            prescheduled_time_slots = [x['time_slot'] for x in building.available_slots.filter(date=self.request.GET.get('date')).values('time_slot')]
+            prescheduled_time_slots = [x['time_slot'] for x in
+                                       building.available_slots.filter(date=self.request.GET.get('date')).values(
+                                           'time_slot')]
 
             new_time_slot_choices = []
             for i, time_slot in enumerate(_time_slot_choices):
@@ -157,7 +159,6 @@ class SharedPLApptCreateView(ApptCreateView):
 
 
 class ApptEdit(UpdateView):
-
     model = Appointment
     form_class = AppointmentEditForm
     template_name = 'appt_mgmt/appt-edit.html'
@@ -165,7 +166,7 @@ class ApptEdit(UpdateView):
 
     # def dispatch(self, *args, **kwargs):
     #     if not (
-    #         self.object.date
+    #         self.request.user.appointments
     #     ):
     #         raise Http404
 
@@ -234,6 +235,7 @@ def create_and_charge_new_customer(request, token, total_price):
 
 
 class ApptPayView(LoginRequiredMixin, View):
+
     def get_price(self, appt, sales_tax_percent):
         total_price_before_tax = 0
         for serviced_car in appt.servicedcar_set.all():
@@ -252,12 +254,15 @@ class ApptPayView(LoginRequiredMixin, View):
         return total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity
 
     def get(self, request, pk):
+        gratuity = forms.ChoiceField(choices=Appointment.GRATUITY_CHOICES)
+        # raise
         appt = get_appt_or_404(pk, request.user)
-        total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(appt, 13)
+        total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
+            appt, 13)
 
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         return render(request, 'appt_mgmt/appt-pay.html',
-                      {'appt': appt, 'stripe_public_key': stripe_public_key,
+                      {'appt': appt, 'gratuity': gratuity, 'stripe_public_key': stripe_public_key,
                        'total_price_before_tax': total_price_before_tax, 'total_tax': total_sales_tax,
                        'total_price': total_price, 'total_gratuity': total_gratuity,
                        'total_price_after_gratuity': total_price_after_gratuity,
@@ -265,7 +270,11 @@ class ApptPayView(LoginRequiredMixin, View):
 
     @method_decorator(csrf_protect)
     def post(self, request, pk):
+        gratuity = request.POST.get('gratuity')
         appt = get_appt_or_404(pk, request.user)
+        appt.gratuity = int(gratuity.strip('%'))
+        appt.save()
+
 
         _, _, _, _, total_payable = self.get_price(appt, 13)
 

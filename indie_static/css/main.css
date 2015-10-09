@@ -94,19 +94,42 @@ a.social-icon-footer {
 
 /* Jeff Custom CSS
 -------------------------------------------------- */
+.banner {
+    text-align: center;
+    background-image: url("http://www.linders.ie/imglib/linders2013/service.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner .jumbotron {
+    background-color: rgba(0, 0, 0, 0.65);
+    padding-top: 6%;
+    padding-bottom: 6%;
+}
+
+.services {
+    text-align: center;
+
+}
+
 .center {
   margin: 0 auto;
   float: none;
 }
 
 .call_to_action .fa {
-  font-size: 150px;
+  font-size: 50px;
+  border-radius: 200px;
+  border: 30px solid #fc9a00;
+  background: #fc9a00;
 }
 
 .navbar {
-    background-color: #2EB2D6 !important;
+    background-color: rgba(252, 154, 0, 0.95)!important;
+    box-shadow: 0px 4px 0px rgba(223, 46, 27, 0.3);
     border: 0px;
-    box-shadow: 0px -5px 10px 2px #000;
+    padding: 10px 0px;
 }
 
 .navbar-default .navbar-brand {
@@ -118,7 +141,6 @@ a.social-icon-footer {
 }
 
 .banner .container {
-    margin-top: 10%;
     text-shadow:1px 1px 1px #555;
 }
 
@@ -175,7 +197,7 @@ a.social-icon-footer {
 
 .angle {
   display: block;
-  background: #fff;
+  background: #fc9a00;
   height: 100px;
   position: absolute;
   bottom: -30px;
@@ -206,12 +228,38 @@ a.social-icon-footer {
 
 #how_to {
     position:relative;
+    background: #fc9a00;
     padding:100px 0px;
 }
 
 .services, #book_now {
-  background: #f5f3f2;
+  background: #fff;
   padding:100px 0px;
+}
+
+#book_now{
+    position: relative;
+}
+
+#why-us {
+  background: #fc9a00;
+  padding:100px 0px;
+  position:relative;
+}
+
+#why-us:after{
+  content: "";
+  background-image: url("http://www.linders.ie/imglib/linders2013/service.jpg");
+  opacity: 0.5;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: 1; 
 }
 
 .jumbotron {
@@ -220,5 +268,45 @@ a.social-icon-footer {
 }
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
-    background-color: #1DA0C3;
+    background-color: rgba(252, 154, 0, 1)!important;
+}
+
+.decor-top {
+    bottom: 100%;
+}
+
+[class*="decor-"] {
+    position: absolute;
+    width: 100%;
+    height: 60px;
+    left: 0px;
+}
+
+.swatch-yellow-black .decor, [class*="swatch-"] .swatch-yellow-black .decor {
+    stroke: #1C1E20;
+    fill: #fc9a00;
+}
+
+[class*="decor-"] svg {
+    height: 101%;
+}
+
+svg:not(:root) {
+    overflow: hidden;
+}
+
+.decor {
+    position: relative;
+    margin: 0px auto;
+    display: block;
+}
+.services
+ {
+    position: relative;
+    z-index: 4;
+    padding: 96px 0px;
+}
+
+.services.has-bottom.has-top {
+    z-index: 20;
 }
