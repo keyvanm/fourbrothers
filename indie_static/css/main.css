@@ -268,7 +268,7 @@ a.social-icon-footer {
 }
 
 .navbar-default .navbar-nav>.open>a, .navbar-default .navbar-nav>.open>a:focus, .navbar-default .navbar-nav>.open>a:hover {
-    background-color: #1DA0C3;
+    background-color: rgba(252, 154, 0, 1)!important;
 }
 
 .decor-top {

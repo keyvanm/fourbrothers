@@ -119,7 +119,6 @@ class CarServiceForm(forms.ModelForm):
         exclude = ['appointment']
 
     services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple())
-    appointment = forms.fields_for_model(Appointment, fields=['gratuity'])
 
     # Overriding __init__ here allows us to provide initial
     # data for 'toppings' field
