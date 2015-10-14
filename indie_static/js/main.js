@@ -4,10 +4,10 @@ $(document).ready(function animationHover(element, animation){
     elementOne.hover(
         function() {
 
-            elementOne.addClass('animated shake');        
+            elementOne.addClass('animated tada');        
         },
         function(){
-                elementOne.removeClass('animated shake');       
+                elementOne.removeClass('animated tada');       
         });
     elementTwo = $("i.fa-calendar");
     elementTwo.hover(
@@ -29,3 +29,5 @@ $(document).ready(function animationHover(element, animation){
                 elementThree.removeClass('animated rubberBand');      
         });
 });
+
+

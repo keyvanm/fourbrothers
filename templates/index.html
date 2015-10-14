@@ -11,9 +11,9 @@
 <div class="banner">
      <div class="jumbotron">
         <div class="container">
-            <h1>Save time & money let us come to you!</h1>
+            <h1>Save time & money.</h1>
 
-            <p>Have an expert auto service technician come to you. Don't waste time on car maintenence anymore.</p>
+            <p>Have an expert auto service technician come to you.</p>
             <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg org-btn hvr-shrink">
                 Book An Appointment!
             </a>
@@ -68,14 +68,30 @@
       <div class="angle right-corner top"></div>
         <div class="row">
             <div class="col-lg-12">
+            <div class="aniview slow" av-animation="flipInX">
                 <h1 class="text-center">How it Works..</h1>
+                </div>
                     <div class="row">
-                        <div class="col-lg-6">
-                        <h2>Create A Profile</h2>
+                      <div class="aniview slow" av-animation="zoomIn">
+                        <div class="col-lg-3" style="text-align:center;">
+                        <h2>Create a Profile</h2>
                         </div>
-                        <div class="col-lg-6">
-                        <h2></h2>
+                      </div>
+                      <div class="aniview slow" av-animation="zoomIn">
+                        <div class="col-lg-3" style="text-align:center;">
+                        <h2>Schedule a Service</h2>
                         </div>
+                      </div>
+                      <div class="aniview slow" av-animation="zoomIn">
+                        <div class="col-lg-3" style="text-align:center;">
+                        <h2>Pay Online</h2>
+                        </div>
+                      </div>
+                      <div class="aniview slow" av-animation="zoomIn">
+                        <div class="col-lg-3" style="text-align:center;">
+                        <h2>Sit Back & Relax</h2>
+                        </div>
+                      </div>
                     </div>
             </div>
         </div>
@@ -86,7 +102,9 @@
      <div class="container">
         <div class="row">
             <div class="col-lg-12">
+            <div class="aniview fast" av-animation="slideInLeft">
                 <h1>Ready to Book Now!</h1>
+            </div>
             </div>
         </div>
         <div class="angle right-corner" style="background:#fff;"></div>
@@ -101,6 +119,9 @@
         </div>
     </div>
  </div>
+ <script>
+ $('.aniview').AniView();
+ </script>
 {% endblock content %}
 
 
