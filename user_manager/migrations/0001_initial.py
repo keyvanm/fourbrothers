@@ -111,12 +111,12 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
-            name='PromoCode',
+            name='Promotion',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
-                ('code', models.CharField(max_length=20)),
+                ('code', models.CharField(unique=True, max_length=20)),
                 ('type', models.CharField(max_length=50, choices=[(b'percent', b'percent'), (b'amount', b'amount'), (b'first-percent', b'first-percent'), (b'first-amount', b'first-amount')])),
                 ('discount', models.PositiveSmallIntegerField()),
                 ('expiry_date', models.DateField(default=user_manager.models.promo.a_month_from_now)),
@@ -136,7 +136,7 @@ class Migration(migrations.Migration):
                 ('loyalty_points', models.PositiveIntegerField(default=0)),
                 ('phone_number', models.CharField(max_length=20, blank=True)),
                 ('inviter', models.ForeignKey(related_name='invitees', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('promos_used', models.ManyToManyField(to='user_manager.PromoCode', blank=True)),
+                ('promos_used', models.ManyToManyField(to='user_manager.Promotion', blank=True)),
                 ('user', models.OneToOneField(related_name='profile', to=settings.AUTH_USER_MODEL)),
             ],
         ),

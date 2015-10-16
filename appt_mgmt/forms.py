@@ -165,3 +165,9 @@ class ApptTechForm(forms.ModelForm):
         fields = ['technician']
 
         # services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple())
+
+
+class PayForm(forms.Form):
+    gratuity = forms.ChoiceField(choices=Appointment.GRATUITY_CHOICES)
+    promo_code = forms.CharField(required=False)
+    loyalty = forms.IntegerField(required=False)

@@ -19,12 +19,13 @@ import stripe
 import dateutil.parser
 
 from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField, \
-    AppointmentEditForm
+    AppointmentEditForm, PayForm
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation
 from user_manager.models.car import Car
+from user_manager.models.promo import Promotion, InvalidPromotionException
 from user_manager.models.user_profile import CreditCard
 
 
@@ -247,15 +248,25 @@ def create_and_charge_new_customer(request, token, total_price):
 
 class ApptPayView(LoginRequiredMixin, View):
 
-    def get_price(self, appt, sales_tax_percent):
-        total_price_before_tax = 0
-        for serviced_car in appt.servicedcar_set.all():
-            for service in serviced_car.services.all():
-                total_price_before_tax += service.fee
+    def get_price(self, appt, sales_tax_percent, form, promo_code=None, loyalty=0):
+        if promo_code:
+            try:
+                promotion = get_object_or_404(Promotion, code=promo_code)
+                total_price_before_tax = promotion.get_discounted_price(appt)
+            except InvalidPromotionException as e:
+                total_price_before_tax = appt.get_price()
+                form.add_error('promotion', e)
+        else:
+            total_price_before_tax = appt.get_price()
+
+        if loyalty:
+            pass # TODO: By Sina
+
 
         total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
+
         total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
         total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
 
@@ -265,15 +276,20 @@ class ApptPayView(LoginRequiredMixin, View):
         return total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity
 
     def get(self, request, pk):
-        gratuity = forms.ChoiceField(choices=Appointment.GRATUITY_CHOICES)
-        # raise
+        pay_form = PayForm(initial={'gratuity': '10'})
         appt = get_appt_or_404(pk, request.user)
+
+        if self.request.GET.get('loyalty'):
+            loyalty = int(self.request.GET.get('loyalty'))
+        else:
+            loyalty = 0
+
         total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
-            appt, 13)
+            appt, 13, form=pay_form, promo_code=self.request.GET.get('promo_code'), loyalty=loyalty)
 
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         return render(request, 'appt_mgmt/appt-pay.html',
-                      {'appt': appt, 'gratuity': gratuity, 'stripe_public_key': stripe_public_key,
+                      {'appt': appt, 'pay_form': pay_form, 'stripe_public_key': stripe_public_key,
                        'total_price_before_tax': total_price_before_tax, 'total_tax': total_sales_tax,
                        'total_price': total_price, 'total_gratuity': total_gratuity,
                        'total_price_after_gratuity': total_price_after_gratuity,
@@ -281,47 +297,56 @@ class ApptPayView(LoginRequiredMixin, View):
 
     @method_decorator(csrf_protect)
     def post(self, request, pk):
-        gratuity = request.POST.get('gratuity')
-        appt = get_appt_or_404(pk, request.user)
-        appt.gratuity = int(gratuity.strip('%'))
-        appt.save()
+        pay_form = PayForm(request.POST)
+        if pay_form.is_valid():
+            appt = get_appt_or_404(pk, request.user)
+            appt.gratuity = int(pay_form.cleaned_data['gratuity'])
+            appt.save()
 
+            promo_code=pay_form.cleaned_data['promo_code']
+            loyalty = pay_form.cleaned_data['loyalty']
+            _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty)
 
-        _, _, _, _, total_payable = self.get_price(appt, 13)
-
-        stripe.api_key = settings.STRIPE_SECRET_KEY
-        # stripe_public_key = settings.STRIPE_PUBLIC_KEY
-        token = request.POST['stripeToken']
-        try:
-            if not request.user.profile.stripe_customer_id:
-                create_and_charge_new_customer(request, token, total_payable)
-            else:
-                customer = stripe.Customer.retrieve(request.user.profile.stripe_customer_id)
-                if customer.get("deleted", None):
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+            # stripe_public_key = settings.STRIPE_PUBLIC_KEY
+            token = request.POST['stripeToken']
+            try:
+                if not request.user.profile.stripe_customer_id:
                     create_and_charge_new_customer(request, token, total_payable)
                 else:
-                    token_object = stripe.Token.retrieve(token)
-                    cc = get_or_none(CreditCard, user=request.user, fingerprint=token_object.card.fingerprint)
-                    if cc is None:
-                        card = customer.sources.create(source=token)
-                        cc = CreditCard(user=request.user, fingerprint=card.fingerprint, card_id=card.id)
-                        cc.save()
-                    stripe.Charge.create(
-                        amount=int(total_payable * 100),  # amount in cents, again
-                        currency="cad",
-                        source=cc.card_id,
-                        customer=customer.id,
-                        description="Paid ${}".format(total_payable)
-                    )
-            appt.paid = True
-            appt.save(update_fields=('paid',))
+                    customer = stripe.Customer.retrieve(request.user.profile.stripe_customer_id)
+                    if customer.get("deleted", None):
+                        create_and_charge_new_customer(request, token, total_payable)
+                    else:
+                        token_object = stripe.Token.retrieve(token)
+                        cc = get_or_none(CreditCard, user=request.user, fingerprint=token_object.card.fingerprint)
+                        if cc is None:
+                            card = customer.sources.create(source=token)
+                            cc = CreditCard(user=request.user, fingerprint=card.fingerprint, card_id=card.id)
+                            cc.save()
+                        stripe.Charge.create(
+                            amount=int(total_payable * 100),  # amount in cents, again
+                            currency="cad",
+                            source=cc.card_id,
+                            customer=customer.id,
+                            description="Paid ${}".format(total_payable)
+                        )
+                if promo_code:
+                    try:
+                        promotion = Promotion.objects.get(code=promo_code)
+                        self.request.user.profile.promos_used.add(promotion)
+                    except:
+                        pass
 
-            messages.success(request, 'Appointment booked successfully!')
-            return redirect('appt-list')
-        except stripe.CardError, e:
-            # The card has been declined
-            messages.warning(request, 'Transaction unsuccessful. Please try again.')
-            return redirect('appt-pay', pk=pk)
+                appt.paid = True
+                appt.save(update_fields=('paid',))
+
+                messages.success(request, 'Appointment booked successfully!')
+                return redirect('appt-list')
+            except stripe.CardError, e:
+                # The card has been declined
+                messages.warning(request, 'Transaction unsuccessful. Please try again.')
+                return redirect('appt-pay', pk=pk)
 
 
 class ApptServiceCreateView(LoginRequiredMixin, CreateView):

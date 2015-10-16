@@ -45,6 +45,16 @@ class Appointment(TimeStampedModel):
     def get_full_name(self):
         return "Appointment on {}, {}".format(self.date, self.get_time_slot_display())
 
+    def get_price(self):
+        total_price_before_tax = 0
+        for serviced_car in self.servicedcar_set.all():
+            for service in serviced_car.services.all():
+                total_price_before_tax += service.fee
+
+        return total_price_before_tax
+
+    def is_first_paid_appt(self):
+        return Appointment.objects.filter(user=self.user, paid=True).count() == 0
 
 class Service(models.Model):
     name = models.CharField(max_length=100)

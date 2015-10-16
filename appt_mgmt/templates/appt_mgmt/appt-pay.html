@@ -33,14 +33,7 @@
                     {% endfor %}
                 </ul>
                 <ul class="list-unstyled">
-                    <li>
-                        Gratuity:
-                        <select name="gratuity" id="grat">
-                            {% for grat in gratuity.choices %}
-                                <option {% if grat.0 == 10 %} selected="selected" {% endif %} value="{{ grat.0 }}">{{ grat.1 }}</option>
-                            {% endfor %}
-                        </select>
-                    </li>
+                    {% bootstrap_form pay_form %}
                 </ul>
                 <a href="{% url 'homepage' %}" class="btn btn-default">Cancel</a>
                 {#                <input class="btn btn-primary" type="submit" value="Pay"/>#}

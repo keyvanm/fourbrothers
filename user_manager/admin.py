@@ -12,4 +12,4 @@ admin.site.register(BuildingPreScheduledTimeSlot)
 
 admin.site.register(Car)
 admin.site.register(CreditCard)
-admin.site.register(PromoCode)
+admin.site.register(Promotion)

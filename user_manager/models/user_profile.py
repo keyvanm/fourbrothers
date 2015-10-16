@@ -3,7 +3,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
 from model_utils.choices import Choices
-from user_manager.models.promo import PromoCode
+from user_manager.models.promo import Promotion
 
 
 class UserProfile(models.Model):
@@ -16,7 +16,7 @@ class UserProfile(models.Model):
     loyalty_points = models.PositiveIntegerField(default=0)
     phone_number = models.CharField(max_length=20, blank=True)
 
-    promos_used = models.ManyToManyField(PromoCode, blank=True)
+    promos_used = models.ManyToManyField(Promotion, blank=True)
 
     inviter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="invitees", blank=True, null=True)
 
