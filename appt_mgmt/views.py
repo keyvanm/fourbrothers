@@ -385,7 +385,7 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
             full_redirect_url = '{}{}'.format(redirect_url, extra_params)
             return HttpResponseRedirect(full_redirect_url)
 
-    def get_form(self, form_class):
+    def get_form(self, form_class=None):
         form = super(ApptServiceCreateView, self).get_form(form_class)
         form.fields['car'].queryset = self.available_cars
         return form
