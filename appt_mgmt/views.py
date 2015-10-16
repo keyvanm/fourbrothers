@@ -211,8 +211,8 @@ class ApptListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApptListView, self).get_context_data(**kwargs)
-        past_appointments = self.object_list.filter(date__lt=date.today(), paid=True)
-        upcoming_appointments = self.object_list.filter(date__gte=date.today(), paid=True)
+        past_appointments = self.object_list.filter(date__lt=date.today(), paid=True).order_by('date')
+        upcoming_appointments = self.object_list.filter(date__gte=date.today(), paid=True).order_by('date')
         # pending_appointments = self.object_list.filter(date__gte=date.today(), paid=False)
 
         context['past_appointments'] = grouper(past_appointments, 3)
@@ -260,8 +260,14 @@ class ApptPayView(LoginRequiredMixin, View):
             total_price_before_tax = appt.get_price()
 
         if loyalty:
-            pass # TODO: By Sina
+            if loyalty < self.request.user.profile.loyalty_points:
+                total_price_before_tax -= loyalty
+                self.request.user.profile.loyalty_points -= loyalty
+            else:
+                total_price_before_tax -= self.request.user.profile.loyalty_points
+                self.request.user.profile.loyalty_points = 0
 
+            self.request.user.profile.save()
 
         total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
@@ -340,6 +346,9 @@ class ApptPayView(LoginRequiredMixin, View):
 
                 appt.paid = True
                 appt.save(update_fields=('paid',))
+
+                self.request.user.profile.loyalty_points += total_payable/20
+                self.request.user.profile.save()
 
                 messages.success(request, 'Appointment booked successfully!')
                 return redirect('appt-list')
