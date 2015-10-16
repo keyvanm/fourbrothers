@@ -51,6 +51,21 @@ $(document).ready(function animationHover(element, animation){
     //$(".stripe-button-el").click(function () {
     //
     //});
+
+    $("#id_services input").click(function(event) {
+        var checked_service = $(event.target).parent().text();
+        var service_cost = checked_service.replace(/[^\d.]/g, '');
+        console.log("this is the cost: " + service_cost);
+        var current_cost = $(".live-cart").data("amount");
+        var new_cost;
+        if ($(event.target).prop("checked")) {
+            new_cost = Number(current_cost) + Number(service_cost);
+        } else {
+            new_cost = Number(current_cost) - Number(service_cost);
+        }
+        $(".live-cart").data("amount", new_cost);
+        $(".live-cart h3").html("$" + new_cost);
+    });
 });
 
 

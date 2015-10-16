@@ -54,7 +54,7 @@ class Service(models.Model):
     duration = models.DurationField()
 
     def __unicode__(self):
-        return "{0} | {1} | ${2} | {3}".format(self.name, self.description, self.fee, self.duration)
+        return "{0} (C${1})".format(self.name, self.fee)
 
 
 class ServicedCar(models.Model):

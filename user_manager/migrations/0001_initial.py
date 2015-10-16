@@ -119,7 +119,7 @@ class Migration(migrations.Migration):
                 ('code', models.CharField(max_length=20)),
                 ('type', models.CharField(max_length=50, choices=[(b'percent', b'percent'), (b'amount', b'amount'), (b'first-percent', b'first-percent'), (b'first-amount', b'first-amount')])),
                 ('discount', models.PositiveSmallIntegerField()),
-                ('expiry_date', models.DateField(default=user_manager.models.promo.thirty_days_from_now)),
+                ('expiry_date', models.DateField(default=user_manager.models.promo.a_month_from_now)),
             ],
             options={
                 'ordering': ('-modified', '-created'),
