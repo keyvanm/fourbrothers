@@ -48,10 +48,6 @@ $(document).ready(function animationHover(element, animation){
         $(".stripe-button").data("amount", total_no_dec).data("description", total_desc);
     });
 
-    //$(".stripe-button-el").click(function () {
-    //
-    //});
-
     $("#id_services input").click(function(event) {
         var checked_service = $(event.target).parent().text();
         var service_cost = checked_service.split("$")[1].replace(/[^\d.]/g, '');
@@ -66,6 +62,16 @@ $(document).ready(function animationHover(element, animation){
         $(".live-cart").data("amount", new_cost);
         $(".live-cart h3").html("$" + new_cost);
     });
+
+    if (Number($("#total-before-tax").text()) < 10) {
+        $("#id_loyalty").prop('disabled', true);
+    }
+
+    //$("#id_loyalty").keyup(function() {
+    //    if(Number($("#id_loyalty").val()) < 0 || $("#id_loyalty").val() == "-") {
+    //        $("#id_loyalty").val("");
+    //    }
+    //});
 });
 
 
