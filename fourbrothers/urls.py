@@ -31,6 +31,17 @@ urlpatterns = [
     url(r'^$', index_view, name='homepage'),
     url(r'^book/', include('appt_mgmt.urls')),
     url(r'^dashboard/', include('dashboard.urls')),
+    url(r'^about/', TemplateView.as_view(template_name='static-content/about.html'), name='about'),
+    url(r'^services/', TemplateView.as_view(template_name='static-content/services.html'), name='services'),
+    url(r'^faq/', TemplateView.as_view(template_name='static-content/faq.html'), name='faq'),
+    url(r'^contact/', TemplateView.as_view(template_name='static-content/contact.html'), name='contact'),
+    url(r'^careers/', TemplateView.as_view(template_name='static-content/careers.html'), name='careers'),
+    url(r'^terms/', TemplateView.as_view(template_name='static-content/terms.html'), name='terms'),
+    url(r'^corporate/', TemplateView.as_view(template_name='static-content/corporate.html'), name='corporate'),
+    url(r'^privacy-statement/', TemplateView.as_view(template_name='static-content/privacy.html'), name='privacy-statement'),
+    url(r'^report-error/', TemplateView.as_view(template_name='static-content/report.html'), name='report-error'),
+    url(r'^help/', TemplateView.as_view(template_name='static-content/help.html'), name='help'),
+
 ]
 
 # if settings.DEBUG:

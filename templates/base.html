@@ -46,23 +46,23 @@
             <div id="navbar" class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <a href="#">
+                        <a href="{% url 'about' %}">
                             About
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            About
+                        <a href="{% url 'services' %}">
+                            Services
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            About
+                        <a href="{% url 'faq' %}">
+                            FAQ
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            About
+                        <a href="{% url 'contact' %}">
+                            Contact
                         </a>
                     </li>
                 {% if user.is_authenticated %}
@@ -132,12 +132,46 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-4" style="margin-top: 11px; margin-bottom: 11px;">
+                    <ul class="list-unstyled">
+                        <li>
+                            <a class="text-muted" href="{% url 'careers' %}">
+                                Careers
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-muted" href="{% url 'terms' %}">
+                                Terms & Conditions
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-muted" href="{% url 'corporate' %}">
+                                Corporate
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-muted" href="{% url 'privacy-statement' %}">
+                                Privacy Statement
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-muted" href="{% url 'report-error' %}">
+                                Report an Error
+                            </a>
+                        </li>
+                        <li>
+                            <a class="text-muted" href="{% url 'help' %}">
+                                Help
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
                     <p class="text-muted" style="margin-top: 11px; margin-bottom: 11px;">
                         <small><i class="fa fa-copyright"></i> 2015 FourBrothers Inc.</small>
                     </p>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <h4>
                         <a class="social-icon-footer" target="_blank" href="https://www.facebook.com/">
                             <i class="fa fa-facebook"></i>
