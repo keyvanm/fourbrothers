@@ -47,8 +47,8 @@ body {
 }
 
 .footer {
-    position: relative;
-    bottom: 0;
+    position: absolute;
+    bottom: -160px;
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 160px;
@@ -259,6 +259,11 @@ a.social-icon-footer {
   right: 0;
   position: absolute;
   z-index: 1; 
+}
+
+#why-us .container{
+  z-index:2;
+  position:relative;
 }
 
 .jumbotron {
