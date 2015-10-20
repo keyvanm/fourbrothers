@@ -54,7 +54,7 @@ $(document).ready(function animationHover(element, animation){
 
     $("#id_services input").click(function(event) {
         var checked_service = $(event.target).parent().text();
-        var service_cost = checked_service.replace(/[^\d.]/g, '');
+        var service_cost = checked_service.split("$")[1].replace(/[^\d.]/g, '');
         console.log("this is the cost: " + service_cost);
         var current_cost = $(".live-cart").data("amount");
         var new_cost;
