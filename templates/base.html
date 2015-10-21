@@ -12,6 +12,7 @@
 {#    <link href="{% static 'css/main-flatly.css' %}" media="all" rel="stylesheet">#}
     <!-- FAVICON -->
     <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}"/>
+    <link href='https://fonts.googleapis.com/css?family=Fjalla+One|Cantarell' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
    <script type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
@@ -37,9 +38,7 @@
                 </button>
                 <!-- /Collapse buttons -->
                 <a class="navbar-brand" href="{% url 'homepage' %}">
-
-                    {#                    <img height="100%" src="{% static "img/cinesend_logo_beta.png" %}">#}
-                    FourBrothers
+                                       <img height="100%" src="{% static 'img/logo-02A.png' %}">
                 </a>
             </div>
             <!-- Collapsible navbar -->
@@ -107,8 +106,9 @@
                     </li>
                     <li><a>Loyalty points <span class="badge">{{ user.profile.loyalty_points }}</span></a></li>
                 {% else %}
-                    <li><a href="{% url 'account_login' %}">Sign in</a></li>
-                    <li><a href="{% url 'account_signup' %}">Sign up</a></li>
+                    <li><a id="login" href="{% url 'account_login' %}">Sign in</i>
+</a></li>
+                    <li><a id="register" href="{% url 'account_signup' %}">SIGN UP</a></li>
                 {% endif %}
                 </ul>
             </div>

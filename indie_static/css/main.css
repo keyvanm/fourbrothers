@@ -52,7 +52,7 @@ body {
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 160px;
-    background-color: rgba(252, 154, 0, 0.4);
+    background-color: #eee;
 }
 
 .social-icon-footer i {
@@ -94,6 +94,14 @@ a.social-icon-footer {
 
 /* Jeff Custom CSS
 -------------------------------------------------- */
+h1, h2, h3, h4, a {
+  font-family: 'Fjalla One', sans-serif;
+}
+
+p {
+  font-family: 'Cantarell', sans-serif;
+}
+
 .banner {
     text-align: center;
     background-image: url("http://www.linders.ie/imglib/linders2013/service.jpg");
@@ -106,6 +114,7 @@ a.social-icon-footer {
     background-color: rgba(0, 0, 0, 0.65);
     padding-top: 6%;
     padding-bottom: 6%;
+    height:100vh;
 }
 
 .services {
@@ -124,12 +133,12 @@ a.social-icon-footer {
 .call_to_action .fa {
   font-size: 50px;
   border-radius: 200px;
-  border: 30px solid #fc9a00;
-  background: #fc9a00;
+  border: 30px solid #fc9a00 ;
+  background: #fc9a00 ;
 }
 
 .navbar {
-    background-color: rgba(252, 154, 0, 0.95)!important;
+    background-color: #fff!important;
     box-shadow: 0px 4px 0px rgba(223, 46, 27, 0.3);
     border: 0px;
     padding: 10px 0px;
@@ -140,20 +149,22 @@ a.social-icon-footer {
 }
 
 .navbar-default .navbar-nav>li>a {
-  color: #fff;
+  color:#222;
 }
 
 .banner .container {
     text-shadow:1px 1px 1px #555;
+        margin-top: 8%;
 }
 
 .banner h1, .banner p{
     color:#fff;
+    font-family: 'Fjalla One', sans-serif;
 }
 
 .org-btn {
     border-radius:0px;
-    background-color:#097290;
+    background-color:#538AD1;
     border:0px;
     text-shadow:none;
     transition: all 0.5s ease!important;
@@ -196,7 +207,7 @@ a.social-icon-footer {
 
 .angle {
   display: block;
-  background: #fc9a00;
+  background: #eee;
   height: 100px;
   position: absolute;
   bottom: -30px;
@@ -227,7 +238,7 @@ a.social-icon-footer {
 
 #how_to {
     position:relative;
-    background: #fc9a00;
+    background: #eee;
     padding:100px 0px;
 }
 
@@ -241,7 +252,7 @@ a.social-icon-footer {
 }
 
 #why-us {
-  background: #fc9a00;
+  background: #538ad1;
   padding:100px 0px;
   position:relative;
 }
@@ -288,7 +299,7 @@ a.social-icon-footer {
 
 .swatch-yellow-black .decor, [class*="swatch-"] .swatch-yellow-black .decor {
     stroke: #1C1E20;
-    fill: #fc9a00;
+    fill: #fff;
 }
 
 [class*="decor-"] svg {
@@ -313,4 +324,54 @@ svg:not(:root) {
 
 .services.has-bottom.has-top {
     z-index: 20;
+}
+
+.navbar-brand {
+    padding-right: 0px;
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+
+.navbar-nav li a {
+  font-size:18px;
+}
+
+.navbar-nav li #register{
+border-bottom: 3px solid #FC9A00!important;
+border-top: 3px solid #FC9A00!important;
+}
+
+.navbar-nav li #login{
+    border-top: 3px solid rgb(83, 138, 209) !important;
+    border-bottom: 3px solid rgb(83, 138, 209) !important;
+    margin-right: 5px;
+}
+
+.login-window{
+  padding-top:10%;
+}
+
+.form-control {
+    height: 54px;
+    padding: 6px 12px;
+    font-size: 20px;
+    color: #000;
+    background-color: #FFF;
+    background-image: none;
+    border: 1px solid #777;
+    border-radius: 0px;
+    box-shadow: none;
+    font-family: 'Fjalla One', sans-serif;
+}
+
+.alert{
+  margin-bottom:0px;
+  font-family: 'Fjalla One', sans-serif;
+  font-size:15px;
+}
+
+@media (min-width: 768px){
+.jumbotron h1 {
+    font-size: 100px!important;
+}
 }
