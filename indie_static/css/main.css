@@ -364,6 +364,12 @@ border-top: 3px solid #FC9A00!important;
     font-family: 'Fjalla One', sans-serif;
 }
 
+.alert{
+  margin-bottom:0px;
+  font-family: 'Fjalla One', sans-serif;
+  font-size:15px;
+}
+
 @media (min-width: 768px){
 .jumbotron h1 {
     font-size: 100px!important;
