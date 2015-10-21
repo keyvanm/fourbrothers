@@ -297,7 +297,7 @@ class ApptPayView(LoginRequiredMixin, View):
                 total_price_before_tax = promotion.get_discounted_price(appt)
             except InvalidPromotionException as e:
                 total_price_before_tax = appt.get_price()
-                form.add_error('promotion', e)
+                form._errors = {'promotion': e.message}
         else:
             total_price_before_tax = appt.get_price()
 
