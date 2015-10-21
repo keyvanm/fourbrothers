@@ -1,17 +1,16 @@
 from datetime import date
 from decimal import Decimal
+import datetime
 
 from django import forms
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
-from django.core.mail.message import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.template.context import Context
-from django.template.loader import get_template, render_to_string
+from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import View
@@ -23,7 +22,7 @@ import stripe
 import dateutil.parser
 
 from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField, \
-    AppointmentEditForm, PayForm
+    AppointmentEditForm, PayForm, InvalidDateException
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
@@ -45,10 +44,10 @@ class TermsView(LoginRequiredMixin, View):
     # return render(request, 'appt_mgmt/terms.html')
 
     def get(self, request, pk):
-        return render(request, template_name="appt_mgmt/terms.html", context={"pk":pk})
+        return render(request, template_name="appt_mgmt/terms.html", context={"pk": pk})
 
-    # def get_success_url(self):
-    #     return reverse('appt-pay', kwargs={'pk': self.appt.pk})
+        # def get_success_url(self):
+        #     return reverse('appt-pay', kwargs={'pk': self.appt.pk})
 
 
 class ApptCreateView(LoginRequiredMixin, CreateView):
@@ -60,10 +59,30 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
         if not self.request.GET.get('date'):
             return []
 
-        date = dateutil.parser.parse(self.request.GET.get('date'))
+        date = dateutil.parser.parse(self.request.GET.get('date')).date()
         _time_slot_choices = []
+
+        today = date.today()
+        if date > today:
+            pass
+        elif date == today:
+            now = datetime.datetime.now()
+            if now.hour < 7:
+                pass
+            elif now.hour < 10:
+                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[1:]
+            elif now.hour < 13:
+                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[2:]
+            elif now.hour < 16:
+                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[3:]
+            else:
+                raise InvalidDateException('You cannot book an appointment on this date')
+        elif date < today:
+            raise InvalidDateException('You cannot book an appointment on this date')
+
         for time_slot, time_slot_display in self.TIME_SLOT_CHOICES:
-            if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() < MAX_NUM_APPT_TIME_SLOT:
+            if Appointment.objects.filter(date=date, time_slot=time_slot,
+                                          paid=True).count() < MAX_NUM_APPT_TIME_SLOT:
                 _time_slot_choices.append((time_slot, time_slot_display))
 
         return _time_slot_choices
@@ -76,10 +95,13 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
         if self.request.GET.get('date'):
             date = dateutil.parser.parse(self.request.GET.get('date'))
             form.fields['date'].initial = date
-
-            form.fields['time_slot'].choices = self.time_slot_choices()
+            try:
+                form.fields['time_slot'].choices = self.time_slot_choices()
+            except InvalidDateException as e:
+                form._errors = {'date': unicode(e.message)}
 
             if not form.fields['time_slot'].choices:
+                form._errors = {'date': unicode(e.message)}
                 form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
         else:
             form.fields['time_slot'].widget = forms.HiddenInput()
@@ -94,7 +116,10 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(ApptCreateView, self).get_context_data(**kwargs)
         context['date'] = self.request.GET.get('date')
-        context['time_slot_choices'] = self.time_slot_choices()
+        try:
+            context['time_slot_choices'] = self.time_slot_choices()
+        except InvalidDateException:
+            context['time_slot_choices'] = []
         return context
 
 
@@ -265,7 +290,6 @@ def create_and_charge_new_customer(request, token, total_price):
 
 
 class ApptPayView(LoginRequiredMixin, View):
-
     def get_price(self, appt, sales_tax_percent, form, promo_code=None, loyalty=0):
         if promo_code:
             try:
@@ -342,7 +366,7 @@ class ApptPayView(LoginRequiredMixin, View):
             appt.gratuity = int(pay_form.cleaned_data['gratuity'])
             appt.save()
 
-            promo_code=pay_form.cleaned_data['promo_code']
+            promo_code = pay_form.cleaned_data['promo_code']
             loyalty = pay_form.cleaned_data['loyalty']
             _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty)
 

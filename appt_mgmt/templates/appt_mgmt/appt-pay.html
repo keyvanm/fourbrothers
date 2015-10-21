@@ -14,7 +14,10 @@
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <h3 class="panel-title">
-                    Your total is C$<span id="total-before-tax">{{ total_price_before_tax }}</span> + C${{ total_tax }} (13% HST) + C$<span id="grat-amount">{{ total_gratuity }}</span> (<span id="grat-perc">{{ appt.gratuity }}%</span> Gratuity) = C$<span id="total">{{ total_price_after_gratuity }}</span>
+                    Your total is C$<span id="total-before-tax">{{ total_price_before_tax }}</span> + C${{ total_tax }}
+                    (13% HST) + C$<span id="grat-amount">{{ total_gratuity }}</span> (<span
+                        id="grat-perc">{{ appt.gratuity }}%</span> Gratuity) = C$<span
+                        id="total">{{ total_price_after_gratuity }}</span>
                 </h3>
             </div>
             <div class="panel-body">
@@ -34,15 +37,24 @@
                 </ul>
                 <ul class="list-unstyled">
                     {% bootstrap_form pay_form %}
+                    <a href="#" class="btn btn-default" id="apply-promo">Apply promotion</a>
+                    <script type="text/javascript">
+                        $(function () {
+                            $("#apply-promo").click(function () {
+                                        window.location.assign(window.location.pathname + "?promo_code=" + $("#id_promo_code").val())
+                                    }
+                            )
+                        })
+                    </script>
                 </ul>
                 <a href="{% url 'homepage' %}" class="btn btn-default">Cancel</a>
                 {#                <input class="btn btn-primary" type="submit" value="Pay"/>#}
                 <script
                         src="https://checkout.stripe.com/checkout.js" class="stripe-button"
                         data-key="{{ stripe_public_key }}"
-{#                        data-amount="{{ total_price_cents }}"#}
+                        {#                        data-amount="{{ total_price_cents }}"#}
                         data-name="FourBrothers"
-{#                        data-description="${{ total_price_after_gratuity }}"#}
+                        {#                        data-description="${{ total_price_after_gratuity }}"#}
                         {#                        data-image="https://s3.amazonaws.com/stripe-uploads/acct_14sgA4LTjRqtW0Rpmerchant-icon-1414533378555-fb_logo.png"#}
                         data-zip-code="true"
                         data-currency="CAD"
