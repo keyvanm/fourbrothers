@@ -77,6 +77,7 @@ class Migration(migrations.Migration):
                 ('color', models.CharField(max_length=50)),
                 ('plate', models.CharField(max_length=15)),
                 ('mileage', models.PositiveIntegerField(null=True, blank=True)),
+                ('engine_type', models.CharField(default=4, max_length=2, choices=[(3, b'V3'), (4, b'V4'), (5, b'V5'), (6, b'V6'), (8, b'V8')])),
                 ('additional_info', models.TextField(blank=True)),
                 ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
