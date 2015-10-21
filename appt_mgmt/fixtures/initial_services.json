@@ -1,0 +1,22 @@
+[
+  {
+    "model": "appt_mgmt.service",
+    "pk": 1,
+    "fields": {
+      "name": "Full Service (Conventional Oil)",
+      "description": "a. New Engine Oil (Up to 6 Litres) \nb. Chassis Lubrication \nc. New Oil Filter \nd. Fluid Top-Ups \ne. Visual Inspection \nFluid Top-Offs Include: ½ Litre of Anti-freeze, 2 Litres of washer Fluid,\n½ Litre ATF Fluid, and power steering fluid",
+      "fee": 49.99,
+      "duration": "0"
+    }
+  },
+  {
+    "model": "appt_mgmt.service",
+    "pk": 1,
+    "fields": {
+      "name": "Full Service (Synthetic Oil)",
+      "description": "a. New Engine Oil (Up to 6 Litres) \nb. Chassis Lubrication \nc. New Oil Filter \nd. Fluid Top-Ups \ne. Visual Inspection \nFluid Top-Offs Include: ½ Litre of Anti-freeze, 2 Litres of washer Fluid,\n½ Litre ATF Fluid, and power steering fluid",
+      "fee": 79.99,
+      "duration": "0"
+    }
+  }
+]
