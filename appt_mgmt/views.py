@@ -187,6 +187,20 @@ class ApptEdit(UpdateView):
     #         raise Http404
 
     def get_success_url(self):
+        appt = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
+        msg_plain = render_to_string('appt_mgmt/email.txt', {'appt': appt})
+        msg_html = render_to_string('appt_mgmt/email.html', {'appt': appt})
+
+        subject, from_email, to = 'Appointment Updated', 'info@fourbrothers.com', self.request.user.email
+
+        send_mail(
+            subject,
+            msg_plain,
+            from_email,
+            [to],
+            html_message=msg_html,
+            fail_silently=False
+        )
         return reverse('appt-list')
 
 
