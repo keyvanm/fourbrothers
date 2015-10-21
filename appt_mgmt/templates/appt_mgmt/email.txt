@@ -1,0 +1,5 @@
+You're appointment is booked!
+
+Thanks for choosing Fourbrothers for your car service!
+
+You're appointment is on {{ appt.date }} during {{ appt.get_time_slot_display }}

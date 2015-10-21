@@ -5,10 +5,14 @@ import datetime
 from django import forms
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
+from django.core.mail.message import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
+from django.template.context import Context
+from django.template.loader import get_template, render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import View
@@ -210,6 +214,20 @@ class ApptEdit(UpdateView):
     #         raise Http404
 
     def get_success_url(self):
+        appt = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
+        msg_plain = render_to_string('appt_mgmt/email.txt', {'appt': appt})
+        msg_html = render_to_string('appt_mgmt/email.html', {'appt': appt})
+
+        subject, from_email, to = 'Appointment Updated', 'info@fourbrothers.com', self.request.user.email
+
+        send_mail(
+            subject,
+            msg_plain,
+            from_email,
+            [to],
+            html_message=msg_html,
+            fail_silently=False
+        )
         return reverse('appt-list')
 
 
@@ -391,6 +409,21 @@ class ApptPayView(LoginRequiredMixin, View):
                 self.request.user.profile.save()
 
                 messages.success(request, 'Appointment booked successfully!')
+
+                msg_plain = render_to_string('appt_mgmt/email.txt', {'appt': appt})
+                msg_html = render_to_string('appt_mgmt/email.html', {'appt': appt})
+
+                subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
+
+                send_mail(
+                    subject,
+                    msg_plain,
+                    from_email,
+                    [to],
+                    html_message=msg_html,
+                    fail_silently=False
+                )
+
                 return redirect('appt-list')
             except stripe.CardError, e:
                 # The card has been declined
