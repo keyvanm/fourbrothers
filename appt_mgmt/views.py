@@ -302,12 +302,13 @@ class ApptPayView(LoginRequiredMixin, View):
             total_price_before_tax = appt.get_price()
 
         if loyalty:
-            if loyalty < self.request.user.profile.loyalty_points:
-                total_price_before_tax -= loyalty
-                self.request.user.profile.loyalty_points -= loyalty
-            else:
-                total_price_before_tax -= self.request.user.profile.loyalty_points
-                self.request.user.profile.loyalty_points = 0
+            loyalty_points = Decimal(loyalty)
+            # if loyalty < self.request.user.profile.loyalty_points:
+            total_price_before_tax -= loyalty_points
+            self.request.user.profile.loyalty_points -= int(loyalty_points)
+            # else:
+            #     total_price_before_tax -= self.request.user.profile.loyalty_points
+            #     self.request.user.profile.loyalty_points = 0
 
             self.request.user.profile.save()
 
@@ -403,7 +404,7 @@ class ApptPayView(LoginRequiredMixin, View):
                 appt.paid = True
                 appt.save(update_fields=('paid',))
 
-                self.request.user.profile.loyalty_points += total_payable / 20
+                self.request.user.profile.loyalty_points += int(total_payable/20)
                 self.request.user.profile.save()
 
                 messages.success(request, 'Appointment booked successfully!')
