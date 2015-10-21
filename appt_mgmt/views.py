@@ -414,14 +414,14 @@ class ApptPayView(LoginRequiredMixin, View):
 
                 subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
 
-                # send_mail(
-                #     subject,
-                #     msg_plain,
-                #     from_email,
-                #     [to],
-                #     html_message=msg_html,
-                #     fail_silently=False
-                # )
+                send_mail(
+                    subject,
+                    msg_plain,
+                    from_email,
+                    [to],
+                    html_message=msg_html,
+                    fail_silently=True
+                )
 
                 return redirect('appt-list')
             except stripe.CardError, e:
