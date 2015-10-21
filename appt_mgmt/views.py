@@ -445,10 +445,9 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
     @property
     def available_cars(self):
         if not self._cars:
-            self._cars = Car.objects.filter(owner=self.request.user)
-            #     .exclude(
-            #     id__in=Car.objects.filter(servicedcar__appointment=self.appt)
-            # )
+            self._cars = Car.objects.filter(owner=self.request.user).exclude(
+                id__in=Car.objects.filter(servicedcar__appointment=self.appt)
+            )
         return self._cars
 
     def get_success_url(self):
@@ -474,6 +473,8 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(ApptServiceCreateView, self).get_context_data(**kwargs)
         context['available_cars'] = self.available_cars
+        context['serviced_cars'] = ServicedCar.objects.filter(appointment=self.appt)
+        context['total_so_far'] = self.appt.get_price()
         return context
 
     def form_valid(self, form):
