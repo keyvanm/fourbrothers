@@ -323,7 +323,7 @@ class ApptPayView(LoginRequiredMixin, View):
         pay_form = PayForm(initial={'gratuity': '10'})
         user_loyalty_points = self.request.user.profile.loyalty_points
         if user_loyalty_points < 10:
-            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:1]
+            del pay_form.fields['loyalty']
         elif user_loyalty_points < 20:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:2]
         elif user_loyalty_points < 30:
