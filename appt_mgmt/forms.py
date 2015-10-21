@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from appt_mgmt.models import Appointment, ServicedCar, Service
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from user_manager.models.address import SharedParkingLocation
+from user_manager.models.user_profile import UserProfile
 
 
 class DateChoiceField(forms.ChoiceField):
@@ -168,6 +169,15 @@ class ApptTechForm(forms.ModelForm):
 
 
 class PayForm(forms.Form):
+    LOYALTY_POINTS = (
+        (0, '$0'),
+        (10, '$10'),
+        (20, '$20'),
+        (30, '$30'),
+        (40, '$40'),
+        (50, '$50'),
+    )
+
     gratuity = forms.ChoiceField(choices=Appointment.GRATUITY_CHOICES)
     promo_code = forms.CharField(required=False)
-    loyalty = forms.IntegerField(required=False)
+    loyalty = forms.ChoiceField(choices=LOYALTY_POINTS, required=False)

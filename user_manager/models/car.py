@@ -17,6 +17,14 @@ class Car(TimeStampedModel):
     color = models.CharField(max_length=50)
     plate = models.CharField(max_length=15)
     mileage = models.PositiveIntegerField(blank=True, null=True)
+    ENGINE_TYPE = (
+        (3, 'V3'),
+        (4, 'V4'),
+        (5, 'V5'),
+        (6, 'V6'),
+        (8, 'V8'),
+    )
+    engine_type = models.CharField(choices=ENGINE_TYPE, default=4, max_length=2)
 
     additional_info = models.TextField(blank=True)
 

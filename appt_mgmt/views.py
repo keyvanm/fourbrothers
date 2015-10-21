@@ -283,6 +283,20 @@ class ApptPayView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         pay_form = PayForm(initial={'gratuity': '10'})
+        user_loyalty_points = self.request.user.profile.loyalty_points
+        if user_loyalty_points < 10:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:1]
+        elif user_loyalty_points < 20:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:2]
+        elif user_loyalty_points < 30:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:3]
+        elif user_loyalty_points < 40:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:4]
+        elif user_loyalty_points < 50:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:5]
+        else:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:6]
+
         appt = get_appt_or_404(pk, request.user)
 
         if self.request.GET.get('loyalty'):
@@ -374,9 +388,10 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
     @property
     def available_cars(self):
         if not self._cars:
-            self._cars = Car.objects.filter(owner=self.request.user).exclude(
-                id__in=Car.objects.filter(servicedcar__appointment=self.appt)
-            )
+            self._cars = Car.objects.filter(owner=self.request.user)
+            #     .exclude(
+            #     id__in=Car.objects.filter(servicedcar__appointment=self.appt)
+            # )
         return self._cars
 
     def get_success_url(self):
