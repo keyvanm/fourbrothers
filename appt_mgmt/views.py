@@ -301,27 +301,22 @@ class ApptPayView(LoginRequiredMixin, View):
         else:
             total_price_before_tax = appt.get_price()
 
-        if loyalty:
-            loyalty_points = Decimal(loyalty)
-            # if loyalty < self.request.user.profile.loyalty_points:
-            total_price_before_tax -= loyalty_points
-            self.request.user.profile.loyalty_points -= int(loyalty_points)
-            # else:
-            #     total_price_before_tax -= self.request.user.profile.loyalty_points
-            #     self.request.user.profile.loyalty_points = 0
-
-            self.request.user.profile.save()
-
         total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
+        if total_price == 0:
+            messages.warning(self.request, 'Your cart is empty')
+            raise Http404
 
         total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
         total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
 
-        if total_price == 0:
-            messages.warning(self.request, 'Your cart is empty')
-            raise Http404
+        if loyalty:
+            loyalty_points = Decimal(loyalty)
+            total_price_after_gratuity -= loyalty_points
+            self.request.user.profile.loyalty_points -= int(loyalty_points)
+            self.request.user.profile.save()
+
         return total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity
 
     def get(self, request, pk):
