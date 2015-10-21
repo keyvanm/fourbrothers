@@ -304,9 +304,6 @@ class ApptPayView(LoginRequiredMixin, View):
         total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
-        if total_price == 0:
-            messages.warning(self.request, 'Your cart is empty')
-            raise Http404
 
         total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
         total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
@@ -369,37 +366,39 @@ class ApptPayView(LoginRequiredMixin, View):
             promo_code = pay_form.cleaned_data['promo_code']
             loyalty = pay_form.cleaned_data['loyalty']
             _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty)
-
-            stripe.api_key = settings.STRIPE_SECRET_KEY
-            # stripe_public_key = settings.STRIPE_PUBLIC_KEY
-            token = request.POST['stripeToken']
-            try:
-                if not request.user.profile.stripe_customer_id:
-                    create_and_charge_new_customer(request, token, total_payable)
-                else:
-                    customer = stripe.Customer.retrieve(request.user.profile.stripe_customer_id)
-                    if customer.get("deleted", None):
+            if total_payable:
+                stripe.api_key = settings.STRIPE_SECRET_KEY
+                # stripe_public_key = settings.STRIPE_PUBLIC_KEY
+                token = request.POST['stripeToken']
+                try:
+                    if not request.user.profile.stripe_customer_id:
                         create_and_charge_new_customer(request, token, total_payable)
                     else:
-                        token_object = stripe.Token.retrieve(token)
-                        cc = get_or_none(CreditCard, user=request.user, fingerprint=token_object.card.fingerprint)
-                        if cc is None:
-                            card = customer.sources.create(source=token)
-                            cc = CreditCard(user=request.user, fingerprint=card.fingerprint, card_id=card.id)
-                            cc.save()
-                        stripe.Charge.create(
-                            amount=int(total_payable * 100),  # amount in cents, again
-                            currency="cad",
-                            source=cc.card_id,
-                            customer=customer.id,
-                            description="Paid ${}".format(total_payable)
-                        )
-                if promo_code:
-                    try:
-                        promotion = Promotion.objects.get(code=promo_code)
-                        self.request.user.profile.promos_used.add(promotion)
-                    except:
-                        pass
+                        customer = stripe.Customer.retrieve(request.user.profile.stripe_customer_id)
+                        if customer.get("deleted", None):
+                            create_and_charge_new_customer(request, token, total_payable)
+                        else:
+                            token_object = stripe.Token.retrieve(token)
+                            cc = get_or_none(CreditCard, user=request.user, fingerprint=token_object.card.fingerprint)
+                            if cc is None:
+                                card = customer.sources.create(source=token)
+                                cc = CreditCard(user=request.user, fingerprint=card.fingerprint, card_id=card.id)
+                                cc.save()
+                            stripe.Charge.create(
+                                amount=int(total_payable * 100),  # amount in cents, again
+                                currency="cad",
+                                source=cc.card_id,
+                                customer=customer.id,
+                                description="Paid ${}".format(total_payable)
+                            )
+                    if promo_code:
+                        try:
+                            promotion = Promotion.objects.get(code=promo_code)
+                            self.request.user.profile.promos_used.add(promotion)
+                        except:
+                            pass
+                except:
+                    pass
 
                 appt.paid = True
                 appt.save(update_fields=('paid',))
