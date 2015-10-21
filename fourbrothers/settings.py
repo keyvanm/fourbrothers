@@ -41,6 +41,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.flatpages',
     #
+    'storages',
+    's3_folder_storage',
+    #
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
