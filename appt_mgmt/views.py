@@ -6,13 +6,11 @@ from django import forms
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
-from django.core.mail.message import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http.response import Http404, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render, redirect
-from django.template.context import Context
-from django.template.loader import get_template, render_to_string
+from django.template.loader import render_to_string
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import View
@@ -83,9 +81,9 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
             raise InvalidDateException('You cannot book an appointment on this date')
 
         for time_slot, time_slot_display in self.TIME_SLOT_CHOICES:
-                if Appointment.objects.filter(date=date, time_slot=time_slot,
-                                              paid=True).count() < MAX_NUM_APPT_TIME_SLOT:
-                    _time_slot_choices.append((time_slot, time_slot_display))
+            if Appointment.objects.filter(date=date, time_slot=time_slot,
+                                          paid=True).count() < MAX_NUM_APPT_TIME_SLOT:
+                _time_slot_choices.append((time_slot, time_slot_display))
 
         return _time_slot_choices
 
