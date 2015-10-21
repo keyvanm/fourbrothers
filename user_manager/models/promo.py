@@ -1,5 +1,6 @@
 import datetime
 from dateutil.relativedelta import relativedelta
+from decimal import Decimal
 from django.core.exceptions import ValidationError
 
 from django.db import models
@@ -52,4 +53,4 @@ class Promotion(TimeStampedModel):
             if price - self.discount > 0:
                 return price - self.discount
             else:
-                return 0
+                return Decimal(0)
