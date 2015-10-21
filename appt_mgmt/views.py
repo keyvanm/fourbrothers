@@ -318,20 +318,6 @@ class ApptPayView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         pay_form = PayForm(initial={'gratuity': '10'})
-        user_loyalty_points = self.request.user.profile.loyalty_points
-        if user_loyalty_points < 10:
-            del pay_form.fields['loyalty']
-        elif user_loyalty_points < 20:
-            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:2]
-        elif user_loyalty_points < 30:
-            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:3]
-        elif user_loyalty_points < 40:
-            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:4]
-        elif user_loyalty_points < 50:
-            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:5]
-        else:
-            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:6]
-
         appt = get_appt_or_404(pk, request.user)
 
         if self.request.GET.get('loyalty'):
@@ -344,8 +330,20 @@ class ApptPayView(LoginRequiredMixin, View):
 
         total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
             appt, 13, form=pay_form, promo_code=self.request.GET.get('promo_code'), loyalty=loyalty)
-        if total_price < 40:
+
+        user_loyalty_points = self.request.user.profile.loyalty_points
+        if user_loyalty_points < 10 or total_price < 40:
             del pay_form.fields['loyalty']
+        elif user_loyalty_points < 20:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:2]
+        elif user_loyalty_points < 30:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:3]
+        elif user_loyalty_points < 40:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:4]
+        elif user_loyalty_points < 50:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:5]
+        else:
+            pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:6]
 
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         return render(request, 'appt_mgmt/appt-pay.html',
