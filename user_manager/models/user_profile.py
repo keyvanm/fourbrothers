@@ -1,4 +1,5 @@
 from django.core.urlresolvers import reverse
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models.signals import post_save
 from django.conf import settings
@@ -13,7 +14,7 @@ class UserProfile(models.Model):
     TYPE_CHOICES = Choices('customer', 'technician', 'manager')
     type = models.CharField(choices=TYPE_CHOICES, default=TYPE_CHOICES.customer, max_length=15)
 
-    loyalty_points = models.PositiveIntegerField(default=0)
+    loyalty_points = models.PositiveIntegerField(validators=[MinValueValidator(0)], default=0)
     phone_number = models.CharField(max_length=20, blank=True)
 
     promos_used = models.ManyToManyField(Promotion, blank=True)
