@@ -311,7 +311,7 @@ class ApptPayView(LoginRequiredMixin, View):
         total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
         total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
 
-        if loyalty:
+        if loyalty and total_price >= 40:
             loyalty_points = Decimal(loyalty)
             total_price_after_gratuity -= loyalty_points
             self.request.user.profile.loyalty_points -= int(loyalty_points)
@@ -342,8 +342,13 @@ class ApptPayView(LoginRequiredMixin, View):
         else:
             loyalty = 0
 
+        if self.request.GET.get('promo_code'):
+            pay_form.fields['promo_code'].initial = self.request.GET.get('promo_code')
+
         total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
             appt, 13, form=pay_form, promo_code=self.request.GET.get('promo_code'), loyalty=loyalty)
+        if total_price < 40:
+            del pay_form.fields['loyalty']
 
         stripe_public_key = settings.STRIPE_PUBLIC_KEY
         return render(request, 'appt_mgmt/appt-pay.html',
@@ -399,7 +404,7 @@ class ApptPayView(LoginRequiredMixin, View):
                 appt.paid = True
                 appt.save(update_fields=('paid',))
 
-                self.request.user.profile.loyalty_points += int(total_payable/20)
+                self.request.user.profile.loyalty_points += int(total_payable / 20)
                 self.request.user.profile.save()
 
                 messages.success(request, 'Appointment booked successfully!')
@@ -409,14 +414,14 @@ class ApptPayView(LoginRequiredMixin, View):
 
                 subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
 
-                send_mail(
-                    subject,
-                    msg_plain,
-                    from_email,
-                    [to],
-                    html_message=msg_html,
-                    fail_silently=False
-                )
+                # send_mail(
+                #     subject,
+                #     msg_plain,
+                #     from_email,
+                #     [to],
+                #     html_message=msg_html,
+                #     fail_silently=False
+                # )
 
                 return redirect('appt-list')
             except stripe.CardError, e:
