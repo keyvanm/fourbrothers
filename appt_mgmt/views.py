@@ -366,11 +366,12 @@ class ApptPayView(LoginRequiredMixin, View):
             promo_code = pay_form.cleaned_data['promo_code']
             loyalty = pay_form.cleaned_data['loyalty']
             _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty)
-            if total_payable:
-                stripe.api_key = settings.STRIPE_SECRET_KEY
-                # stripe_public_key = settings.STRIPE_PUBLIC_KEY
-                token = request.POST['stripeToken']
-                try:
+
+            stripe.api_key = settings.STRIPE_SECRET_KEY
+            # stripe_public_key = settings.STRIPE_PUBLIC_KEY
+            token = request.POST['stripeToken']
+            try:
+                if total_payable:
                     if not request.user.profile.stripe_customer_id:
                         create_and_charge_new_customer(request, token, total_payable)
                     else:
@@ -397,8 +398,6 @@ class ApptPayView(LoginRequiredMixin, View):
                             self.request.user.profile.promos_used.add(promotion)
                         except:
                             pass
-                except:
-                    pass
 
                 appt.paid = True
                 appt.save(update_fields=('paid',))
