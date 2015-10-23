@@ -106,7 +106,7 @@
                     </li>
                     <li><a>Loyalty points <span class="badge">{{ user.profile.loyalty_points }}</span></a></li>
                 {% else %}
-                    <li><a id="login" href="{% url 'account_login' %}">Sign in</i>
+                    <li><a id="login" href="{% url 'account_login' %}">LOGIN</i>
 </a></li>
                     <li><a id="register" href="{% url 'account_signup' %}">SIGN UP</a></li>
                 {% endif %}
@@ -132,7 +132,28 @@
     <footer class="footer">
         <div class="container">
             <div class="row">
-                <div class="col-md-4" style="margin-top: 11px; margin-bottom: 11px;">
+                <div class="col-md-6" style="padding-top: 40px;">
+                 <a class="navbar-brand" href="{% url 'homepage' %}">
+                                       <img height="100%" src="{% static 'img/logo-02A.png' %}">
+                </a> <br>
+                <p id="contact-number">INFO@FOURBROTHERS.CA | 647 926 0936</p>
+                 <h4 style="padding-left:15px;">
+                        <a class="social-icon-footer" target="_blank" href="https://www.facebook.com/">
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                        <a class="social-icon-footer" target="_blank" href="https://twitter.com/">
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                        <a class="social-icon-footer" target="_blank"
+                           href="https://plus.google.com/">
+                            <i class="fa fa-google-plus"></i>
+                        </a>
+                        <a class="social-icon-footer" target="_blank" href="https://www.linkedin.com/company/">
+                            <i class="fa fa-linkedin"></i>
+                        </a>
+                    </h4>
+                </div>
+                <div class="col-md-6" style="margin-top: 11px; margin-bottom: 11px;padding-top:40px;">
                     <ul class="list-unstyled">
                         <li>
                             <a class="text-muted" href="{% url 'careers' %}">
@@ -166,27 +187,10 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-md-4">
+                  <div class="col-md-12">
                     <p class="text-muted" style="margin-top: 11px; margin-bottom: 11px;">
                         <small><i class="fa fa-copyright"></i> 2015 FourBrothers Inc.</small>
                     </p>
-                </div>
-                <div class="col-md-4">
-                    <h4>
-                        <a class="social-icon-footer" target="_blank" href="https://www.facebook.com/">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a class="social-icon-footer" target="_blank" href="https://twitter.com/">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a class="social-icon-footer" target="_blank"
-                           href="https://plus.google.com/">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                        <a class="social-icon-footer" target="_blank" href="https://www.linkedin.com/company/">
-                            <i class="fa fa-linkedin"></i>
-                        </a>
-                    </h4>
                 </div>
             </div>
 
