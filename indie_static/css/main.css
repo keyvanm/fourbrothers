@@ -47,11 +47,11 @@ body {
 }
 
 .footer {
-position: relative;
-bottom: 0px;
-width: 100%;
-height: 300px;
-background-color: #EEE;
+  position: relative;
+  bottom: 0px;
+  width: 100%;
+  height: 100%;
+  background-color: #EEE;
 }
 
 .footer .list-unstyled {
@@ -64,19 +64,20 @@ background-color: #EEE;
 }
 
 .footer li{
-  font-size:20px;
+  font-size:12px;
 }
 
 #contact-number {
   font-family: 'Fjalla One', sans-serif;
-  font-size:30px;
+  font-size:20px;
   color:#444;
-  padding-left:15px;
 }
 
 .social-icon-footer i {
     text-align: center;
-    width: 20px;
+    width: 30px;
+    color:#444!important;
+    font-size:20px;
     height: 20px;
 }
 .footer h4 {
