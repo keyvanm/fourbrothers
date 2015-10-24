@@ -2,13 +2,14 @@
 
 {% block bootstrap3_extra_script %}
     <script type="text/javascript">
-            $(function() {
-                $("#id_building").on('change', function(){
-                    window.location.assign(window.location.pathname+"?building=" + $(this).val())
-                });
-                $("#id_date").on('change',function(){
-                    window.location.assign(window.location.pathname+"?building=" + $("#id_building").val() + "&date=" + $(this).val())
-                });
+        {{ block.super }}
+        $(function() {
+            $("#id_building").on('change', function(){
+                window.location.assign(window.location.pathname+"?building=" + $(this).val())
             });
+            $("#id_date").on('change',function(){
+                window.location.assign(window.location.pathname+"?building=" + $("#id_building").val() + "&date=" + $(this).val())
+            });
+        });
     </script>
 {% endblock %}

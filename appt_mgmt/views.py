@@ -59,13 +59,15 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
         if not self.request.GET.get('date'):
             return []
 
-        date = dateutil.parser.parse(self.request.GET.get('date')).date()
+        requested_date = dateutil.parser.parse(self.request.GET.get('date')).date()
         _time_slot_choices = []
 
-        today = date.today()
-        if date > today:
+        nov_11th = dateutil.parser.parse('2015-11-10').date()
+        today = requested_date.today()
+        today_or_nov_11th = max(today, nov_11th)  # TODO: Remove this after Nov 10th
+        if requested_date > today_or_nov_11th:
             pass
-        elif date == today:
+        elif requested_date == today_or_nov_11th:
             now = datetime.datetime.now()
             if now.hour < 7:
                 pass
@@ -77,11 +79,11 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
                 self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[3:]
             else:
                 raise InvalidDateException('You cannot book an appointment on this date')
-        elif date < today:
+        elif requested_date < today_or_nov_11th:
             raise InvalidDateException('You cannot book an appointment on this date')
 
         for time_slot, time_slot_display in self.TIME_SLOT_CHOICES:
-            if Appointment.objects.filter(date=date, time_slot=time_slot,
+            if Appointment.objects.filter(date=requested_date, time_slot=time_slot,
                                           paid=True).count() < MAX_NUM_APPT_TIME_SLOT:
                 _time_slot_choices.append((time_slot, time_slot_display))
 

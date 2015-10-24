@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load staticfiles %}
+
 
 {% block title %}Book Appointment{% endblock title %}
+
+{% block bootstrap3_extra_head %}{{ form.media }}{% endblock %}
 
 {% block content %}
     <div class="page-header">
@@ -30,11 +34,31 @@
 {% endblock content %}
 
 {% block bootstrap3_extra_script %}
+    <script type="text/javascript" src="{% static "js/date.js" %}"></script>
     <script type="text/javascript">
-            $(function() {
-                $("#id_date_picker").on('change.dp',function(){
-                    window.location.assign(window.location.pathname+"?date=" + $("#id_date").val())
-                });
+        function pad(number) {
+            if (number < 10) {
+                return '0' + number;
+          }
+          return number;
+        }
+
+        function valid_start_date_for_booking_appointments(){
+            var now = new Date();
+            var nov_11th = new Date(2015, 11 - 1, 10);
+            var tomorrow = Date.today().addDays(1);
+            if (now < nov_11th) return nov_11th;
+            if (now.getHours() < 16) return now;
+            else return tomorrow;
+        }
+
+        $(function() {
+            var $datePicker = $("#id_date_picker");
+            var startDate = valid_start_date_for_booking_appointments();
+            $datePicker.data("DateTimePicker").setStartDate(startDate);
+            $datePicker.on('change.dp',function(){
+                window.location.assign(window.location.pathname+"?date=" + $("#id_date").val())
             });
+        });
     </script>
 {% endblock %}

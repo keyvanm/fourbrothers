@@ -47,23 +47,27 @@ class DateChoiceField(forms.ChoiceField):
         return datetime.datetime.strptime(force_str(value), format).date()
 
 
-def tomorrow():
-    return datetime.date.today() + datetime.timedelta(days=1)
-
-
-def valid_start_date_for_booking_appointments():
-    now = datetime.datetime.now()
-    if datetime.datetime.now().hour > 16:
-        return tomorrow()
-    else:
-        return datetime.date.today()
+# def tomorrow():
+#     return datetime.date.today() + datetime.timedelta(days=1)
+#
+#
+# def valid_start_date_for_booking_appointments():
+#     now = datetime.datetime.now()
+#     nov_11th = dateutil.parser.parse('2015-11-10').date()
+#     if now.date() < nov_11th:
+#         return nov_11th
+#     if now.hour > 16:
+#         return tomorrow()
+#     else:
+#         return now.date()
 
 
 class AppointmentForm(ModelForm):
     date = forms.DateField(
         widget=DateTimePicker(options={"format": "YYYY-MM-DD",
                                        "pickTime": False,
-                                       "startDate": str(valid_start_date_for_booking_appointments())}))
+                                       # "startDate": str(valid_start_date_for_booking_appointments())
+                                       }))
 
     class Meta:
         model = Appointment
@@ -92,7 +96,7 @@ class AppointmentEditForm(ModelForm):
         widget=DateTimePicker(options={
             "format": "YYYY-MM-DD",
             "pickTime": False,
-            "startDate": str(valid_start_date_for_booking_appointments())
+            # "startDate": str(valid_start_date_for_booking_appointments())
         }))
 
     class Meta:
