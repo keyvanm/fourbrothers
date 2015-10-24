@@ -215,8 +215,8 @@ class ApptEdit(UpdateView):
 
     def get_success_url(self):
         appt = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
-        msg_plain = render_to_string('appt_mgmt/email.txt', {'appt': appt})
-        msg_html = render_to_string('appt_mgmt/email.html', {'appt': appt})
+        msg_plain = render_to_string('appt_mgmt/confirmation-email.txt', {'appt': appt})
+        msg_html = render_to_string('appt_mgmt/confirmation-email.html', {'appt': appt})
 
         subject, from_email, to = 'Appointment Updated', 'info@fourbrothers.com', self.request.user.email
 
