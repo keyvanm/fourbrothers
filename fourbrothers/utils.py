@@ -1,5 +1,23 @@
 from itertools import izip_longest
 from django.contrib.auth.decorators import login_required
+from django.http.response import Http404
+
+
+class ManagerPermissionMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.profile.type != 'manager':
+            raise Http404
+        else:
+            return super(ManagerPermissionMixin, self).dispatch(request)
+
+
+class ManagerTechnicianPermissionMixin(object):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.profile.type == 'technician' or request.user.profile.type == 'manager':
+            return super(ManagerTechnicianPermissionMixin, self).dispatch(request)
+        else:
+            raise Http404
+
 
 
 class LoginRequiredMixin(object):

@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
 
 {% block bootstrap3_extra_head %}
     <style>
@@ -66,7 +68,8 @@
         </div>
     </div>
 
-    <a href="#" class="btn btn-primary btn-lg org-btn hvr-shrink">
-        Charge
-    </a>
+    <form method="post" action="completed/">
+        {% csrf_token %}
+        <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Completed"/>
+    </form>
 {% endblock %}
