@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     #
     'storages',
     's3_folder_storage',
+    'collectfast',
     #
     'allauth',
     'allauth.account',
@@ -106,7 +107,10 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_DISPLAY = lambda user: user.get_full_name()
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+if DEBUG:
+    ACCOUNT_EMAIL_VERIFICATION = "none"
+
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "FourBrothers - "
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_SIGNUP_FORM_CLASS = "user_manager.forms.MySignupForm"
