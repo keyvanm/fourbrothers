@@ -39,7 +39,7 @@ class Promotion(TimeStampedModel):
 
     def get_discounted_price(self, appt):
         if self in appt.user.profile.promos_used.all():
-            raise InvalidPromotionException()
+            raise InvalidPromotionException("You have already used this promotion")
 
         price = appt.get_price()
 

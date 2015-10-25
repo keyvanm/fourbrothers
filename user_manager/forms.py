@@ -11,7 +11,7 @@ class PrivateAddressForm(ModelForm):
 
     class Meta:
         model = Address
-        fields = ('name', 'address1', 'address2', 'city', 'state', 'postal_code', 'country')
+        fields = ('address1', 'address2', 'city', 'state', 'postal_code', 'country')
 
 
 class SharedParkingLocationForm(ModelForm):

@@ -100,10 +100,10 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
             try:
                 form.fields['time_slot'].choices = self.time_slot_choices()
             except InvalidDateException as e:
-                form._errors = {'date': unicode(e.message)}
+                form.errs = {'date': unicode(e.message)}
 
             if not form.fields['time_slot'].choices:
-                form._errors = {'date': unicode(e.message)}
+                form.errs = {'date': unicode(e.message)}
                 form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
         else:
             form.fields['time_slot'].widget = forms.HiddenInput()
@@ -295,11 +295,14 @@ class ApptPayView(LoginRequiredMixin, View):
     def get_price(self, appt, sales_tax_percent, form, promo_code=None, loyalty=0):
         if promo_code:
             try:
-                promotion = get_object_or_404(Promotion, code=promo_code)
+                try:
+                    promotion = Promotion.objects.get(code=promo_code)
+                except Promotion.DoesNotExist:
+                    raise InvalidPromotionException("This promo code is invalid")
                 total_price_before_tax = promotion.get_discounted_price(appt)
             except InvalidPromotionException as e:
                 total_price_before_tax = appt.get_price()
-                form._errors = {'promotion': e.message}
+                form.errs = {'promotion': e.message}
         else:
             total_price_before_tax = appt.get_price()
 
@@ -307,14 +310,12 @@ class ApptPayView(LoginRequiredMixin, View):
         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
 
-        total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
-        total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
-
         if loyalty and total_price >= 40:
             loyalty_points = Decimal(loyalty)
-            total_price_after_gratuity -= loyalty_points
-            self.request.user.profile.loyalty_points -= int(loyalty_points)
-            self.request.user.profile.save()
+            total_price -= loyalty_points
+
+        total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
+        total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
 
         return total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity
 
@@ -364,8 +365,8 @@ class ApptPayView(LoginRequiredMixin, View):
             appt.save()
 
             promo_code = pay_form.cleaned_data['promo_code']
-            loyalty = pay_form.cleaned_data['loyalty']
-            _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty)
+            loyalty_points = pay_form.cleaned_data['loyalty']
+            _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty_points)
 
             stripe.api_key = settings.STRIPE_SECRET_KEY
             # stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -402,6 +403,7 @@ class ApptPayView(LoginRequiredMixin, View):
                 appt.paid = True
                 appt.save(update_fields=('paid',))
 
+                self.request.user.profile.loyalty_points -= int(loyalty_points)
                 self.request.user.profile.loyalty_points += int(total_payable / 20)
                 self.request.user.profile.save()
 

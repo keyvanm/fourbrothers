@@ -58,6 +58,7 @@ class SharedAddressCreateView(AddressCreateView):
 
 class PrivateAddressEditView(LoginRequiredMixin, UpdateView):
     model = PrivateParkingLocation
+    form_class = PrivateAddressForm
     template_name = 'user_manager/address_manager/address-edit.html'
 
     def get_success_url(self):
