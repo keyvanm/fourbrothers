@@ -94,10 +94,10 @@ class AppointmentForm(ModelForm):
 class AppointmentEditForm(ModelForm):
     date = forms.DateField(
         widget=DateTimePicker(options={
-            "format": "YYYY-MM-DD",
-            "pickTime": False,
-            # "startDate": str(valid_start_date_for_booking_appointments())
-        }))
+                                  "format": "YYYY-MM-DD",
+                                  "pickTime": False,
+                                  # "startDate": str(valid_start_date_for_booking_appointments())
+                              }))
 
     class Meta:
         model = Appointment

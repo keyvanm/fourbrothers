@@ -48,7 +48,7 @@ class BuildingPreScheduledTimeSlot(TimeStampedModel):
 
 class ParkingLocation(TimeStampedModel):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='%(class)s_set')
-    name = models.CharField(max_length=200, verbose_name='Nickname')
+    name = models.CharField(max_length=200, verbose_name='Nickname', blank=True )
     address = models.OneToOneField(Address, related_name='%(class)s_set')
 
     def __unicode__(self):
