@@ -62,24 +62,24 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
         requested_date = dateutil.parser.parse(self.request.GET.get('date')).date()
         _time_slot_choices = []
 
-        nov_11th = dateutil.parser.parse('2015-11-10').date()
+        nov_10th = dateutil.parser.parse('2015-11-10').date()
         today = requested_date.today()
-        today_or_nov_11th = max(today, nov_11th)  # TODO: Remove this after Nov 10th
-        if requested_date > today_or_nov_11th:
+        today_or_nov_10th = max(today, nov_10th)  # TODO: Remove this after Nov 10th
+        if requested_date >= today_or_nov_10th:
             pass
-        elif requested_date == today_or_nov_11th:
-            now = datetime.datetime.now()
-            if now.hour < 7:
-                pass
-            elif now.hour < 10:
-                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[1:]
-            elif now.hour < 13:
-                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[2:]
-            elif now.hour < 16:
-                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[3:]
-            else:
-                raise InvalidDateException('You cannot book an appointment on this date')
-        elif requested_date < today_or_nov_11th:
+        # elif requested_date == today_or_nov_10th:
+        #     now = datetime.datetime.now()
+        #     if now.hour < 7:
+        #         pass
+        #     elif now.hour < 10:
+        #         self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[1:]
+        #     elif now.hour < 13:
+        #         self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[2:]
+        #     elif now.hour < 16:
+        #         self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[3:]
+        #     else:
+        #         raise InvalidDateException('You cannot book an appointment on this date')
+        elif requested_date < today_or_nov_10th:
             raise InvalidDateException('You cannot book an appointment on this date')
 
         for time_slot, time_slot_display in self.TIME_SLOT_CHOICES:
@@ -444,9 +444,10 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
     @property
     def available_cars(self):
         if not self._cars:
-            self._cars = Car.objects.filter(owner=self.request.user).exclude(
-                id__in=Car.objects.filter(servicedcar__appointment=self.appt)
-            )
+            self._cars = Car.objects.filter(owner=self.request.user)
+            #     .exclude(
+            #     id__in=Car.objects.filter(servicedcar__appointment=self.appt)
+            # )
         return self._cars
 
     def get_success_url(self):
