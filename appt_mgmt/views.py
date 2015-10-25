@@ -364,8 +364,8 @@ class ApptPayView(LoginRequiredMixin, View):
             appt.gratuity = int(pay_form.cleaned_data['gratuity'])
             appt.save()
 
-            promo_code = pay_form.cleaned_data['promo_code']
-            loyalty_points = pay_form.cleaned_data['loyalty']
+            promo_code = pay_form.cleaned_data.get('promo_code')
+            loyalty_points = pay_form.cleaned_data.get('loyalty')
             _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty_points)
 
             stripe.api_key = settings.STRIPE_SECRET_KEY
@@ -402,15 +402,15 @@ class ApptPayView(LoginRequiredMixin, View):
 
                 appt.paid = True
                 appt.save(update_fields=('paid',))
-
-                self.request.user.profile.loyalty_points -= int(loyalty_points)
+                if loyalty_points:
+                    self.request.user.profile.loyalty_points -= int(loyalty_points)
                 self.request.user.profile.loyalty_points += int(total_payable / 20)
                 self.request.user.profile.save()
 
                 messages.success(request, 'Appointment booked successfully!')
 
-                msg_plain = render_to_string('appt_mgmt/email.txt', {'appt': appt})
-                msg_html = render_to_string('appt_mgmt/email.html', {'appt': appt})
+                msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': appt})
+                msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': appt})
 
                 subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
 
