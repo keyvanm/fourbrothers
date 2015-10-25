@@ -101,7 +101,7 @@ class AppointmentEditForm(ModelForm):
 
     class Meta:
         model = Appointment
-        fields = ['date', 'time_slot']
+        fields = ['date', 'time_slot', 'address']
 
     def clean_date(self):
         date = self.cleaned_data['date']

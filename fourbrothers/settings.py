@@ -177,12 +177,12 @@ else:
 # SESSION_COOKIE_SECURE = True
 # CSRF_COOKIE_SECURE = True
 
-# if DEBUG:
-#     EMAIL_HOST = '127.0.0.1'
-#     EMAIL_HOST_USER = ''
-#     EMAIL_HOST_PASSWORD = ''
-#     EMAIL_PORT = 1025
-#     EMAIL_USE_TLS = False
+if DEBUG:
+    EMAIL_HOST = '127.0.0.1'
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    EMAIL_PORT = 1025
+    EMAIL_USE_TLS = False
 
 # Email
 if 'EMAIL_HOST_USER' in os.environ:

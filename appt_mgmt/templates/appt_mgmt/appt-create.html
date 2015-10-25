@@ -23,7 +23,11 @@
         <form method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
-            <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
+            <a href="{% url 'homepage' %}"
+               class="btn btn-danger btn-lg cancel-btn hvr-shrink"
+               data-toggle="confirmation-singleton" data-placement="top" data-original-title title>
+                Cancel
+            </a>
             <input
                     class="btn btn-primary btn-lg org-btn hvr-shrink"
                     {% if not time_slot_choices %}disabled{% endif %}

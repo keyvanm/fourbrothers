@@ -57,6 +57,9 @@
                         {% endfor %}
                     </ul>
                 </li>
+                {% if appt.additional_info %}
+                    <li>Additional Info: {{ appt.additional_info }}</li>
+                {% endif %}
             </ul>
         </div>
     </div>
