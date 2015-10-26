@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 if 'DEBUG' in os.environ:
-    DEBUG = (os.environ['DJANGO_DEBUG'] == "True")
+    DEBUG = (os.environ['DEBUG'] == "True")
 
 ALLOWED_HOSTS = ['.fourbrothers.ca', ]
 
