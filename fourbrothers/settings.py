@@ -24,7 +24,7 @@ DEBUG = True
 if 'DJANGO_DEBUG' in os.environ:
     DEBUG = (os.environ['DJANGO_DEBUG'] == "True")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['fourbrothers.ca', 'www.fourbrothers.ca']
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '%sez1v1@)hi-$b6la@wjc-zq6kp=!bbxk!*7emy8k6y&tgr^ij'
