@@ -1,12 +1,21 @@
 <div class="col-md-4 animated bounceInUp">
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a href="{% url 'appt-detail' pk=appt.pk %}">
-                <h3 class="panel-title addr-name">
-                    <i class="fa fa-calendar-check-o"></i>
-                    {{ appt.get_full_name }}
-                </h3>
-            </a>
+            {% if user.profile.type == 'customer' %}
+                <a href="{% url 'appt-detail' pk=appt.pk %}">
+                    <h3 class="panel-title addr-name">
+                        <i class="fa fa-calendar-check-o"></i>
+                        {{ appt.get_full_name }}
+                    </h3>
+                </a>
+            {% else %}
+                <a href="{% url 'tech-schedule-detail' pk=appt.pk %}">
+                    <h3 class="panel-title addr-name">
+                        <i class="fa fa-calendar-check-o"></i>
+                        {{ appt.get_full_name }}
+                    </h3>
+                </a>
+            {% endif %}
 
             {% if user.profile.type == 'manager' %}
                 <div class="dropdown pull-right">
@@ -48,6 +57,9 @@
                         {% endfor %}
                     </ul>
                 </li>
+                {% if appt.additional_info %}
+                    <li>Additional Info: {{ appt.additional_info }}</li>
+                {% endif %}
             </ul>
         </div>
     </div>

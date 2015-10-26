@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'appt_mgmt/appt_mgmt_base.html' %}
 {% load staticfiles %}
 {% load bootstrap3 %}
 
@@ -11,6 +11,7 @@
 {% block content %}
     <div class="page-header">
         <h1>Choose Service</h1>
+        <small>Do not press your browser's back button or you will risk losing your progress.</small>
     </div>
     <div>
         {% bootstrap_form_errors form %}

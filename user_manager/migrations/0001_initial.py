@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
                 ('address1', models.CharField(max_length=255, verbose_name=b'Street Address')),
                 ('address2', models.CharField(max_length=255, verbose_name=b'Apt/Suite/Bldg', blank=True)),
-                ('city', models.CharField(max_length=200)),
+                ('city', models.CharField(max_length=200, choices=[(b'Downtown Toronto', b'Downtown Toronto'), (b'East York', b'East York'), (b'Etobicoke', b'Etobicoke'), (b'Markham', b'Markham'), (b'North Toronto', b'North Toronto'), (b'North York', b'North York'), (b'Scarborough', b'Scarborough'), (b'Thornhill', b'Thornhill'), (b'Vaughan', b'Vaughan'), (b'York', b'York')])),
                 ('state', models.CharField(max_length=200, verbose_name=b'State/Province')),
                 ('postal_code', models.CharField(max_length=20, verbose_name=b'ZIP/Postal Code')),
                 ('country', models.CharField(default=b'Canada', max_length=200)),

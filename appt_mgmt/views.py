@@ -59,29 +59,31 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
         if not self.request.GET.get('date'):
             return []
 
-        date = dateutil.parser.parse(self.request.GET.get('date')).date()
+        requested_date = dateutil.parser.parse(self.request.GET.get('date')).date()
         _time_slot_choices = []
 
-        today = date.today()
-        if date > today:
+        nov_10th = dateutil.parser.parse('2015-11-10').date()
+        today = requested_date.today()
+        today_or_nov_10th = max(today, nov_10th)  # TODO: Remove this after Nov 10th
+        if requested_date >= today_or_nov_10th:
             pass
-        elif date == today:
-            now = datetime.datetime.now()
-            if now.hour < 7:
-                pass
-            elif now.hour < 10:
-                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[1:]
-            elif now.hour < 13:
-                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[2:]
-            elif now.hour < 16:
-                self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[3:]
-            else:
-                raise InvalidDateException('You cannot book an appointment on this date')
-        elif date < today:
+        # elif requested_date == today_or_nov_10th:
+        #     now = datetime.datetime.now()
+        #     if now.hour < 7:
+        #         pass
+        #     elif now.hour < 10:
+        #         self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[1:]
+        #     elif now.hour < 13:
+        #         self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[2:]
+        #     elif now.hour < 16:
+        #         self.TIME_SLOT_CHOICES = self.TIME_SLOT_CHOICES[3:]
+        #     else:
+        #         raise InvalidDateException('You cannot book an appointment on this date')
+        elif requested_date < today_or_nov_10th:
             raise InvalidDateException('You cannot book an appointment on this date')
 
         for time_slot, time_slot_display in self.TIME_SLOT_CHOICES:
-            if Appointment.objects.filter(date=date, time_slot=time_slot,
+            if Appointment.objects.filter(date=requested_date, time_slot=time_slot,
                                           paid=True).count() < MAX_NUM_APPT_TIME_SLOT:
                 _time_slot_choices.append((time_slot, time_slot_display))
 
@@ -98,10 +100,10 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
             try:
                 form.fields['time_slot'].choices = self.time_slot_choices()
             except InvalidDateException as e:
-                form._errors = {'date': unicode(e.message)}
+                form.errs = {'date': unicode(e.message)}
 
             if not form.fields['time_slot'].choices:
-                form._errors = {'date': unicode(e.message)}
+                form.errs = {'date': unicode(e.message)}
                 form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
         else:
             form.fields['time_slot'].widget = forms.HiddenInput()
@@ -213,8 +215,8 @@ class ApptEdit(UpdateView):
 
     def get_success_url(self):
         appt = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
-        msg_plain = render_to_string('appt_mgmt/email.txt', {'appt': appt})
-        msg_html = render_to_string('appt_mgmt/email.html', {'appt': appt})
+        msg_plain = render_to_string('appt_mgmt/confirmation-email.txt', {'appt': appt})
+        msg_html = render_to_string('appt_mgmt/confirmation-email.html', {'appt': appt})
 
         subject, from_email, to = 'Appointment Updated', 'info@fourbrothers.com', self.request.user.email
 
@@ -293,11 +295,14 @@ class ApptPayView(LoginRequiredMixin, View):
     def get_price(self, appt, sales_tax_percent, form, promo_code=None, loyalty=0):
         if promo_code:
             try:
-                promotion = get_object_or_404(Promotion, code=promo_code)
+                try:
+                    promotion = Promotion.objects.get(code=promo_code)
+                except Promotion.DoesNotExist:
+                    raise InvalidPromotionException("This promo code is invalid")
                 total_price_before_tax = promotion.get_discounted_price(appt)
             except InvalidPromotionException as e:
                 total_price_before_tax = appt.get_price()
-                form._errors = {'promotion': e.message}
+                form.errs = {'promotion': e.message}
         else:
             total_price_before_tax = appt.get_price()
 
@@ -305,14 +310,12 @@ class ApptPayView(LoginRequiredMixin, View):
         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
 
-        total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
-        total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
-
         if loyalty and total_price >= 40:
             loyalty_points = Decimal(loyalty)
-            total_price_after_gratuity -= loyalty_points
-            self.request.user.profile.loyalty_points -= int(loyalty_points)
-            self.request.user.profile.save()
+            total_price -= loyalty_points
+
+        total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
+        total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
 
         return total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity
 
@@ -361,9 +364,9 @@ class ApptPayView(LoginRequiredMixin, View):
             appt.gratuity = int(pay_form.cleaned_data['gratuity'])
             appt.save()
 
-            promo_code = pay_form.cleaned_data['promo_code']
-            loyalty = pay_form.cleaned_data['loyalty']
-            _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty)
+            promo_code = pay_form.cleaned_data.get('promo_code')
+            loyalty_points = pay_form.cleaned_data.get('loyalty')
+            _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty_points)
 
             stripe.api_key = settings.STRIPE_SECRET_KEY
             # stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -399,14 +402,15 @@ class ApptPayView(LoginRequiredMixin, View):
 
                 appt.paid = True
                 appt.save(update_fields=('paid',))
-
+                if loyalty_points:
+                    self.request.user.profile.loyalty_points -= int(loyalty_points)
                 self.request.user.profile.loyalty_points += int(total_payable / 20)
                 self.request.user.profile.save()
 
                 messages.success(request, 'Appointment booked successfully!')
 
-                msg_plain = render_to_string('appt_mgmt/email.txt', {'appt': appt})
-                msg_html = render_to_string('appt_mgmt/email.html', {'appt': appt})
+                msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': appt})
+                msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': appt})
 
                 subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
 
@@ -442,9 +446,10 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
     @property
     def available_cars(self):
         if not self._cars:
-            self._cars = Car.objects.filter(owner=self.request.user).exclude(
-                id__in=Car.objects.filter(servicedcar__appointment=self.appt)
-            )
+            self._cars = Car.objects.filter(owner=self.request.user)
+            #     .exclude(
+            #     id__in=Car.objects.filter(servicedcar__appointment=self.appt)
+            # )
         return self._cars
 
     def get_success_url(self):

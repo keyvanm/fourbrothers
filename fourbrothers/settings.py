@@ -21,10 +21,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-if 'DJANGO_DEBUG' in os.environ:
+if 'DEBUG' in os.environ:
     DEBUG = (os.environ['DJANGO_DEBUG'] == "True")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['.fourbrothers.ca', ]
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '%sez1v1@)hi-$b6la@wjc-zq6kp=!bbxk!*7emy8k6y&tgr^ij'
@@ -43,6 +43,7 @@ INSTALLED_APPS = (
     #
     'storages',
     's3_folder_storage',
+    'collectfast',
     #
     'allauth',
     'allauth.account',
@@ -106,7 +107,10 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_USER_DISPLAY = lambda user: user.get_full_name()
-ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+if DEBUG:
+    ACCOUNT_EMAIL_VERIFICATION = "none"
+
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "FourBrothers - "
 ACCOUNT_LOGIN_ON_EMAIL_CONFIRMATION = True
 ACCOUNT_SIGNUP_FORM_CLASS = "user_manager.forms.MySignupForm"
@@ -169,9 +173,17 @@ else:
     COLLECTFAST_ENABLED = False
 
 # HTTPS Security
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SESSION_COOKIE_SECURE = True
-# CSRF_COOKIE_SECURE = True
+if not DEBUG:
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+    SESSION_COOKIE_SECURE = True
+    CSRF_COOKIE_SECURE = True
+
+if DEBUG:
+    EMAIL_HOST = '127.0.0.1'
+    EMAIL_HOST_USER = ''
+    EMAIL_HOST_PASSWORD = ''
+    EMAIL_PORT = 1025
+    EMAIL_USE_TLS = False
 
 # Email
 if 'EMAIL_HOST_USER' in os.environ:

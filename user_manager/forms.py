@@ -7,11 +7,11 @@ from user_manager.models.user_profile import UserProfile
 
 
 class PrivateAddressForm(ModelForm):
-    name = forms.CharField(label='Address Nickname')
+    # name = forms.CharField(label='Address Nickname')
 
     class Meta:
         model = Address
-        fields = ('name', 'address1', 'address2', 'city', 'state', 'postal_code', 'country')
+        fields = ('address1', 'address2', 'city', 'state', 'postal_code', 'country')
 
 
 class SharedParkingLocationForm(ModelForm):

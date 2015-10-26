@@ -1,12 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'appt_mgmt/appt_mgmt_base.html' %}
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load staticfiles %}
+
 
 {% block title %}Book Appointment{% endblock title %}
+
+{% block bootstrap3_extra_head %}{{ form.media }}{% endblock %}
 
 {% block content %}
     <div class="page-header">
         <h1>Book Appointment</h1>
+        <small>Do not press your browser's back button or you will risk losing your progress.</small>
     </div>
     <div>
         {% if not time_slot_choices and date %}
@@ -18,8 +23,17 @@
     <div class="well col-lg-6 column">
         <form method="post">
             {% csrf_token %}
+            <div>
+                    {% for k, v in form.errs.items %}
+                        <div class="alert alert-warning">{{ v }}</div>
+                    {% endfor %}
+            </div>
             {% bootstrap_form form %}
-            <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
+            <a href="{% url 'homepage' %}"
+               class="btn btn-danger btn-lg cancel-btn hvr-shrink"
+               data-toggle="confirmation-singleton" data-placement="top" data-original-title title>
+                Cancel
+            </a>
             <input
                     class="btn btn-primary btn-lg org-btn hvr-shrink"
                     {% if not time_slot_choices %}disabled{% endif %}
@@ -30,11 +44,33 @@
 {% endblock content %}
 
 {% block bootstrap3_extra_script %}
+    {{ block.super }}
+    <script type="text/javascript" src="{% static "js/date.js" %}"></script>
     <script type="text/javascript">
-            $(function() {
-                $("#id_date_picker").on('change.dp',function(){
-                    window.location.assign(window.location.pathname+"?date=" + $("#id_date").val())
-                });
+        function pad(number) {
+            if (number < 10) {
+                return '0' + number;
+          }
+          return number;
+        }
+
+        function valid_start_date_for_booking_appointments(){
+            var now = new Date();
+            var nov_11th = new Date(2015, 11 - 1, 10);
+            var tomorrow = Date.today().addDays(1);
+            if (now < nov_11th) return nov_11th;
+            if (now.getHours() < 16) return now;
+            else return tomorrow;
+        }
+
+        $(function() {
+            $("#id_date").attr('readonly', true);
+            var $datePicker = $("#id_date_picker");
+            var startDate = valid_start_date_for_booking_appointments();
+            $datePicker.data("DateTimePicker").setStartDate(startDate);
+            $datePicker.on('change.dp',function(){
+                window.location.assign(window.location.pathname+"?date=" + $("#id_date").val())
             });
+        });
     </script>
 {% endblock %}

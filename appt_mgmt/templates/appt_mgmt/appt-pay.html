@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'appt_mgmt/appt_mgmt_base.html' %}
 {% load staticfiles %}
 {% load bootstrap3 %}
 
@@ -9,6 +9,7 @@
         {% csrf_token %}
         <div class="page-header">
             <h1>Pay for your order</h1>
+            <small>Do not press your browser's back button or you will risk losing your progress.</small>
         </div>
 
         <div class="panel panel-primary">
@@ -35,16 +36,34 @@
                         </li>
                     {% endfor %}
                 </ul>
+                <div>
+                    {% for k, v in pay_form.errs.items %}
+                        <div class="alert alert-warning">{{ v }}</div>
+                    {% endfor %}
+                </div>
                 <ul class="list-unstyled">
                     {% bootstrap_form pay_form %}
-                    <a href="#" class="btn btn-default" id="apply-promo">Apply promotion</a>
+                    <a href="#" class="btn btn-default hidden" id="apply-promo">Apply promotion</a>
                     <script type="text/javascript">
                         $(function () {
-                            $("#apply-promo").click(function () {
-                                        window.location.assign(window.location.pathname + "?promo_code=" + $("#id_promo_code").val())
+                            var promoLastValue = '';
+                            $("#id_promo_code").on('change keyup paste mouseup', function() {
+                                if ($(this).val() != promoLastValue) {
+                                    promoLastValue = $(this).val();
+                                    if ($(this).val()){
+                                        $("#apply-promo").removeClass("hidden");
+                                    } else {
+                                        $("#apply-promo").addClass("hidden");
                                     }
-                            )
-                        })
+                                }
+                            });
+                            $("#apply-promo").click(function () {
+                                window.location.assign(window.location.pathname + "?promo_code=" + $("#id_promo_code").val());
+                            });
+                            $("#id_loyalty").change(function () {
+                                window.location.assign(window.location.pathname + "?loyalty=" + $("#id_loyalty :selected").val());
+                            });
+                        });
                     </script>
                 </ul>
                 <a href="{% url 'homepage' %}" class="btn btn-default">Cancel</a>

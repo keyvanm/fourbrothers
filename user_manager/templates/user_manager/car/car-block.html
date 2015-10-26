@@ -23,6 +23,9 @@
                 <li>Color: {{ car.color }}</li>
                 <li>Plate: {{ car.plate }}</li>
                 <li>Mileage: {{ car.mileage }}</li>
+                {% if car.additional_info %}
+                    <li>Additional Info: {{ car.additional_info }}</li>
+                {% endif %}
             </ul>
         </div>
     </div>

@@ -2,7 +2,10 @@
 
 {% block content %}
     <div class="container">
-        <h2>Terms and Conditions</h2>
+        <div class="page-header">
+            <h1>Terms and Conditions</h1>
+            <small>Do not press your browser's back button or you will risk losing your progress.</small>
+        </div>
         <p>
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras et nisl quis lacus congue posuere accumsan non
             est. Nam vitae nunc nec felis pellentesque egestas vulputate quis sapien. Aliquam sed justo facilisis,
@@ -23,7 +26,7 @@
             egestas. Cras in viverra lorem. Vestibulum ultrices augue quis urna faucibus sollicitudin. Aenean
             fringilla, ligula ut vulputate dictum, neque massa fermentum odio, et pulvinar nunc tortor sit amet lorem.
         </p>
-        <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Reject</a>
+        <a href="#" onclick="window.history.back()" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Reject</a>
         <a href="{% url 'appt-pay' pk=pk %}" class="btn btn-primary btn-lg org-btn hvr-shrink">Accept</a>
 {#        <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Accept"/>#}
     </div>

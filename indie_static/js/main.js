@@ -72,6 +72,14 @@ $(document).ready(function animationHover(element, animation){
     //        $("#id_loyalty").val("");
     //    }
     //});
+
+    $(".cancel-btn").click(function(event) {
+        if (confirm('Are you sure?')) {
+            return
+        } else {
+            event.preventDefault();
+        }
+    });
 });
 
 

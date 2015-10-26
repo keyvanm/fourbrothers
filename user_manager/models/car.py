@@ -18,13 +18,13 @@ class Car(TimeStampedModel):
     plate = models.CharField(max_length=15)
     mileage = models.PositiveIntegerField(blank=True, null=True)
     ENGINE_TYPE = (
-        ('v3', 'V3'),
-        ('v4', 'V4'),
-        ('v5', 'V5'),
-        ('v6', 'V6'),
-        ('v8', 'V8'),
+        ('3', 'V3'),
+        ('4', 'V4'),
+        ('5', 'V5'),
+        ('6', 'V6'),
+        ('8', 'V8'),
     )
-    engine_type = models.CharField(choices=ENGINE_TYPE, default=4, max_length=2)
+    engine_type = models.CharField(choices=ENGINE_TYPE, default='4', max_length=2)
 
     additional_info = models.TextField(blank=True)
 
