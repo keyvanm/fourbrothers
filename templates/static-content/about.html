@@ -8,4 +8,107 @@
 
 
 {% block no_container_content %}
+<div class="about swatch-yellow-black has-bottom">
+<div class="decor-top">
+    <svg class="decor" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0 C50 100 50 100 100 0  L100 100 0 100" stroke-width="0">
+        </path>
+    </svg>
+</div>
+ <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row jumbotron" style="background:none;">
+                    <h1>What we're all about.</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+ </div>
+ <div id="values">
+    <div class="container">
+      <div class="angle right-corner top"></div>
+        <div class="row">
+            <div class="col-lg-12">
+                    <div class="row">
+                      <div class="aniview fast" av-animation="zoomIn">
+                        <div class="col-lg-4" style="text-align:center;">
+                        <span class="num">1</span><h1>Innovation</h1>
+                        </div>
+                      </div>
+                      <div class="aniview" av-animation="fadeIn" style="animation-duration: 2s;animation-delay: 0.5s;">
+                      <i class="fa fa-long-arrow-right"></i>
+                      </div>
+                      <div class="aniview fast2" av-animation="zoomIn">
+                        <div class="col-lg-4" style="text-align:center;">
+                        <span class="num">2</span><h1>Convenience</h1>
+                        </div>
+                      </div>
+                       <div class="aniview" av-animation="fadeIn" style="animation-duration: 2s;animation-delay: 1.5s;">
+                      <i class="fa fa-long-arrow-right"></i>
+                      </div>
+                      <div class="aniview fast3" av-animation="zoomIn">
+                        <div class="col-lg-4" style="text-align:center;">
+                        <span class="num">3</span><h1>Efficiency</h1>
+                        </div>
+                      </div>
+                    </div>
+            </div>
+        </div>
+       <div class="angle left-corner"></div>
+    </div>
+</div>
+<div id="about_us">
+     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+            <div class="aniview fast" av-animation="slideInLeft">
+            </div>
+            <p>Four Brothers enables customers to receive car services without leaving the comfort of their home.<p>
+
+            <h2>Not at home - No problem!<i class="fa fa-home"></i></h2>
+            <p>Customers can take advantage of our "open hood" option and still have their car serviced.</p> 
+
+           <h2>Normally forced to take hours out of your day for car service?<i class="fa fa-clock-o"></i>
+</h2> 
+           <p>Our online scheduling can be completed in less than a minute, as opposed to the hours spent traveling and waiting at a typical garage. Once your appointment is booked, one of the Four Brothers’ certified technicians will arrive at your requested address. In less than 15 minutes* your car will be completely serviced.</p> 
+
+            <p>Not only is Four Brothers affordable and extremely convenient, we make sure that customers are completely satisfied by providing a 100% money-back guarantee.</p>
+
+<h1>Four Brothers takes the inconvenience out of vehicle maintenance, and lets you get back to your busy day!</h1>
+<p>Book an Appointment Online: By Following our easy online scheduling system, you will be able to choose the time and services that you want! Please make sure to have your profile set up for quick and easy service.
+One of our licensed technicans will come to your selected address to service your car. Once the technican arrives, please make sure to hand over the keys to your vehicle for servicing or simply have car hood released if you are unable to be home during the scheduled appointment
+The technician will begin work on your vehicle based upon your requested services, with satisfaction  fully gaurenteed. Once the vehicle is serviced, the technican will close and secure the vehicle. Lastly, an invoice will be emailed giving you a receipt and thanking you for your business.
+</p>
+
+<div style="text-align:center;">
+                  <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg org-btn hvr-shrink">
+                BOOK NOW
+            </a>
+                </div>
+            </div>
+        </div>
+        <div class="angle right-corner" style="background:#fff;"></div>
+    </div>
+ </div>
+ <div id="warranty">
+     <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+         <h2>WARRANTY APPROVED AND FULLY COVERED</h2>
+            <p>Four Brothers is a fully insured and bondable auto service company. This includes liability insurance of up to $2,000,000 and WSIB for all of our certifiable and licensed technicians. Not only are we full covered, but we guarantee that your vehicle’s warranty will be in the same condition. Besides from taking the upmost care of your car, we use leading products in the Auto Service industry to keep your vehicle running at its full capacity. At Four Brothers, we make sure to keep record of all of your vehicle’s previous service appointments with us, thereby ensuring that we are as up-to-date as possible. 
+			Four Brothers is also a fully licensed garage with permits allowing us to service vehicles. At Four Brothers, we make sure that we leave nothing to chance and make it our top priority to fulfill all commitments to our loyal customers. 
+			</p>
+		<h2>ENVIRONMENTALLY CONSCIOUS</h2>
+		<p>At Four Brothers, we make sure we are environmentally conscious every step of the way. 
+		While we conduct our vehicle auto services, we strive to use products that are recyclable and environmentally friendly. We place a safety mat underneath the vehicle so that not a single drop of our lubricants leak onto the ground. We guarantee that there will be no spills and that the drive-way/garage will be left in the same condition. 
+		During disposal, none of our oil products are shipped to landfill sites. We make sure that all of our used oil is given to a responsible waste management company who specializes in re-using our products for other industrial products and lubricants. 
+		</p>
+            </div>
+        </div>
+    </div>
+ </div>
+ <script>
+ $('.aniview').AniView();
+ </script>
 {% endblock no_container_content %}

@@ -69,7 +69,7 @@ body {
 
 #contact-number {
   font-family: 'Fjalla One', sans-serif;
-  font-size:20px;
+  font-size:15px;
   color:#444;
 }
 
@@ -114,7 +114,7 @@ a.social-icon-footer {
 
 /* Jeff Custom CSS
 -------------------------------------------------- */
-h1, h2, h3, h4, a {
+h1, h2, h3, h4, h5, a {
   font-family: 'Fjalla One', sans-serif;
 }
 
@@ -137,7 +137,7 @@ p {
     height:100vh;
 }
 
-.services {
+.services, .about {
     text-align: center;
 }
 
@@ -262,21 +262,76 @@ p {
     padding:100px 0px;
 }
 
-.services, #book_now {
+#values {
+    position:relative;
+    background: #eee;
+    padding:100px 0px;
+}
+
+#services_oil {
+    position:relative;
+    background: #eee;
+    padding:100px 0px;
+}
+
+#services_oil .fa {
+  font-size: 20px;
+  color: #FC9A00;
+  padding-right:10px;
+}
+
+#services_oil .fa-tint {
+  font-size: 100px;
+  color: #FC9A00;
+}
+
+.service_title{
+ font-size:70px;
+ text-align:left;
+}
+
+.service_square {
+    background: #FFF none repeat scroll 0% 0%;
+    padding: 30px;
+    margin: 0px 40px 40px;
+    box-shadow: 1px 1px 1px 1px #999;
+    border-top: solid 20px orange;
+}
+
+.service_square_sub {
+    background: #FFF none repeat scroll 0% 0%;
+    box-shadow: 1px 1px 1px 1px #999;
+    border-top: solid 20px orange;
+}
+
+#values .fa {
+  position: absolute;
+  font-size: 150px;
+  margin-left: -70px;
+  margin-top: -30px;
+  color: #FC9A00;
+}
+
+.services, .about, #book_now, #about_us, #services_tire {
   background: #fff;
   padding:100px 0px;
 }
 
-#book_now{
+#book_now, #about_us, #services_tire{
     position: relative;
 }
 
 #book_now .fa {
-color: orange;
+color: #FC9A00;
 font-size: 28px;
 }
 
-#book_now h3, #book_now h1, #book_now p {
+#about_us .fa{
+  color: #FC9A00;
+  font-size: 68px;
+}
+
+#book_now h3, #book_now h1, #book_now p, #about_us h2, #about_us h3, #about_us h1, #about_us p {
 color:#333;
 }
 
@@ -284,7 +339,7 @@ color:#333;
   padding-left:30px;
 }
 
-#book_now p {
+#book_now p, #about_us p {
 line-height: 2.2;
 }
 
@@ -316,6 +371,38 @@ line-height: 2.2;
 }
 
 #why-us .container{
+  z-index:2;
+  position:relative;
+}
+
+#warranty {
+  background: #538ad1;
+  padding:100px 0px;
+  position:relative;
+  color: #fff;
+}
+
+#warranty .btn {
+  background:#FFA500;
+  margin-top:40px;
+}
+
+#warranty:after{
+  content: "";
+  background-image: url("../img/Tire-stack-background2.jpg");
+  opacity: 0.5;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  position: absolute;
+  z-index: 1; 
+}
+
+#warranty .container{
   z-index:2;
   position:relative;
 }
@@ -365,7 +452,17 @@ svg:not(:root) {
     padding: 96px 0px;
 }
 
-.services.has-bottom.has-top {
+.about
+ {
+    position: relative;
+    z-index: 4;
+    padding-left: 0px;
+    padding-right: 0px;
+    padding-top:30px;
+    padding-bottom:100px;
+}
+
+.services.has-bottom.has-top, .about.has-bottom.has-top {
     z-index: 20;
 }
 
@@ -435,6 +532,92 @@ label {
 
 .nav-tabs > li > a {
   border-radius:0px!important;
+}
+
+.num {
+  font-family: "Cantarell",sans-serif;
+  background: #538AD1 none repeat scroll 0% 0%;
+  font-size: 70px;
+  color: #FFF;
+  border: 2px solid #538AD1;
+  display: inline-block;
+  height: 100px;
+  width: 100px;
+  line-height: 100px;
+  border-radius: 100px;
+}
+
+.num_faq {
+  font-family: "Cantarell",sans-serif;
+  background: #538AD1 none repeat scroll 0% 0%;
+  font-size: 15px;
+  color: #FFF;
+  border: 2px solid #538AD1;
+  display: inline-block;
+  height: 30px;
+  width: 30px;
+  line-height: 25px;
+  border-radius: 30px;
+  text-align: center;
+  margin: 15px;
+}
+
+.panel-title {
+  font-size: 20px;
+}
+
+.panel-body {
+font-size: 18px;
+}
+
+.faq-toggle:focus {
+
+}
+
+.book-call {
+  padding:0px 0px 80px;
+}
+
+.book-call .btn {
+  margin-top:20px;
+}
+
+a {
+   outline: 0;
+}
+
+a:hover, a:active, a:focus {
+  outline: 0;
+}
+
+.fast {
+    animation-duration: 1s;
+    animation-delay: 0s;
+}
+
+.fast2 {
+    animation-duration: 1s;
+    animation-delay: 1s;
+}
+
+.fast3 {
+    animation-duration: 1s;
+    animation-delay: 2s;
+}
+
+.slow {
+    animation-duration: 3s;
+    animation-delay: 1s;
+}
+
+.slow2 {
+    animation-duration: 3s;
+    animation-delay: 2s;
+}
+
+.reallyslow {
+    animation-duration: 6s;
+    animation-delay: 3s;
 }
 
 @media (min-width: 768px){
