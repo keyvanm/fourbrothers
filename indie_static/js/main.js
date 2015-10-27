@@ -51,14 +51,17 @@ $(document).ready(function animationHover(element, animation){
     $("#id_services input").click(function(event) {
         var checked_service = $(event.target).parent().text();
         var service_cost = checked_service.split("$")[1].replace(/[^\d.]/g, '');
-        console.log("this is the cost: " + service_cost);
+        //console.log("this is the cost: " + service_cost);
         var current_cost = $(".live-cart").data("amount");
+        //console.log("Current Cost: " + current_cost);
         var new_cost;
         if ($(event.target).prop("checked")) {
             new_cost = Number(current_cost) + Number(service_cost);
         } else {
             new_cost = Number(current_cost) - Number(service_cost);
         }
+        new_cost = new_cost.toFixed(2);
+        //console.log("new cost: " + new_cost);
         $(".live-cart").data("amount", new_cost);
         $(".live-cart h3").html("$" + new_cost);
     });
