@@ -77,7 +77,7 @@ class Migration(migrations.Migration):
                 ('color', models.CharField(max_length=50)),
                 ('plate', models.CharField(max_length=15)),
                 ('mileage', models.PositiveIntegerField(null=True, blank=True)),
-                ('engine_type', models.CharField(default=4, max_length=2, choices=[(b'v3', b'V3'), (b'v4', b'V4'), (b'v5', b'V5'), (b'v6', b'V6'), (b'v8', b'V8')])),
+                ('engine_type', models.CharField(default=b'4', max_length=2, choices=[(b'3', b'V3'), (b'4', b'V4'), (b'5', b'V5'), (b'6', b'V6'), (b'8', b'V8')])),
                 ('additional_info', models.TextField(blank=True)),
                 ('owner', models.ForeignKey(to=settings.AUTH_USER_MODEL)),
             ],
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
-                ('name', models.CharField(max_length=200, verbose_name=b'Nickname')),
+                ('name', models.CharField(max_length=200, verbose_name=b'Nickname', blank=True)),
             ],
             options={
                 'ordering': ('-modified', '-created'),

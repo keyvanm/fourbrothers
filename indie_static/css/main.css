@@ -114,7 +114,7 @@ a.social-icon-footer {
 
 /* Jeff Custom CSS
 -------------------------------------------------- */
-h1, h2, h3, h4, a {
+h1, h2, h3, h4, h5, a {
   font-family: 'Fjalla One', sans-serif;
 }
 
@@ -268,6 +268,42 @@ p {
     padding:100px 0px;
 }
 
+#services_oil {
+    position:relative;
+    background: #eee;
+    padding:100px 0px;
+}
+
+#services_oil .fa {
+  font-size: 20px;
+  color: #FC9A00;
+  padding-right:10px;
+}
+
+#services_oil .fa-tint {
+  font-size: 100px;
+  color: #FC9A00;
+}
+
+.service_title{
+ font-size:70px;
+ text-align:left;
+}
+
+.service_square {
+    background: #FFF none repeat scroll 0% 0%;
+    padding: 30px;
+    margin: 0px 40px 40px;
+    box-shadow: 1px 1px 1px 1px #999;
+    border-top: solid 20px orange;
+}
+
+.service_square_sub {
+    background: #FFF none repeat scroll 0% 0%;
+    box-shadow: 1px 1px 1px 1px #999;
+    border-top: solid 20px orange;
+}
+
 #values .fa {
   position: absolute;
   font-size: 150px;
@@ -276,12 +312,12 @@ p {
   color: #FC9A00;
 }
 
-.services, .about, #book_now, #about_us {
+.services, .about, #book_now, #about_us, #services_tire {
   background: #fff;
   padding:100px 0px;
 }
 
-#book_now, #about_us{
+#book_now, #about_us, #services_tire{
     position: relative;
 }
 
