@@ -47,7 +47,7 @@ class PrivateAddressCreateView(AddressCreateView):
 
     def form_valid(self, form):
         response = super(PrivateAddressCreateView, self).form_valid(form)
-        PrivateParkingLocation(name=form.cleaned_data['name'], address=form.instance, owner=self.request.user).save()
+        PrivateParkingLocation(name=form.instance.address1, address=form.instance, owner=self.request.user).save()
         return response
 
 
