@@ -87,7 +87,7 @@ class ApptComplete(LoginRequiredMixin, View):
             from_email,
             [to],
             html_message=msg_html,
-            fail_silently=True
+            fail_silently=False
         )
 
         appt.completed = True

@@ -226,7 +226,7 @@ class ApptEdit(UpdateView):
             from_email,
             [to],
             html_message=msg_html,
-            fail_silently=True
+            fail_silently=False
         )
         return reverse('appt-list')
 
@@ -420,7 +420,7 @@ class ApptPayView(LoginRequiredMixin, View):
                     from_email,
                     [to],
                     html_message=msg_html,
-                    fail_silently=True
+                    fail_silently=False
                 )
 
                 return redirect('appt-list')
