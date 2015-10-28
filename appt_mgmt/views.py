@@ -226,7 +226,7 @@ class ApptEdit(UpdateView):
             from_email,
             [to],
             html_message=msg_html,
-            fail_silently=False
+            fail_silently=True
         )
         return reverse('appt-list')
 
