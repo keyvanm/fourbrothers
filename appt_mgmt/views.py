@@ -333,6 +333,8 @@ class ApptPayView(LoginRequiredMixin, View):
 
         total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
             appt, 13, form=pay_form, promo_code=self.request.GET.get('promo_code'), loyalty=loyalty)
+        if total_price < 39.99:
+            raise Http404
 
         user_loyalty_points = self.request.user.profile.loyalty_points
         if user_loyalty_points < 10 or total_price < 40:
@@ -366,7 +368,9 @@ class ApptPayView(LoginRequiredMixin, View):
 
             promo_code = pay_form.cleaned_data.get('promo_code')
             loyalty_points = pay_form.cleaned_data.get('loyalty')
-            _, _, _, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty_points)
+            _, _, total_price, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty_points)
+            if total_price < 39.99:
+                raise Http404
 
             stripe.api_key = settings.STRIPE_SECRET_KEY
             # stripe_public_key = settings.STRIPE_PUBLIC_KEY

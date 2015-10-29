@@ -63,6 +63,15 @@ $(document).ready(function animationHover(element, animation){
         new_cost = new_cost.toFixed(2);
         //console.log("new cost: " + new_cost);
         $(".live-cart").data("amount", new_cost);
+        if (new_cost < 39.99){
+            $("#checkout-btn").attr('disabled', 'disabled');
+            $('form').submit(false);
+            $('.min-order-warning').show();
+        } else {
+            $("#checkout-btn").removeAttr('disabled');
+            $('form').unbind('submit', false );
+            $('.min-order-warning').hide();
+        }
         $(".live-cart h3").html("$" + new_cost);
     });
 
@@ -83,6 +92,10 @@ $(document).ready(function animationHover(element, animation){
             event.preventDefault();
         }
     });
+
+    $(function () {
+        $('[data-toggle="tooltip"]').tooltip()
+    })
 });
 
 
