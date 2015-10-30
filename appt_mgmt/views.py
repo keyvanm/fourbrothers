@@ -4,6 +4,7 @@ from decimal import Decimal
 from django import forms
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http.response import Http404, HttpResponseRedirect
@@ -223,15 +224,15 @@ class AppointmentEditView(ApptCreateEditMixin, LoginRequiredMixin, UpdateView):
         msg_html = render_to_string('appt_mgmt/confirmation-email.html', {'appt': appt})
 
         subject, from_email, to = 'Appointment Updated', 'info@fourbrothers.com', self.request.user.email
-
-        # send_mail(
-        #     subject,
-        #     msg_plain,
-        #     from_email,
-        #     [to],
-        #     html_message=msg_html,
-        #     fail_silently=settings.DEBUG
-        # )
+        if settings.SEND_MAIL:
+            send_mail(
+                subject,
+                msg_plain,
+                from_email,
+                [to],
+                html_message=msg_html,
+                fail_silently=settings.DEBUG
+            )
         return reverse('appt-list')
 
     # def dispatch(self, request, *args, **kwargs):
@@ -430,14 +431,15 @@ class ApptPayView(LoginRequiredMixin, View):
 
                 subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
 
-                # send_mail(
-                #     subject,
-                #     msg_plain,
-                #     from_email,
-                #     [to],
-                #     html_message=msg_html,
-                #     fail_silently=settings.DEBUG
-                # )
+                if settings.SEND_MAIL:
+                    send_mail(
+                        subject,
+                        msg_plain,
+                        from_email,
+                        [to],
+                        html_message=msg_html,
+                        fail_silently=settings.DEBUG
+                    )
 
                 return redirect('appt-list')
             except stripe.CardError, e:
