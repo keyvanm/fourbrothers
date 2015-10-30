@@ -320,7 +320,7 @@ class ApptPayView(LoginRequiredMixin, View):
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
         if total_price < 39.99:
             raise Http404
-
+        total_price_before_loyalty = total_price
         if loyalty:
             loyalty_points = Decimal(loyalty)
             total_price -= loyalty_points
@@ -328,7 +328,7 @@ class ApptPayView(LoginRequiredMixin, View):
         total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
         total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
 
-        return total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity
+        return total_price_before_tax, total_sales_tax, total_price_before_loyalty, total_price, total_gratuity, total_price_after_gratuity
 
     def get(self, request, pk):
         pay_form = PayForm(initial={'gratuity': '10'})
@@ -343,19 +343,19 @@ class ApptPayView(LoginRequiredMixin, View):
         if self.request.GET.get('promo_code'):
             pay_form.fields['promo_code'].initial = self.request.GET.get('promo_code')
 
-        total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
+        total_price_before_tax, total_sales_tax, total_price_before_loyalty, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
             appt, 13, form=pay_form, promo_code=self.request.GET.get('promo_code'), loyalty=loyalty)
 
         user_loyalty_points = self.request.user.profile.loyalty_points
-        if user_loyalty_points < 10 or total_price - 10 < 39.99:
+        if user_loyalty_points < 10 or total_price_before_loyalty - 10 < 39.99:
             del pay_form.fields['loyalty']
-        elif user_loyalty_points < 20 or total_price - 20 < 39.99:
+        elif user_loyalty_points < 20 or total_price_before_loyalty - 20 < 39.99:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:2]
-        elif user_loyalty_points < 30 or total_price - 30 < 39.99:
+        elif user_loyalty_points < 30 or total_price_before_loyalty - 30 < 39.99:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:3]
-        elif user_loyalty_points < 40 or total_price - 40 < 39.99:
+        elif user_loyalty_points < 40 or total_price_before_loyalty - 40 < 39.99:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:4]
-        elif user_loyalty_points < 50 or total_price - 50 < 39.99:
+        elif user_loyalty_points < 50 or total_price_before_loyalty - 50 < 39.99:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:5]
         else:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:6]
@@ -378,7 +378,7 @@ class ApptPayView(LoginRequiredMixin, View):
 
             promo_code = pay_form.cleaned_data.get('promo_code')
             loyalty_points = pay_form.cleaned_data.get('loyalty')
-            _, _, total_price, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code,
+            _, _, _, total_price, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code,
                                                                  loyalty=loyalty_points)
             if total_price < 39.99:
                 messages.error(request, 'You cannot order under $39.99')
