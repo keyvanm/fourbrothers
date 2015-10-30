@@ -1,11 +1,9 @@
 from datetime import date
 from decimal import Decimal
-import datetime
 
 from django import forms
 from django.conf import settings
 from django.contrib.sites.shortcuts import get_current_site
-from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.contrib import messages
 from django.http.response import Http404, HttpResponseRedirect
@@ -16,13 +14,13 @@ from django.views.decorators.csrf import csrf_protect
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, FormMixin
 from django.contrib.humanize.templatetags.humanize import naturalday
 import stripe
 import dateutil.parser
 
-from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField, \
-    AppointmentEditForm, PayForm, InvalidDateException
+from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField, PayForm, \
+    InvalidDateException
 from appt_mgmt.models import Appointment, ServicedCar
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
@@ -50,9 +48,7 @@ class TermsView(LoginRequiredMixin, View):
         #     return reverse('appt-pay', kwargs={'pk': self.appt.pk})
 
 
-class ApptCreateView(LoginRequiredMixin, CreateView):
-    model = Appointment
-    form_class = AppointmentForm
+class ApptCreateEditMixin(FormMixin):
     TIME_SLOT_CHOICES = Appointment.TIME_SLOT_CHOICES
 
     def time_slot_choices(self):
@@ -89,11 +85,8 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
 
         return _time_slot_choices
 
-    def get_success_url(self):
-        return reverse('appt-service', kwargs={'pk': self.object.pk})
-
     def get_form(self, form_class=None):
-        form = super(ApptCreateView, self).get_form(form_class)
+        form = super(ApptCreateEditMixin, self).get_form(form_class)
         if self.request.GET.get('date'):
             date = dateutil.parser.parse(self.request.GET.get('date'))
             form.fields['date'].initial = date
@@ -110,19 +103,27 @@ class ApptCreateView(LoginRequiredMixin, CreateView):
             form.fields['additional_info'].widget = forms.HiddenInput()
         return form
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        # messages.success(self.request, 'Appointment booked successfully')
-        return super(ApptCreateView, self).form_valid(form)
-
     def get_context_data(self, **kwargs):
-        context = super(ApptCreateView, self).get_context_data(**kwargs)
+        context = super(ApptCreateEditMixin, self).get_context_data(**kwargs)
         context['date'] = self.request.GET.get('date')
         try:
             context['time_slot_choices'] = self.time_slot_choices()
         except InvalidDateException:
             context['time_slot_choices'] = []
         return context
+
+
+class ApptCreateView(ApptCreateEditMixin, LoginRequiredMixin, CreateView):
+    model = Appointment
+    form_class = AppointmentForm
+
+    def get_success_url(self):
+        return reverse('appt-service', kwargs={'pk': self.object.pk})
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        # messages.success(self.request, 'Appointment booked successfully')
+        return super(ApptCreateView, self).form_valid(form)
 
 
 class PrivatePLApptCreateView(ApptCreateView):
@@ -201,9 +202,9 @@ class SharedPLApptCreateView(ApptCreateView):
         return super(SharedPLApptCreateView, self).form_valid(form)
 
 
-class ApptEdit(UpdateView):
+class AppointmentEditView(ApptCreateEditMixin, LoginRequiredMixin, UpdateView):
     model = Appointment
-    form_class = AppointmentEditForm
+    form_class = AppointmentForm
     template_name = 'appt_mgmt/appt-edit.html'
     # context_object_name = 'appt'
 
@@ -212,6 +213,9 @@ class ApptEdit(UpdateView):
     #         self.request.user.appointments
     #     ):
     #         raise Http404
+    # def get_form(self, form_class=None):
+    #     form = ApptCreateEditMixin.get_form(self, form_class)
+    #     return form
 
     def get_success_url(self):
         appt = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
@@ -220,15 +224,20 @@ class ApptEdit(UpdateView):
 
         subject, from_email, to = 'Appointment Updated', 'info@fourbrothers.com', self.request.user.email
 
-        send_mail(
-            subject,
-            msg_plain,
-            from_email,
-            [to],
-            html_message=msg_html,
-            fail_silently=False
-        )
+        # send_mail(
+        #     subject,
+        #     msg_plain,
+        #     from_email,
+        #     [to],
+        #     html_message=msg_html,
+        #     fail_silently=settings.DEBUG
+        # )
         return reverse('appt-list')
+
+    # def dispatch(self, request, *args, **kwargs):
+    #     handler = super(AppointmentEditView, self).dispatch(request, *args, **kwargs)
+    #     handler.context_data['form']
+    #     return handler
 
 
 class ApptDelete(LoginRequiredMixin, DetailView):
@@ -309,8 +318,10 @@ class ApptPayView(LoginRequiredMixin, View):
         total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
+        if total_price < 39.99:
+            raise Http404
 
-        if loyalty and total_price >= 40:
+        if loyalty:
             loyalty_points = Decimal(loyalty)
             total_price -= loyalty_points
 
@@ -325,6 +336,7 @@ class ApptPayView(LoginRequiredMixin, View):
 
         if self.request.GET.get('loyalty'):
             loyalty = int(self.request.GET.get('loyalty'))
+            pay_form.fields['loyalty'].initial = loyalty
         else:
             loyalty = 0
 
@@ -333,19 +345,17 @@ class ApptPayView(LoginRequiredMixin, View):
 
         total_price_before_tax, total_sales_tax, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
             appt, 13, form=pay_form, promo_code=self.request.GET.get('promo_code'), loyalty=loyalty)
-        if total_price < 39.99:
-            raise Http404
 
         user_loyalty_points = self.request.user.profile.loyalty_points
-        if user_loyalty_points < 10 or total_price < 40:
+        if user_loyalty_points < 10 or total_price - 10 < 39.99:
             del pay_form.fields['loyalty']
-        elif user_loyalty_points < 20:
+        elif user_loyalty_points < 20 or total_price - 20 < 39.99:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:2]
-        elif user_loyalty_points < 30:
+        elif user_loyalty_points < 30 or total_price - 30 < 39.99:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:3]
-        elif user_loyalty_points < 40:
+        elif user_loyalty_points < 40 or total_price - 40 < 39.99:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:4]
-        elif user_loyalty_points < 50:
+        elif user_loyalty_points < 50 or total_price - 50 < 39.99:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:5]
         else:
             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:6]
@@ -368,9 +378,11 @@ class ApptPayView(LoginRequiredMixin, View):
 
             promo_code = pay_form.cleaned_data.get('promo_code')
             loyalty_points = pay_form.cleaned_data.get('loyalty')
-            _, _, total_price, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code, loyalty=loyalty_points)
+            _, _, total_price, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code,
+                                                                 loyalty=loyalty_points)
             if total_price < 39.99:
-                raise Http404
+                messages.error(request, 'You cannot order under $39.99')
+                return redirect('appt-pay', pk=pk)
 
             stripe.api_key = settings.STRIPE_SECRET_KEY
             # stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -418,14 +430,14 @@ class ApptPayView(LoginRequiredMixin, View):
 
                 subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
 
-                send_mail(
-                    subject,
-                    msg_plain,
-                    from_email,
-                    [to],
-                    html_message=msg_html,
-                    fail_silently=False
-                )
+                # send_mail(
+                #     subject,
+                #     msg_plain,
+                #     from_email,
+                #     [to],
+                #     html_message=msg_html,
+                #     fail_silently=settings.DEBUG
+                # )
 
                 return redirect('appt-list')
             except stripe.CardError, e:
