@@ -86,6 +86,11 @@ class ApptCreateEditMixin(FormMixin):
 
         return _time_slot_choices
 
+
+class ApptCreateView(ApptCreateEditMixin, LoginRequiredMixin, CreateView):
+    model = Appointment
+    form_class = AppointmentForm
+
     def get_form(self, form_class=None):
         form = super(ApptCreateEditMixin, self).get_form(form_class)
         if self.request.GET.get('date'):
@@ -113,10 +118,6 @@ class ApptCreateEditMixin(FormMixin):
             context['time_slot_choices'] = []
         return context
 
-
-class ApptCreateView(ApptCreateEditMixin, LoginRequiredMixin, CreateView):
-    model = Appointment
-    form_class = AppointmentForm
 
     def get_success_url(self):
         return reverse('appt-service', kwargs={'pk': self.object.pk})
@@ -209,14 +210,39 @@ class AppointmentEditView(ApptCreateEditMixin, LoginRequiredMixin, UpdateView):
     template_name = 'appt_mgmt/appt-edit.html'
     # context_object_name = 'appt'
 
-    # def dispatch(self, *args, **kwargs):
-    #     if not (
-    #         self.request.user.appointments
-    #     ):
-    #         raise Http404
-    # def get_form(self, form_class=None):
-    #     form = ApptCreateEditMixin.get_form(self, form_class)
-    #     return form
+    def get_form(self, form_class=None):
+        form = super(ApptCreateEditMixin, self).get_form(form_class)
+        try:
+            self.object.address.privateparkinglocation
+            form.fields['address'].queryset = PrivateParkingLocation.objects.filter(owner=self.request.user)
+        except Exception as e:
+            self.object.address.sharedparkinglocation
+            form.fields['address'].queryset = SharedParkingLocation.objects.filter(owner=self.request.user)
+
+        if self.request.GET.get('date'):
+            date = dateutil.parser.parse(self.request.GET.get('date'))
+            form.fields['date'].initial = date
+            try:
+                form.fields['time_slot'].choices = self.time_slot_choices()
+            except InvalidDateException as e:
+                form.errs = {'date': unicode(e.message)}
+
+            if not form.fields['time_slot'].choices:
+                form.errs = {'date': unicode(e.message)}
+                form.fields['time_slot'].choices.append(("", "No more time slots left on this date"))
+        else:
+            form.fields['time_slot'].widget = forms.HiddenInput()
+            form.fields['additional_info'].widget = forms.HiddenInput()
+        return form
+
+    def get_context_data(self, **kwargs):
+        context = super(ApptCreateEditMixin, self).get_context_data(**kwargs)
+        context['date'] = self.request.GET.get('date')
+        try:
+            context['time_slot_choices'] = self.time_slot_choices()
+        except InvalidDateException:
+            context['time_slot_choices'] = []
+        return context
 
     def get_success_url(self):
         appt = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
@@ -234,11 +260,6 @@ class AppointmentEditView(ApptCreateEditMixin, LoginRequiredMixin, UpdateView):
                 fail_silently=settings.DEBUG
             )
         return reverse('appt-list')
-
-    # def dispatch(self, request, *args, **kwargs):
-    #     handler = super(AppointmentEditView, self).dispatch(request, *args, **kwargs)
-    #     handler.context_data['form']
-    #     return handler
 
 
 class ApptDelete(LoginRequiredMixin, DetailView):

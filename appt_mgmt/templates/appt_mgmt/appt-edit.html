@@ -45,7 +45,9 @@
         }
 
         $(function() {
-            $('#id_date').val("{{ date }}");
+            {% if date %}
+                $('#id_date').val("{{ date }}");
+            {% endif %}
             var $datePicker = $("#id_date_picker");
             var startDate = valid_start_date_for_booking_appointments();
             $datePicker.data("DateTimePicker").setStartDate(startDate);
