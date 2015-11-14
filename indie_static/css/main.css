@@ -35,10 +35,6 @@ div.data-tables-responsive {
 
 /* Sticky footer styles
 -------------------------------------------------- */
-html {
-    position: relative;
-    min-height: 100%;
-}
 
 body {
     padding-top: 70px;
@@ -46,12 +42,82 @@ body {
     /*margin-bottom: 60px;*/
 }
 
+img {
+  max-width:100%;
+}
+
+html{
+  font-size: 14px;   // 1rem = 16px
+  font-family: "Cantarell",sans-serif;
+  position: relative;
+  min-height: 100%;
+}
+
+@media screen and (max-width: 500px) {
+    html{font-size: 12px!important;}
+}
+
+@media screen and (max-width: 648px) {
+    
+}
+
+@media screen and (min-device-width: 501px) and (max-device-width: 1200px) {
+    html{font-size: 14px;}
+}
+
+@media screen and (min-device-width: 1201px) and (max-device-width: 1600px) {
+    html{font-size: 14px;}
+}
+@media screen and (min-device-width: 1601px) and (max-device-width: 1800px) {
+    html{font-size: 16px;}
+}
+@media screen and (min-device-width: 1801px) and (max-device-width: 2000px) {
+    html{font-size: 16px;}
+}
+
+@media screen and (min-device-width: 2001px) {
+    html{font-size: 20px;}
+}
+
+h1 {
+    font-size:2rem;
+    font-family: "Fjalla One",sans-serif;
+}
+
+h2 {
+    font-size:1.5rem;
+     font-family: "Fjalla One",sans-serif;
+}
+h3 {
+    font-size:1.35rem;
+     font-family: "Fjalla One",sans-serif;
+}
+h4 {
+    font-size:1.15rem;
+     font-family: "Fjalla One",sans-serif;
+}
+h5 {
+    font-size:1.05rem;
+     font-family: "Fjalla One",sans-serif;
+}
+h6,li {
+    font-size:1rem;
+    f font-family: "Fjalla One",sans-serif;
+}
+p {
+    font-size:1rem;
+     font-family: "Cantarell",sans-serif;
+}
+
 .footer {
   width: 100%;
-  background-color: #EEE;
+  background-color: #323131 !important;
   position: absolute;
-  bottom: -178px;
   height: auto;
+}
+
+.footer a {
+  color:#fff;
 }
 
 .footer .list-unstyled {
@@ -63,27 +129,25 @@ body {
     width: 100%;
 }
 
-.footer li{
-  font-size:12px;
-}
 
 #contact-number {
   font-family: 'Fjalla One', sans-serif;
-  font-size:15px;
-  color:#444;
+  font-size:1.1rem;
+  color:#fff;
 }
 
 .social-icon-footer i {
     text-align: center;
     width: 30px;
-    color:#444!important;
-    font-size:20px;
+    color:#fff!important;
+    font-size:1.5rem;
     height: 20px;
 }
 .footer h4 {
     margin-top: 11px;
     margin-bottom: 11px;
     text-align: left;
+    color:#fff;
 }
 
 a.social-icon-footer {
@@ -114,27 +178,40 @@ a.social-icon-footer {
 
 /* Jeff Custom CSS
 -------------------------------------------------- */
-h1, h2, h3, h4, h5, a {
+.services .col-lg-6 p {
+  padding-bottom:50px;
+}
+
+.services a {
+  color:#333;
+}
+
+.services hr {
+  margin-top:40px;
+}
+
+a {
   font-family: 'Fjalla One', sans-serif;
 }
 
-p {
-  font-family: 'Cantarell', sans-serif;
-}
 
 .banner {
     text-align: center;
-    background-image: url("http://www.linders.ie/imglib/linders2013/service.jpg");
+    background-image: url("http://static.wixstatic.com/media/d55411_7966d87c35d3483885b2dc6a45214c1d.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
+}
+
+.banner h1, .banner p {
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
 .banner .jumbotron {
     background-color: rgba(0, 0, 0, 0.65);
     padding-top: 6%;
     padding-bottom: 6%;
-    height:100vh;
+    height:600px;
 }
 
 .services, .about {
@@ -151,10 +228,10 @@ p {
 }
 
 .call_to_action .fa {
-  font-size: 50px;
+  font-size: 3rem;
   border-radius: 200px;
-  border: 30px solid #fc9a00 ;
-  background: #fc9a00 ;
+  border: 30px solid #333 ;
+  background: #333 ;
 }
 
 .navbar {
@@ -162,6 +239,14 @@ p {
     box-shadow: 0px 4px 0px rgba(223, 46, 27, 0.3);
     border: 0px;
     padding: 10px 0px;
+}
+
+.dot_arrow {
+  position: absolute;
+font-size: 3.25rem;
+margin-top: -85px;
+margin-left: 65px;
+color:#317207;
 }
 
 .navbar-default .navbar-brand {
@@ -174,7 +259,7 @@ p {
 
 .banner .container {
     text-shadow:1px 1px 1px #555;
-        margin-top: 8%;
+
 }
 
 .banner h1, .banner p{
@@ -184,8 +269,8 @@ p {
 
 .org-btn {
     border-radius:0px;
-    background-color:#538AD1;
-    border:0px;
+    background:none;
+    border:5px solid #538AD1;
     text-shadow:none;
     transition: all 0.5s ease!important;
 }
@@ -256,10 +341,18 @@ p {
   transform: skewY(-1.8deg);
 }
 
-#how_to {
+#how_to, #newsletter {
     position:relative;
-    background: #eee;
-    padding:100px 0px;
+    background: #FBFBFB;
+    padding:50px 0px;
+}
+
+#how_to .fa {
+  font-size:7rem;
+}
+
+#how_to p {
+  padding-bottom:50px;
 }
 
 #values {
@@ -268,20 +361,20 @@ p {
     padding:100px 0px;
 }
 
-#services_oil {
+#services_oil, #careers {
     position:relative;
     background: #eee;
-    padding:100px 0px;
+    padding:50px 0px;
 }
 
-#services_oil .fa {
-  font-size: 20px;
+#services_oil .fa, #careers .fa {
+  font-size: 2rem;
   color: #FC9A00;
   padding-right:10px;
 }
 
-#services_oil .fa-tint {
-  font-size: 100px;
+#services_oil .fa-tint, #careers .fa-tint {
+  font-size: 6rem;
   color: #FC9A00;
 }
 
@@ -306,15 +399,15 @@ p {
 
 #values .fa {
   position: absolute;
-  font-size: 150px;
+  font-size: 8rem;
   margin-left: -70px;
   margin-top: -30px;
   color: #FC9A00;
 }
 
-.services, .about, #book_now, #about_us, #services_tire {
+.services, .about, #socialbar, #book_now, #about_us, #services_tire, #career_two {
   background: #fff;
-  padding:100px 0px;
+  padding:50px 0px;
 }
 
 #book_now, #about_us, #services_tire{
@@ -322,17 +415,20 @@ p {
 }
 
 #book_now .fa {
-color: #FC9A00;
-font-size: 28px;
+font-size: 1.8rem;
 }
 
 #about_us .fa{
   color: #FC9A00;
-  font-size: 68px;
+  font-size: 4.25rem;
 }
 
 #book_now h3, #book_now h1, #book_now p, #about_us h2, #about_us h3, #about_us h1, #about_us p {
 color:#333;
+}
+
+#book_now h1{
+  color:#FC9A00;
 }
 
 .list_service {
@@ -344,31 +440,21 @@ line-height: 2.2;
 }
 
 #why-us {
-  background: #538ad1;
   padding:100px 0px;
   position:relative;
-  color: #fff;
+  color: #333;
+  text-shadow: 0px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
 
-#why-us .btn {
+#why-us h3 {
+  font-family: "Cantarell",sans-serif;
+}
+
+#why-us .btn, .book-call .btn {
   background:#FFA500;
   margin-top:40px;
 }
 
-#why-us:after{
-  content: "";
-  background-image: url("http://www.linders.ie/imglib/linders2013/service.jpg");
-  opacity: 0.5;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: 1; 
-}
 
 #why-us .container{
   z-index:2;
@@ -387,20 +473,6 @@ line-height: 2.2;
   margin-top:40px;
 }
 
-#warranty:after{
-  content: "";
-  background-image: url("../img/Tire-stack-background2.jpg");
-  opacity: 0.5;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  position: absolute;
-  z-index: 1; 
-}
 
 #warranty .container{
   z-index:2;
@@ -494,7 +566,7 @@ border-top: 3px solid #FC9A00!important;
 .form-control {
     height: 54px;
     padding: 6px 12px;
-    font-size: 20px;
+    font-size: 1.25rem;
     color: #000;
     background-color: #FFF;
     background-image: none;
@@ -507,7 +579,7 @@ border-top: 3px solid #FC9A00!important;
 .alert{
   margin-bottom:0px;
   font-family: 'Fjalla One', sans-serif;
-  font-size:15px;
+  font-size:1rem;
 }
 
 .panel {
@@ -537,7 +609,7 @@ label {
 .num {
   font-family: "Cantarell",sans-serif;
   background: #538AD1 none repeat scroll 0% 0%;
-  font-size: 70px;
+  font-size: 4.3rem;
   color: #FFF;
   border: 2px solid #538AD1;
   display: inline-block;
@@ -550,7 +622,7 @@ label {
 .num_faq {
   font-family: "Cantarell",sans-serif;
   background: #538AD1 none repeat scroll 0% 0%;
-  font-size: 15px;
+  font-size: 1rem;
   color: #FFF;
   border: 2px solid #538AD1;
   display: inline-block;
@@ -563,11 +635,11 @@ label {
 }
 
 .panel-title {
-  font-size: 20px;
+  font-size: 1.25rem;
 }
 
 .panel-body {
-font-size: 18px;
+font-size: 1.2rem;
 }
 
 .faq-toggle:focus {
@@ -620,8 +692,95 @@ a:hover, a:active, a:focus {
     animation-delay: 3s;
 }
 
-@media (min-width: 768px){
-.jumbotron h1 {
-    font-size: 100px!important;
+.round .fa {
+    font-size: 3.1rem;
+    border-radius: 200px;
+    border: 30px solid #ffffff;
+    background: #Ffffff none repeat scroll 0% 0%;
 }
+
+.box-round {
+    display: block;
+    text-align: center;
+    margin: 0px auto 24px;
+    position: relative;
+    z-index: 100;
+    width: 150px;
+    max-width: 100%;
 }
+
+
+.large_number{
+    float: left;
+    font-size: 14.37rem;
+    line-height: 0px;
+    padding-right: 10px;
+    padding-bottom: 80px;
+    color: #538AD1;
+    margin-top: 20px;
+}
+
+
+.numberCircle {
+    border-radius: 50%;
+    behavior: url(PIE.htc); /* remove if you don't care about IE8 */
+    width: 80px;
+    height: 80px;
+    padding: 8px;
+    background: #fff;
+    color: #FC9A00;
+    font-family: "Fjalla One",sans-serif;
+    text-align: center;
+    margin: 0 auto;
+    box-shadow: 5px 0px 1px 1px #000;
+    font-size:45px;
+}
+
+#googlemaps { 
+  height: 100%; 
+  width: 100%; 
+  position:absolute; 
+  top: 0; 
+  left: 0; 
+  z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
+}
+
+#googlemaps iframe {
+  width:100%;
+  height:100%;
+}
+
+#socialbar .fa {
+  font-size:2rem;
+  padding-right:10px;
+}
+
+/* About Us */
+
+.aboutus_back p {
+  line-height:1.5!important;
+}
+
+.page-name {
+  font-size:4em;
+}
+
+#image-offset {
+  position: absolute;
+  margin-top: -350px;
+  z-index: 4;
+}
+
+#image-offset img {
+width: 570px;
+}
+
+/* Careers */
+.apply-now {
+  margin-left:30px;
+}
+
+#career_two p {
+  font-size:1.25rem;
+}
+
