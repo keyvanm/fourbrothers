@@ -9,125 +9,71 @@
 
 {% block no_container_content %}
 <div class="services swatch-yellow-black has-bottom">
-<div class="decor-top">
-    <svg class="decor" height="100%" preserveAspectRatio="none" version="1.1" viewBox="0 0 100 100" width="100%" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 0 C50 100 50 100 100 0  L100 100 0 100" stroke-width="0">
-        </path>
-    </svg>
-</div>
- <div class="container">
+     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-                <div class="row jumbotron" style="background:none;">
-                    <h1>Drop us a line.</h1>
-                </div>
+            <div class="col-lg-8 text-left">
+                  <h1 class="page-name">Drop us a line!</h1>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi condimentum risus at turpis tincidunt lobortis. Nunc suscipit semper tincidunt. Donec accumsan, diam vel rutrum malesuada, elit odio imperdiet purus, et mattis nunc arcu non diam. Pellentesque eget nisi at libero posuere dignissim ac ac sem. Nullam</p>
             </div>
-        </div>
     </div>
- </div>
- <div id="how_to">
-    <div class="container">
-      <div class="angle right-corner top"></div>
+  </div>
+</div>
+<div id="how_to" class=" swatch-yellow-black has-bottom">
+     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
-            <div class="aniview slow" av-animation="flipInX">
-                <h1 class="text-center">How it Works..</h1>
-                </div>
-                    <div class="row">
-                      <div class="aniview slow" av-animation="zoomIn">
-                        <div class="col-lg-3" style="text-align:center;">
-                        <h2>Create a Profile</h2>
-                        </div>
-                      </div>
-                      <div class="aniview slow" av-animation="zoomIn">
-                        <div class="col-lg-3" style="text-align:center;">
-                        <h2>Schedule a Service</h2>
-                        </div>
-                      </div>
-                      <div class="aniview slow" av-animation="zoomIn">
-                        <div class="col-lg-3" style="text-align:center;">
-                        <h2>Pay Online</h2>
-                        </div>
-                      </div>
-                      <div class="aniview slow" av-animation="zoomIn">
-                        <div class="col-lg-3" style="text-align:center;">
-                        <h2>Sit Back & Relax</h2>
-                        </div>
-                      </div>
+            <div class="col-lg-6">
+             <div id="googlemaps2"><iframe src="https://www.google.com/maps/d/embed?mid=z5avF7RKDSEs.kpRb6xDYQWMo" width="640" height="480"></iframe>
+ </div>
+            </div> 
+            <div class="col-lg-6 text-left" style="padding-top: 100px;">
+            <h1>Our service area</h1>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi condimentum risus at turpis tincidunt lobortis. Nunc suscipit semper tincidunt. Donec accumsan, diam vel rutrum malesuada, elit odio imperdiet purus, et mattis nunc arcu non diam. Pellentesque eget nisi at libero posuere dignissim ac ac sem. Nullam</p>
+                  <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
+                Book An Appointment!
+            </a>
+            </div>   
+        </div>
+      </div>
+ </div>
+ <div class="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 text-left">
+                <h2>Business Hours</h2>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi condimentum risus at turpis tincidunt lobortis. Nunc suscipit semper tincidunt. Donec accumsan, diam vel rutrum malesuada, elit odio imperdiet purus, et mattis nunc arcu non diam. Pellentesque eget nisi at libero posuere digniss</p>
+                 <h2>Holiday Hours</h2>
+                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi condimentum risus at turpis tincidunt lobortis. Nunc suscipit semper tincidunt. Donec accumsan, diam vel rutrum malesuada, elit odio imperdiet purus, et mattis nunc arcu non diam. Pellentesque eget nisi at libero posuere digniss</p>
+            </div>
+            <div id="email-us" class="col-lg-8 text-left">
+            <div class="col-lg-12 text-left">
+                <h2>Email us.</h2>
+            </div>
+                  <div class="form-group">
+                    <div class=" ">
+                    <div class="col-lg-6 text-left">
+                     <input  class=" form-control" id="id_email" name="email" placeholder="First Name" type="email">
+                     </div>
+                      <div class="col-lg-6 text-left">
+                     <input  class=" form-control" id="id_email" name="email" placeholder="Last Name" type="email">
+                     </div>
+                      <div class="col-lg-6 text-left">
+                     <input  class=" form-control" id="id_email" name="email" placeholder="Email" type="email">
+                     </div>
+                      <div class="col-lg-6 text-left">
+                     <input  class=" form-control" id="id_email" name="email" placeholder="Subject" type="email">
+                     </div>
+                    </div>
+                    </div>
+                     <div class="col-lg-12 text-left">
+                     <textarea class="form-control" cols="40" id="id_additional_info" name="additional_info" placeholder="Message" rows="10" title=""></textarea>
+                   <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Send</button>
+                    </div>
                     </div>
             </div>
         </div>
-       <div class="angle left-corner"></div>
     </div>
 </div>
-<div id="book_now">
-     <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-            <div class="aniview fast" av-animation="slideInLeft">
-                <h1>Services Areas</h1>
-                <hr>
-            </div>
-            <h3 class="list_service"><i class="fa fa-check-circle"></i>
-Oil Services</h3>
-            <h3 class="list_service"><i class="fa fa-check-circle"></i>
-Tire Services</h3>
-            <h3 class="list_service"> <i class="fa fa-check-circle"></i>
-Interior Detailing</h3>
-            <h3 class="list_service"><i class="fa fa-check-circle"></i>
-Automotive Products</h3>
-            <h3 class="list_service"><i class="fa fa-check-circle"></i>
-Additional Services</h3>
-            </div>
-            <div class="col-lg-6">
-               <h1>Services Areas</h1>
-               <h3>We are a Mobile Automotive Repair company with an online ordering application - NOT the other way around.</h3>
-               <h4>Downtown Toronto</h4>
-               <h4>East York</h4>
-               <h4>Etobicoke</h4>
-               <h4>Markham</h4>
-               <h4>Downtown Toronto</h4>
-               <h4>Downtown Toronto</h4>
-               <h4>Downtown Toronto</h4>
-               <h4>Downtown Toronto</h4>
-               <h4>Downtown Toronto</h4>
-            </div>
-        </div>
-        <div class="angle right-corner" style="background:#fff;"></div>
-    </div>
- </div>
- <div id="why-us">
-     <div class="container">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1>Who & Where</h1>
-                <h2>We provide service to the Greater Toronto Area! Not in the GTA? Drop us a line - our service area is always expanding. Click here for a full list of service regions.</h2>
-                <div class="row">
-                      <div class="aniview slow" av-animation="zoomIn">
-                        <div class="col-lg-4" style="text-align:center;">
-                        <h2>Homes/Townhouses</h2>
-                        </div>
-                      </div>
-                      <div class="aniview slow" av-animation="zoomIn">
-                        <div class="col-lg-4" style="text-align:center;">
-                        <h2>Condominuims</h2>
-                        </div>
-                      </div>
-                      <div class="aniview slow" av-animation="zoomIn">
-                        <div class="col-lg-4" style="text-align:center;">
-                        <h2>Select Office Locations</h2>
-                        </div>
-                      </div>
-                </div>
-                <div style="text-align:center;">
-                  <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg org-btn hvr-shrink">
-                BOOK NOW
-            </a>
-                </div>
-            </div>
-        </div>
-    </div>
- </div>
  <script>
  $('.aniview').AniView();
  </script>
