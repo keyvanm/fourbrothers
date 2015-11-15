@@ -24,10 +24,10 @@
                 <p class="min-order-warning {% if total_so_far >= 39.99 %}hidden{% endif %}">You should order at least $39.99 to checkout</p>
                 <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
                 {% if available_cars.count > 1 %}
-                    <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Save and Add Another"
+                    <input class="btn btn-primary btn-lg  hvr-shrink" type="submit" value="Save and Add Another"
                            name="_addanother">
                 {% endif %}
-                <input {% if total_so_far < 39.99 %}disabled{% endif %} class="btn btn-primary btn-lg org-btn hvr-shrink" id="checkout-btn" type="submit" value="Checkout"/>
+                <input {% if total_so_far < 39.99 %}disabled{% endif %} class="btn btn-primary btn-lg hvr-shrink" id="checkout-btn" type="submit" value="Checkout"/>
 
             </form>
         </div>
@@ -40,6 +40,7 @@
                 <div class="col-lg-6">
                     <div class="live-cart" data-amount={{ total_so_far }}>
                         <h3>${{ total_so_far }}</h3>
+                        <p>+HST</p>
                     </div>
                 </div>
             </div>
