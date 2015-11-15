@@ -3,9 +3,15 @@
 {% load i18n %}
 
 {% block content %}
+<div class="app-content" style="padding-bottom: 0px;">
+    <div class="container">
+        <div class="row">
 
-    <h1>{% trans 'My Account' %}</h1>
 
+    <h1 class="page-name">{% trans 'My Account' %}</h1>
+</div>
+</div>
+</div>
     <ul class="nav nav-tabs" style="margin-bottom: 20px; margin-top: 20px;">
         <li class="{% block account_nav_profile %}{% endblock %}">
             <a href="{% url 'profile-detail' %}">{% trans 'Profile' %}</a>

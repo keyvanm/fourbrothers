@@ -109,6 +109,11 @@ p {
      font-family: "Cantarell",sans-serif;
 }
 
+.well {
+  border-radius: 0px!important;
+box-shadow: none!important;
+}
+
 .footer {
   width: 100%;
   background-color: #323131 !important;
@@ -401,7 +406,7 @@ color:#317207;
   color: #FC9A00;
 }
 
-.services, .about, #socialbar, #book_now, #about_us, #services_tire, #career_two {
+.services, .app-content, .about, #socialbar, #book_now, #about_us, #services_tire, #career_two {
   background: #fff;
   padding:50px 0px;
 }

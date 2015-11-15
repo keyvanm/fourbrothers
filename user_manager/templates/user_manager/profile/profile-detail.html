@@ -2,11 +2,46 @@
 
 {% block account_nav_profile %} active {% endblock account_nav_profile %}
 {% block account_content %}
-    <dl class="dl-horizontal">
-        <dt>Name</dt>
-        <dd>{{ user.get_full_name }}</dd>
-        <dt>Phone</dt>
-        <dd>{{ user.profile.phone_number }}</dd>
-    </dl>
+<div class="app-content">
+    <div class="container">
+        <div class="row">
+      <div class="col-lg-9">
+ <h1>My Loyalty Points<h1> 
+ <h1 style="font-size:6rem;color:#5CB85C;">{{ user.profile.loyalty_points }}</h1>
+ <h2>How to redeem points<h2> 
+ <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis bibendum dapibus. Duis ipsum tellus, congue id gravida at, tincidunt ut purus. Donec consectetur risus et lectus sodales facilisis. Aliquam ut mollis sapien. Vivamus at velit a diam mollis imperdiet. Duis at hendrerit eros, id placerat magna. Curabitur sollicitudin, mauris eget porttitor pulvinar, lectus magna pharetra mauris, auctor congue purus dui non ex. Sed tempor id magna nec semper. Aliquam volutpat sed sapien sit amet lobortis. Sed dictum velit diam, eu rutrum erat iaculis a. In volutpat sem vitae eros egestas, at ornare orci ullamcorper. </p>
+ </div>
+ <div class="col-lg-3">
+ 
+    <div class="page-header" style="margin-top:0px;">
+        <h1>My Details</h1>
+    </div>
+    <div class="well">
+        <h2>Name</h2>
+        <p>{{ user.get_full_name }}</p>
+        <h2>Phone</h2>
+        <p>{{ user.profile.phone_number }}</p>
+
     <a href="{% url 'profile-edit' %}" class="btn btn-primary">Edit</a>
+    </div>
+    </div>
+   <div class="col-lg-12">
+
+        <h1>
+            Past Appointments
+        </h1>
+        {% for appt_group in past_appointments %}
+            <div class="row">
+                {% for appt in appt_group %}
+                    {% if appt %}
+                        {% include 'appt_mgmt/appt-block.html' %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+</div>
+</div>
+</div>
+</div>
+
 {% endblock %}

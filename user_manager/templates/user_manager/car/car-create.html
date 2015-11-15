@@ -11,13 +11,17 @@
 
 
 {% block account_content %}
-    <div class="page-header">
+<div class="app-content">
+    <div class="container">
+        <div class="row">
+          <div class="col-lg-6">
+    <div class="page-header" style="margin-top:0px;">
         <h1>Add Car</h1>
     </div>
     <div>
         {% bootstrap_form_errors form %}
     </div>
-    <div class="well col-lg-6 column">
+    <div class="well">
         <form method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
@@ -27,5 +31,13 @@
             <a href="{% url 'car-list' %}" class="btn btn-default">Cancel</a>
             <input class="btn btn-primary" type="submit" value="Add"/>
         </form>
+    </div>
+    </div>
+        <div class="col-lg-6">
+         <img style="padding-bottom:40px"src="http://www.munkytradingco.com/wp-content/uploads/2014/04/placeholder3.png">
+          <img src="http://www.munkytradingco.com/wp-content/uploads/2014/04/placeholder3.png">
+        </div>
+    </div>
+    </div>
     </div>
 {% endblock %}
