@@ -7,9 +7,13 @@
 {% block content %}
     <form method="post" action="">
         {% csrf_token %}
-        <div class="page-header">
+<div class="app-content">
+    <div class="container">
+        <div class="row">
+        <div class="col-lg-6">
+    <div class="page-header" style="margin-top:0px;">
             <h1>Pay for your order</h1>
-            <small>Do not press your browser's back button or you will risk losing your progress.</small>
+            <p>Do not press your browser's back button or you will risk losing your progress.</p>
         </div>
 
         <div class="panel panel-primary">
@@ -88,6 +92,14 @@
             </div>
             <div class="panel-footer"><h4>All prices are in Canadian Dollars (CAD)</h4></div>
         </div>
-
+        </div>
+        <div class="col-lg-6">
+        <h2>More Instructions</h2>
+        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+         <img src="http://www.munkytradingco.com/wp-content/uploads/2014/04/placeholder3.png">
+        </div>
+</div>
+</div>
+</div>
     </form>
 {% endblock %}
