@@ -57,8 +57,10 @@ html{
     html{font-size: 12px!important;}
 }
 
-@media screen and (max-width: 648px) {
-    
+@media screen and (max-width: 748px) {
+    .nav-tabs span {
+      display:none;
+    }
 }
 
 @media screen and (min-device-width: 501px) and (max-device-width: 1200px) {
