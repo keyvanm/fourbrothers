@@ -9,9 +9,12 @@
 {% block bootstrap3_extra_head %}{{ form.media }}{% endblock %}
 
 {% block content %}
-    <div class="page-header">
+<div class="app-content" style="padding-bottom: 0px;">
+    <div class="container">
+        <div class="row">
+    <div class="page-header" style="margin-top:0px;">
         <h1>Book Appointment</h1>
-        <small>Do not press your browser's back button or you will risk losing your progress.</small>
+        <p>Do not press your browser's back button or you will risk losing your progress.</p>
     </div>
     <div>
         {% if not time_slot_choices and date %}
@@ -20,7 +23,7 @@
             </div>
         {% endif %}
     </div>
-    <div class="well col-lg-6 column">
+    <div class="well col-lg-6 column" style="margin-bottom:50px;">
         <form method="post">
             {% csrf_token %}
             <div>
@@ -35,11 +38,14 @@
                 Cancel
             </a>
             <input
-                    class="btn btn-primary btn-lg org-btn hvr-shrink"
+                    class="btn btn-primary btn-lg  hvr-shrink"
                     {% if not time_slot_choices %}disabled{% endif %}
                     type="submit"
                     value="Request"/>
         </form>
+    </div>
+    </div>
+    </div>
     </div>
 {% endblock content %}
 

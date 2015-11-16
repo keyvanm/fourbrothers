@@ -91,31 +91,31 @@ class AppointmentForm(ModelForm):
                 raise InvalidDateException("Can't book more than 10 appointments in one time slot")
 
 
-class AppointmentEditForm(ModelForm):
-    date = forms.DateField(
-        widget=DateTimePicker(options={
-                                  "format": "YYYY-MM-DD",
-                                  "pickTime": False,
-                                  # "startDate": str(valid_start_date_for_booking_appointments())
-                              }))
-
-    class Meta:
-        model = Appointment
-        fields = ['date', 'time_slot', 'address']
-
-    def clean_date(self):
-        date = self.cleaned_data['date']
-        if date < datetime.date.today():
-            raise forms.ValidationError("You can't pick a date in the past!")
-        return date
-
-    def clean(self):
-        cleaned_data = super(AppointmentEditForm, self).clean()
-        date = cleaned_data.get('date')
-        if date:
-            time_slot = cleaned_data['time_slot']
-            if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() >= MAX_NUM_APPT_TIME_SLOT:
-                raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
+# class AppointmentEditForm(ModelForm):
+#     date = forms.DateField(
+#         widget=DateTimePicker(options={
+#                                   "format": "YYYY-MM-DD",
+#                                   "pickTime": False,
+#                                   # "startDate": str(valid_start_date_for_booking_appointments())
+#                               }))
+#
+#     class Meta:
+#         model = Appointment
+#         fields = ['date', 'time_slot', 'address']
+#
+#     def clean_date(self):
+#         date = self.cleaned_data['date']
+#         if date < datetime.date.today():
+#             raise forms.ValidationError("You can't pick a date in the past!")
+#         return date
+#
+#     def clean(self):
+#         cleaned_data = super(AppointmentEditForm, self).clean()
+#         date = cleaned_data.get('date')
+#         if date:
+#             time_slot = cleaned_data['time_slot']
+#             if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() >= MAX_NUM_APPT_TIME_SLOT:
+#                 raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
 
 
 class BuildingAppointmentForm(AppointmentForm):

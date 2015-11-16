@@ -8,10 +8,13 @@
 {% block title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<div class="col-lg-6 col-sm-6 col-xs-12">
-    <h1>{% trans "Sign Up" %}</h1>
+<div class="services swatch-yellow-black has-bottom">
+     <div class="container">
+        <div class="row">
+<div class="col-lg-6 col-sm-6 col-xs-12 text-left">
+    <h1 class="page-name">{% trans "Sign Up" %}</h1>
 
-    <p>{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
+    <p style="padding-bottom:0px;">{% blocktrans %}Already have an account? Then please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
     </p>
 
     <form id="signup_form" method="post" action="{% url 'account_signup' %}">
@@ -48,6 +51,12 @@
 {#            </div>#}
 {#        </div>#}
 {#    </div>#}
+</div>
+<div class="col-lg-6 col-sm-6 col-xs-12">
+<img src="https://blog.ap.org/uploads/news/1200x1600text4-3Portrait.gif">
+</div>
+</div>
+</div>
 </div>
 {% endblock %}
 

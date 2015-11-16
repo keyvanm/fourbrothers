@@ -8,17 +8,25 @@
 
 
 {% block content %}
-    <div class="page-header">
+<div class="app-content">
+    <div class="container">
+        <div class="row">
+        <div class="col-lg-6">
+        <div class="page-header" style="margin-top:0px;">
         <h1>Add Address</h1>
     </div>
     <div>
         {% bootstrap_form_errors form %}
     </div>
-    <div class="well col-lg-6 column">
+    <div class="well">
         <form method="post">
             {% csrf_token %}
             {% bootstrap_form form %}
             <input class="btn btn-primary" type="submit" value="Add"/>
         </form>
     </div>
+    </div>
+</div>
+</div>
+</div>
 {% endblock %}

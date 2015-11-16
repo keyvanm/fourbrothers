@@ -3,29 +3,41 @@
 {% load i18n %}
 
 {% block content %}
+<div class="app-content" style="padding-bottom: 0px;">
+    <div class="container">
+        <div class="row">
 
-    <h1>{% trans 'My Account' %}</h1>
 
+    <h1 class="page-name">{% trans 'My Account' %}</h1>
+</div>
+</div>
+</div>
     <ul class="nav nav-tabs" style="margin-bottom: 20px; margin-top: 20px;">
         <li class="{% block account_nav_profile %}{% endblock %}">
-            <a href="{% url 'profile-detail' %}">{% trans 'Profile' %}</a>
+            <a href="{% url 'profile-detail' %}"><i class="fa fa-user"></i><span>
+{% trans 'Profile' %}</span></a>
         </li>
         <li class="{% block account_nav_email %}{% endblock %}">
-            <a href="{% url 'account_email' %}">{% trans 'E-mail Addresses' %}</a>
+            <a href="{% url 'account_email' %}"><i class="fa fa-envelope-o"></i>
+<span>{% trans 'E-mail Addresses' %}</span></a>
         </li>
 
         <li class="{% block account_nav_change_password %}{% endblock %}">
-            <a href="{% url 'account_change_password' %}">{% trans 'Change Password' %}</a>
+            <a href="{% url 'account_change_password' %}"><i class="fa fa-lock"></i>
+<span>{% trans 'Change Password' %}</span></a>
         </li>
 
         <li class="{% block account_nav_addr_mgr %}{% endblock %}">
-            <a href="{% url 'address-list' %}">{% trans 'Addresses' %}</a>
+            <a href="{% url 'address-list' %}"><i class="fa fa-home"></i>
+<span>{% trans 'Addresses' %}</span></a>
         </li>
         <li class="{% block account_nav_car %}{% endblock %}">
-            <a href="{% url 'car-list' %}">{% trans 'Cars' %}</a>
+            <a href="{% url 'car-list' %}"><i class="fa fa-car"></i>
+<span>{% trans 'Cars' %}</span></a>
         </li>
         <li class="{% block account_nav_appt %}{% endblock %}">
-            <a href="{% url 'appt-list' %}">{% trans 'Appointments' %}</a>
+            <a href="{% url 'appt-list' %}"><i class="fa fa-calendar-check-o"></i>
+<span>{% trans 'Appointments' %}</span></a>
         </li>
         {#  {% url 'socialaccount_connections' as connections_url %}#}
         {#  {% if connections_url %}#}

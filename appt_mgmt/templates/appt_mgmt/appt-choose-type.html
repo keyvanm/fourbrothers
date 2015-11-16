@@ -5,12 +5,23 @@
 {% block title %}Book Appointment{% endblock title %}
 
 {% block content %}
-    <div class="page-header">
-        <h1>Book Appointment</h1>
+<div class="app-content">
+    <div class="container">
+        <div class="row">
+        <div class="col-lg-6">
+    <div class="page-header" style="margin:0px 0px 20px 0px;">
+        <h1 class="page-name">Book Appointment</h1>
         <h3>Do not press your browser's back button or you will risk losing your progress.</h3>
     </div>
     <div>
-        <a href="{% url 'appt-book-building' %}" class="btn btn-primary btn-lg org-btn hvr-shrink">Building</a>
-        <a href="{% url 'appt-book-house' %}" class="btn btn-primary btn-lg org-btn hvr-shrink">House</a>
+        <a href="{% url 'appt-book-building' %}" class="btn btn-primary btn-lg  hvr-shrink">Office Location</a>
+        <a href="{% url 'appt-book-house' %}" class="btn btn-primary btn-lg  hvr-shrink">Residential</a>
+    </div>
+    </div>
+      <div class="col-lg-6">
+       <p>*Office Locations are prenegotiated, to see if your office building has partnered with Four Brothers click the button and browse available drop down addresses.Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi iaculis bibendum dapibus. Duis ipsum tellus, congue id gravida at, tincidunt ut purus. Donec consectetur risus et lectus sodales facilisis. Aliquam ut mollis sapien. Vivamus at velit a diam mollis imperdiet. Duis at hendrerit eros, id placerat magna. Curabitur sollicitudin, mauris eget porttitor pulvinar, lectus magna pharetra mauris, auctor congue purus dui non ex. Sed tempor id magna nec semper. Aliquam volutpat sed sapien sit amet lobortis. Sed dictum velit diam, eu rutrum erat iaculis a. In volutpat sem vitae eros egestas, at ornare orci ullamcorper. </p>
+       </div>
+    </div>
+    </div>
     </div>
 {% endblock content %}
