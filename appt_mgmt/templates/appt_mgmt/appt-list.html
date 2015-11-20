@@ -30,15 +30,18 @@
     <div class="container">
         <div class="row">
     <div>
-        <h2>
-            My Appointments
+        <h2>My Appointments</h2>
+            <div class="notice">
+            <h4>Can’t be home?</h4> 
+            <p>Four Brothers has the option to simply keep the hood of your vehicle slightly open, meaning that you do not have to be home during your appointment. All you need to do is select ‘hood open’ during the service/product selection part of your booking.</p>
             <small>
-                <a href="{% url 'appt-choose-type' %}">
-                    <span class="glyphicon glyphicon-plus"></span> Book an appointment
-                </a>
+                <p>
+                    <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
+                        Book Appointment<span class="glyphicon glyphicon-plus"style="padding-left:5px;"></span>
+                    </a>
+                </p>
             </small>
-        </h2>
-
+</div>
         <h3>
             Upcoming Appointments
         </h3>

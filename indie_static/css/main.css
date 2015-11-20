@@ -7,6 +7,19 @@
     border: none;
 }
 
+.navbar-default .navbar-nav > li > a:hover {
+  color: #538AD1;
+}
+
+.navbar-nav li #register:hover{
+   color: #FC9A00!important;
+}
+
+.nav > li > a:hover {
+    text-decoration: none;
+    background-color: #EEE;
+}
+
 .full-width {
     width: 100%;
 }
@@ -761,6 +774,14 @@ a:hover, a:active, a:focus {
   padding-right:10px;
 }
 
+#socialbar a {
+ color:#333;
+}
+
+#socialbar a:hover {
+  text-decoration:underline;
+}
+
 /* About Us */
 
 .aboutus_back p {
@@ -799,6 +820,10 @@ width: 570px;
 margin-bottom:20px;
 }
 
+.notice {
+padding: 10px;
+background:#eee;
+}
 /* Pay */
 
 #invoice {
@@ -840,3 +865,8 @@ box-shadow: none!important;
     font-family: 'Fjalla One', sans-serif!important;
 }
 
+.scrollThis{
+  height: 200px;
+overflow: scroll;
+margin-bottom: 20px;
+}
