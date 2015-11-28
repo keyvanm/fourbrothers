@@ -359,7 +359,7 @@ color:#317207;
 
 #how_to, #newsletter {
     position:relative;
-    background: #FBFBFB;
+    background: #eee;
     padding:50px 0px;
 }
 
@@ -607,6 +607,7 @@ border-top: 3px solid #FC9A00!important;
   font-family: 'Fjalla One', sans-serif;
   border-radius: 0px;
   padding: 10px 30px;  
+  margin-bottom: 20px;
 }
 
 .panel-body {
@@ -760,9 +761,9 @@ a:hover, a:active, a:focus {
   z-index: 0; /* Set z-index to 0 as it will be on a layer below the contact form */
 }
 
-.i4ewOd-pzNkMb-r4nke-LS81yb.di8rgd-TEhSn {
-  background:#333!important;
-}
+ .scrolloff {
+        pointer-events: none;
+    }
 
 #googlemaps iframe {
   width:100%;
@@ -869,4 +870,102 @@ box-shadow: none!important;
   height: 200px;
 overflow: scroll;
 margin-bottom: 20px;
+}
+
+/* Services Page */
+
+.products-services .triple-banners {
+padding-top: 6%;
+background:#eee;
+padding-bottom: 6%;
+height: auto;
+}
+
+.products-services2 .triple-banners {
+padding-top: 6%;
+background:#fff;
+padding-bottom: 6%;
+height: auto;
+}
+
+.products-services .fa {
+  margin-right:10px;
+}
+
+  
+.flat .plan {
+  border-radius: 6px;
+  list-style: none;
+  padding: 0 0 20px;
+  margin: 0 0 15px;
+  background: #fff;
+  text-align: center;
+  box-shadow: 0px 0px 20px -12px rgb(0, 0, 0);
+}
+
+.products-services2 .flat .plan {
+ background:#eee;
+}
+.table p {
+ margin-top:10px;
+}
+
+.flat .plan li {
+  padding: 10px 15px;
+  color: #ccc;
+  border-top: 1px solid #f5f5f5;
+  -webkit-transition: 300ms;
+  transition: 300ms;
+}
+.flat .plan li.plan-price {
+  border-top: 0;
+}
+.flat .plan li.plan-name {
+  border-radius: 0px;
+  padding: 15px;
+  font-size: 24px;
+  line-height: 24px;
+  color: #fff;
+  background: #337AB7;
+  margin-bottom: 30px;
+  border-top: 0;
+}
+
+.flat .plan li.grey-back {
+  background:#777;
+}
+
+.flat .plan li.org-back {
+  background:#FC9A00;
+}
+
+.flat .plan li > strong {
+  color: #333;
+}
+.flat .plan li.plan-action {
+  margin-top: 10px;
+  border-top: 0;
+}
+.flat .plan.featured {
+  -webkit-transform: scale(1.1);
+  -ms-transform: scale(1.1);
+  transform: scale(1.1);
+}
+.flat .plan.featured li.plan-name {
+  background: #000;
+}
+.flat .plan.featured:hover li.plan-name {
+  background: #c0392b;
+}
+
+.flat .plan:hover li.plan-name{
+  background: green;
+}
+
+.flat .plan:hover li.grey-back{
+  background: green;
+}
+
+.flat .plan:hover li.org-back{
+  background: green;
 }
