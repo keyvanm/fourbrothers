@@ -57,6 +57,22 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         context['invoice'] = invoice
         context['stripe_public_key'] = settings.STRIPE_PUBLIC_KEY
         context['total_price_cents'] = invoice.total_price() * 100
+
+        user_loyalty_points = self.request.user.profile.loyalty_points
+        appt_fee = invoice.appt_fee
+        if user_loyalty_points < 10 or appt_fee - 10 < 39.99:
+            context['loyalty_choices'] = []
+        elif user_loyalty_points < 20 or appt_fee - 20 < 39.99:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:2]
+        elif user_loyalty_points < 30 or appt_fee - 30 < 39.99:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:3]
+        elif user_loyalty_points < 40 or appt_fee - 40 < 39.99:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:4]
+        elif user_loyalty_points < 50 or appt_fee - 50 < 39.99:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:5]
+        else:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:6]
+
         return context
 
     def get_invoice(self, appt, context):
@@ -92,21 +108,6 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
             if self.request.GET.get('gratuity'):
                 form.fields['gratuity'].initial = self.request.GET.get('gratuity')
 
-            invoice = self.get_invoice(self.get_appt(), {})
-            user_loyalty_points = self.request.user.profile.loyalty_points
-            appt_fee = invoice.appointment.get_price()
-            if user_loyalty_points < 10 or appt_fee - 10 < 39.99:
-                del form.fields['loyalty']
-            elif user_loyalty_points < 20 or appt_fee - 20 < 39.99:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:2]
-            elif user_loyalty_points < 30 or appt_fee - 30 < 39.99:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:3]
-            elif user_loyalty_points < 40 or appt_fee - 40 < 39.99:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:4]
-            elif user_loyalty_points < 50 or appt_fee - 50 < 39.99:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:5]
-            else:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:6]
         return form
 
     def get_success_url(self):

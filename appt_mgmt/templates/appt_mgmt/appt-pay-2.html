@@ -101,8 +101,13 @@
                     <h4 class="modal-title">Use loyalty points to pay</h4>
                 </div>
                 <div class="modal-body">
+                    {% if invoice.discount_type == "promo" %}
+                        <p>If you use loyalty points to pay, you cannot use a promo code discount</p>
+                    {% endif %} 
                     <select class="form-control" id="loyalty-select">
-                        {# TODO:#}
+                        {% for loyalty_choice in loyalty_choices %}
+                            <option value="{{ loyalty_choice.0 }}">{{ loyalty_choice.1 }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="modal-footer">
@@ -121,6 +126,9 @@
                     <h4 class="modal-title">Use promo code</h4>
                 </div>
                 <div class="modal-body">
+                    {% if invoice.discount_type == "loyalty" %}
+                        <p>If you use a promo code, you cannot use loyalty points to pay</p>
+                    {% endif %}
                     <input class="form-control" type="text" id="promo-input" placeholder="Promo code">
                 </div>
                 <div class="modal-footer">
