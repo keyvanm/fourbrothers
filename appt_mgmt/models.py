@@ -136,7 +136,7 @@ class Invoice(models.Model):
         if self.discount_type() == "loyalty":
             return Decimal(self.loyalty)
         if self.discount_type() == "promo":
-            return self.promo.get_discounted_price(self.appt_fee)
+            return self.promo.get_discount_on_appt(self.appointment)
         return Decimal(0)
 
     @decimalize
@@ -165,9 +165,6 @@ class Invoice(models.Model):
     def clean(self):
         if self.fee_after_discount < 39.99:
             raise ValidationError('You cannot order a cart under $39.99')
-        user_loyalty_points = self.request.user.profile.loyalty_points
-        if self.loyalty > user_loyalty_points:
-            raise ValidationError('You do not have enough loyalty points')
 
     def save(self, *args, **kwargs):
         if self.promo:
@@ -176,10 +173,10 @@ class Invoice(models.Model):
             self.appointment.user.profile.loyalty_points -= self.loyalty
             self.appointment.user.profile.save()
 
-        msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': self.appt})
-        msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': self.appt})
+        msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': self.appointment})
+        msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': self.appointment})
 
-        subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
+        subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.appointment.user.email
 
         if settings.SEND_MAIL:
             send_mail(

@@ -11,6 +11,7 @@ from django.utils.translation import ugettext_lazy as _
 from appt_mgmt.models import Appointment, ServicedCar, Service, Invoice
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from user_manager.models.address import SharedParkingLocation
+from user_manager.models.promo import Promotion
 
 
 class DateChoiceField(forms.ChoiceField):
@@ -197,8 +198,8 @@ class ApptTechForm(forms.ModelForm):
 
 class InvoiceForm(forms.ModelForm):
     gratuity = forms.ChoiceField(choices=Invoice.GRATUITY_CHOICES, initial=10)
-    promo = forms.CharField(required=False, widget=forms.HiddenInput())
-    loyalty = forms.ChoiceField(required=False, widget=forms.HiddenInput(), choices=Invoice.LOYALTY_CHOICES)
+    promo = forms.ModelChoiceField(required=False, queryset=Promotion.objects.all())
+    loyalty = forms.ChoiceField(required=False, choices=Invoice.LOYALTY_CHOICES)
 
     class Meta:
         model = Invoice

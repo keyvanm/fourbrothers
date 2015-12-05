@@ -5,7 +5,7 @@
 {% block title %}Confirm and pay{% endblock %}
 
 {% block content %}
-    <form {% if not form.errors %}method="post" action=""{% endif %}>
+    <form {% if not errors %}method="post" action=""{% endif %}>
         {% csrf_token %}
         <div class="app-content">
             <div class="container">
@@ -46,6 +46,20 @@
                                     <h1>Grand Total = ${{ invoice.total_price }}</h1>
                                 </h3>
                             </div>
+                            {% if errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if warnings %}
+                                <div class="alert alert-warning">
+                                    {% for warning in warnings %}
+                                        <p>{{ warning }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                             <div class="panel-body">
                                 <ul class="list-unstyled">
                                     {% bootstrap_form form %}
@@ -62,17 +76,19 @@
                                 </div>
                                 <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
                                 {#                <input class="btn btn-primary" type="submit" value="Pay"/>#}
-                                <script
-                                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                        data-key="{{ stripe_public_key }}"
-                                        data-amount="{{ total_price_cents }}"
-                                        data-name="FourBrothers"
-                                        {#                        data-description="${{ total_price_after_gratuity }}"#}
-                                        {#                        data-image="https://s3.amazonaws.com/stripe-uploads/acct_14sgA4LTjRqtW0Rpmerchant-icon-1414533378555-fb_logo.png"#}
-                                        data-zip-code="true"
-                                        data-currency="CAD"
-                                        data-email="{{ user.email }}">
-                                </script>
+                                {% if not errors %}
+                                    <script
+                                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="{{ stripe_public_key }}"
+                                            data-amount="{{ total_price_cents }}"
+                                            data-name="FourBrothers"
+                                            {#                        data-description="${{ total_price_after_gratuity }}"#}
+                                            {#                        data-image="https://s3.amazonaws.com/stripe-uploads/acct_14sgA4LTjRqtW0Rpmerchant-icon-1414533378555-fb_logo.png"#}
+                                            data-zip-code="true"
+                                            data-currency="CAD"
+                                            data-email="{{ user.email }}">
+                                    </script>
+                                {% endif %}
                             </div>
                             <div class="panel-footer"><h4>All prices are in Canadian Dollars (CAD)</h4></div>
                         </div>

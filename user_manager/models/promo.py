@@ -37,21 +37,21 @@ class Promotion(TimeStampedModel):
     def __unicode__(self):
         return "{} | {}".format(self.code, self.description)
 
-    def get_discounted_price(self, price):
+    def get_discount_on_price(self, price):
         # price = Decimal(price)
         if self.type == 'percent' or self.type == 'first-percent':
-            return Decimal(price - (price * self.discount / 100))
+            return Decimal(price * self.discount / 100)
         if self.type == 'amount' or self.type == 'first-amount':
             if price - self.discount > 0:
-                return Decimal(price - self.discount)
+                return Decimal(self.discount)
             else:
-                return Decimal(0)
+                return Decimal(price)
 
-    def get_discount(self, appt):
+    def get_discount_on_appt(self, appt):
         if self in appt.user.profile.promos_used.all():
             raise InvalidPromotionException("You have already used this promotion")
         if (self.type == 'first-percent' or self.type == 'first-amount') and not appt.is_first_paid_appt():
             raise InvalidPromotionException('You can only use this promotion on your first purchase')
 
         price = appt.get_price()
-        return self.get_discounted_price(price)
+        return Decimal(self.get_discount_on_price(price))

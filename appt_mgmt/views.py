@@ -294,8 +294,8 @@ class ApptListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApptListView, self).get_context_data(**kwargs)
-        past_appointments = self.object_list.filter(date__lt=date.today(), paid=True).order_by('date')
-        upcoming_appointments = self.object_list.filter(date__gte=date.today(), paid=True).order_by('date')
+        past_appointments = self.object_list.filter(date__lt=date.today(), invoice__isnull=False, canceled=False).order_by('date')
+        upcoming_appointments = self.object_list.filter(date__gte=date.today(), invoice__isnull=False, canceled=False).order_by('date')
         # pending_appointments = self.object_list.filter(date__gte=date.today(), paid=False)
 
         context['past_appointments'] = grouper(past_appointments, 3)
