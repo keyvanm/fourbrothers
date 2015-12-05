@@ -21,6 +21,8 @@ class UserProfile(models.Model):
 
     inviter = models.ForeignKey(settings.AUTH_USER_MODEL, related_name="invitees", blank=True, null=True)
 
+    newsletter = models.BooleanField(default=True)
+
     def __unicode__(self):
         return "%s's profile" % self.user.username
 

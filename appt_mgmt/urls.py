@@ -4,13 +4,13 @@ from django.views.generic.base import TemplateView
 from appt_mgmt.invoice_views import InvoiceCreateView
 
 from appt_mgmt.views import SharedPLApptCreateView, PrivatePLApptCreateView, ApptDetailView, ApptListView, \
-    ApptServiceCreateView, AppointmentEditView, ApptDelete, TermsView
+    ApptServiceCreateView, AppointmentEditView, ApptDelete
+
 
 urlpatterns = [
     url(r'^$', login_required(TemplateView.as_view(template_name='appt_mgmt/appt-choose-type.html'),
                               login_url="/accounts/signup/"),
         name='appt-choose-type'),
-    url(r'^appointments/(?P<pk>\d+)/terms/$', TermsView.as_view(), name='appt-terms'),
     # url(r'^terms/$', terms_view, name='terms'),
     url(r'^building/$', SharedPLApptCreateView.as_view(), name='appt-book-building'),
     url(r'^building/$', SharedPLApptCreateView.as_view(), name='appt-book-building'),
