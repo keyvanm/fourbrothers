@@ -199,7 +199,7 @@ class ApptTechForm(forms.ModelForm):
 class InvoiceForm(forms.ModelForm):
     gratuity = forms.ChoiceField(choices=Invoice.GRATUITY_CHOICES, initial=10)
     promo = forms.ModelChoiceField(required=False, queryset=Promotion.objects.all(), widget=forms.HiddenInput())
-    loyalty = forms.ChoiceField(required=False, choices=Invoice.LOYALTY_CHOICES, widget=forms.HiddenInput())
+    loyalty = forms.ChoiceField(choices=Invoice.LOYALTY_CHOICES, widget=forms.HiddenInput(), initial=0)
 
     class Meta:
         model = Invoice
