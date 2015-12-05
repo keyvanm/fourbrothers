@@ -38,11 +38,12 @@ class Promotion(TimeStampedModel):
         return "{} | {}".format(self.code, self.description)
 
     def get_discounted_price(self, price):
+        # price = Decimal(price)
         if self.type == 'percent' or self.type == 'first-percent':
-            return price - (price * self.discount / 100)
+            return Decimal(price - (price * self.discount / 100))
         if self.type == 'amount' or self.type == 'first-amount':
             if price - self.discount > 0:
-                return price - self.discount
+                return Decimal(price - self.discount)
             else:
                 return Decimal(0)
 

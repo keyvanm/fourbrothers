@@ -62,16 +62,20 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
     def get_invoice(self, appt, context):
         invoice = Invoice.create(appt)
         loyalty = self.request.GET.get('loyalty')
-        promo_code = self.request.GET.get('promo_code')
-        if loyalty and promo_code:
+        promo = self.request.GET.get('promo')
+        gratuity = self.request.GET.get('gratuity')
+        if loyalty and promo:
             raise Http404
         if loyalty:
             invoice.loyalty = int(loyalty)
-        if promo_code:
+        if promo:
             try:
-                invoice.promo = get_object_or_404(Promotion, code=promo_code)
+                invoice.promo = get_object_or_404(Promotion, code=promo)
             except Promotion.DoesNotExist:
                 context['errors'].append('Invalid promotion code')
+        if gratuity:
+            invoice.gratuity = int(gratuity)
+
         if invoice.fee_after_discount < 39.99:
             context['errors'].append('You cannot order a cart under $39.99')
             invoice.loyalty = 0
@@ -83,8 +87,10 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         if self.request.method == 'GET':
             if self.request.GET.get('loyalty'):
                 form.fields['loyalty'].initial = self.request.GET.get('loyalty')
-            if self.request.GET.get('promo_code'):
-                form.fields['promo'].initial = self.request.GET.get('promo_code')
+            if self.request.GET.get('promo'):
+                form.fields['promo'].initial = self.request.GET.get('promo')
+            if self.request.GET.get('gratuity'):
+                form.fields['gratuity'].initial = self.request.GET.get('gratuity')
 
             invoice = self.get_invoice(self.get_appt(), {})
             user_loyalty_points = self.request.user.profile.loyalty_points

@@ -115,7 +115,7 @@ class Invoice(models.Model):
         invoice.appt_fee = appointment.get_price()
         return invoice
 
-    def discount_used(self):
+    def discount_type(self):
         if self.loyalty and self.promo:
             raise DoubleDiscountException('You cannot use loyalty points and promotion code in one cart')
         if self.loyalty:
@@ -124,21 +124,32 @@ class Invoice(models.Model):
             return "promo"
         return None
 
+    def pretty_discount_type(self):
+        discount = self.discount_type()
+        if discount == "loyalty":
+            return "Loyalty Points"
+        if discount == "promo":
+            return "Promo code ({0})".format(self.promo)
+
     @decimalize
     def discount(self):
-        if self.discount_used() == "loyalty":
-            return self.loyalty
-        if self.discount_used() == "promo":
+        if self.discount_type() == "loyalty":
+            return Decimal(self.loyalty)
+        if self.discount_type() == "promo":
             return self.promo.get_discounted_price(self.appt_fee)
         return Decimal(0)
 
     @decimalize
     def fee_after_discount(self):
-        return self.appt_fee - self.discount()
+        return Decimal(self.appt_fee) - self.discount()
+
+    @decimalize
+    def gratuity_amount(self):
+        return self.fee_after_discount() * Decimal(self.gratuity / 100.0)
 
     @decimalize
     def fee_after_gratuity(self):
-        return self.fee_after_discount() * Decimal(self.gratuity / 100.0)
+        return self.fee_after_discount() * (Decimal(1) + Decimal(self.gratuity / 100.0))
 
     @decimalize
     def tax(self):
