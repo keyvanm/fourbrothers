@@ -969,3 +969,11 @@ height: auto;
 .flat .plan:hover li.org-back{
   background: green;
 }
+
+.appts-table {
+    margin: 30px;
+}
+
+.appts-table caption {
+    font-size: 20pt;
+}
