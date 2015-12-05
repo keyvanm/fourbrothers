@@ -8,7 +8,7 @@ from django.utils import formats, six
 from django.utils.encoding import force_str, force_text
 from django.utils.translation import ugettext_lazy as _
 
-from appt_mgmt.models import Appointment, ServicedCar, Service
+from appt_mgmt.models import Appointment, ServicedCar, Service, Invoice
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from user_manager.models.address import SharedParkingLocation
 
@@ -87,7 +87,7 @@ class AppointmentForm(ModelForm):
             raise InvalidDateException('You cannot book an appointment on this date')
         if date:
             time_slot = cleaned_data['time_slot']
-            if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() >= MAX_NUM_APPT_TIME_SLOT:
+            if Appointment.objects.filter(date=date, time_slot=time_slot).count() >= MAX_NUM_APPT_TIME_SLOT:
                 raise InvalidDateException("Can't book more than 10 appointments in one time slot")
 
 
@@ -189,19 +189,16 @@ class ApptTechForm(forms.ModelForm):
         # services = forms.ModelMultipleChoiceField(queryset=Service.objects.all(), widget=forms.CheckboxSelectMultiple())
 
 
-class PayForm(forms.Form):
-    LOYALTY_POINTS = (
-        (0, '$0'),
-        (10, '$10'),
-        (20, '$20'),
-        (30, '$30'),
-        (40, '$40'),
-        (50, '$50'),
-    )
+# class PayForm(forms.Form):
+#     gratuity = forms.ChoiceField(choices=Appointment.GRATUITY_CHOICES)
+#     promo_code = forms.CharField(required=False)
+#     loyalty = forms.ChoiceField(choices=Invoice.LOYALTY_CHOICES, required=False)
 
-    gratuity = forms.ChoiceField(choices=Appointment.GRATUITY_CHOICES)
-    promo_code = forms.CharField(required=False)
-    loyalty = forms.ChoiceField(choices=LOYALTY_POINTS, required=False)
+
+class InvoiceForm(forms.ModelForm):
+    class Meta:
+        model = Invoice
+        fields = ['gratuity', 'promo', 'loyalty']
 
 
 class InvalidDateException(ValidationError):

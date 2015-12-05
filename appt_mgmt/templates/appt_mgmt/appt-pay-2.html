@@ -1,0 +1,115 @@
+{% extends 'appt_mgmt/appt_mgmt_base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block title %}Confirm and pay{% endblock %}
+
+{% block content %}
+    <form {% if not form.errors %}method="post" action=""{% endif %}>
+        {% csrf_token %}
+        <div class="app-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="page-header" style="margin-top:0px;">
+                            <h1>Pay for your order</h1>
+
+                            <p>Do not press your browser's back button or you will risk losing your progress.</p>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div id="invoice" class="panel-heading">
+                                <ul class="list-unstyled">
+                                    {% for serviced_car in appt.servicedcar_set.all %}
+                                        <li>
+                                            <h1>{{ serviced_car.car }}</h1>
+                                            <ul>
+                                                {% for service in serviced_car.services.all %}
+                                                    <li>
+                                                        <p>{{ service }}</p>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <hr>
+                                <h3 class="panel-title">
+                                    <h2>Your Subtotal is $<span
+                                            id="total-before-tax">{{ total_price_before_tax }}</span></h2>
+
+                                    <h3>+ ${{ total_tax }}
+                                        (13% HST)</h3>
+                                    <h4> + $<span id="grat-amount">{{ total_gratuity }}</span> (<span
+                                            id="grat-perc">{{ appt.gratuity }}%</span> Gratuity)</h4>
+                                    <hr>
+                                    <h1>Grand Total = $<span
+                                            id="total">{{ total_price_after_gratuity }}</span></h1>
+                                </h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <div>
+                                    {% for k, v in pay_form.errs.items %}
+                                        <div class="alert alert-warning">{{ v }}</div>
+                                    {% endfor %}
+                                </div>
+                                <ul class="list-unstyled">
+                                    {% bootstrap_form form %}
+                                    <a href="#" class="btn btn-default hidden" id="apply-promo">Apply promotion</a>
+                                    <script type="text/javascript">
+                                        $(function () {
+                                            var promoLastValue = '';
+                                            $("#id_promo_code").on('change keyup paste mouseup', function () {
+                                                if ($(this).val() != promoLastValue) {
+                                                    promoLastValue = $(this).val();
+                                                    if ($(this).val()) {
+                                                        $("#apply-promo").removeClass("hidden");
+                                                    } else {
+                                                        $("#apply-promo").addClass("hidden");
+                                                    }
+                                                }
+                                            });
+                                            $("#apply-promo").click(function () {
+                                                window.location.assign(window.location.pathname + "?promo_code=" + $("#id_promo_code").val());
+                                            });
+                                            $("#id_loyalty").change(function () {
+                                                window.location.assign(window.location.pathname + "?loyalty=" + $("#id_loyalty :selected").val());
+                                            });
+                                        });
+                                    </script>
+                                </ul>
+                                <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
+                                {#                <input class="btn btn-primary" type="submit" value="Pay"/>#}
+                                <script
+                                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                        data-key="{{ stripe_public_key }}"
+                                        {#                        data-amount="{{ total_price_cents }}"#}
+                                        data-name="FourBrothers"
+                                        {#                        data-description="${{ total_price_after_gratuity }}"#}
+                                        {#                        data-image="https://s3.amazonaws.com/stripe-uploads/acct_14sgA4LTjRqtW0Rpmerchant-icon-1414533378555-fb_logo.png"#}
+                                        data-zip-code="true"
+                                        data-currency="CAD"
+                                        data-email="{{ user.email }}">
+                                </script>
+                            </div>
+                            <div class="panel-footer"><h4>All prices are in Canadian Dollars (CAD)</h4></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2>More Instructions</h2>
+
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type specimen book. It has survived not only five
+                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing software like Aldus PageMaker including
+                            versions of Lorem Ipsum.</p>
+                        <img src="http://www.munkytradingco.com/wp-content/uploads/2014/04/placeholder3.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+{% endblock %}
