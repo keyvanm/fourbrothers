@@ -7,7 +7,7 @@ from appt_mgmt.forms import InvoiceForm
 from appt_mgmt.models import Invoice
 from appt_mgmt.views import get_appt_or_404
 from fourbrothers.utils import LoginRequiredMixin
-from user_manager.models.promo import Promotion
+from user_manager.models.promo import Promotion, InvalidPromotionException
 from django.conf import settings
 from django.contrib import messages
 import stripe
@@ -93,9 +93,9 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
             invoice.loyalty = loyalty
         if promo:
             try:
-                invoice.promo = Promotion.objects.get(code=promo)
-            except Promotion.DoesNotExist:
-                context['warnings'].append('Invalid promotion code')
+                invoice.promo = Promotion.get_promo(promo, appt)
+            except InvalidPromotionException, e:
+                context['warnings'].append(e.message)
         if gratuity:
             invoice.gratuity = int(gratuity)
 
@@ -110,9 +110,9 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
                 form.fields['loyalty'].initial = self.request.GET.get('loyalty')
             if self.request.GET.get('promo'):
                 try:
-                    promo = Promotion.objects.get(code=self.request.GET.get('promo'))
+                    promo = Promotion.get_promo(self.request.GET.get('promo'), self.get_appt())
                     form.fields['promo'].initial = promo
-                except Promotion.DoesNotExist:
+                except InvalidPromotionException:
                     pass
             if self.request.GET.get('gratuity'):
                 gratuity = int(self.request.GET.get('gratuity'))
