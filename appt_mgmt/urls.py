@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.base import TemplateView
 from appt_mgmt.invoice_views import InvoiceCreateView
 
-from appt_mgmt.views import SharedPLApptCreateView, PrivatePLApptCreateView, ApptDetailView, ApptListView, ApptPayView, \
+from appt_mgmt.views import SharedPLApptCreateView, PrivatePLApptCreateView, ApptDetailView, ApptListView, \
     ApptServiceCreateView, AppointmentEditView, ApptDelete
 
 

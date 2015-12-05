@@ -74,6 +74,10 @@
             }
         });
     });
+
+    $(document).ready(function() {
+        $("#terms").parent().parent().before($('#id_newsletter_subscription').parent().parent().parent().parent())
+    });
 </script>
 {% endblock %}
 
