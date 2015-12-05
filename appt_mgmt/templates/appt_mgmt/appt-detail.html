@@ -8,5 +8,10 @@
         <dd>{{ appt.get_time_slot_display }}</dd>
         <dt>Address</dt>
         <dd>{{ appt.address }}</dd>
+        <dt>Service</dt>
+        <dd>{{ appt.services }}</dd>
+        {% for service in appt.services %}
+            <dd>{{ appt.services }}</dd>
+        {% endfor %}
     </dl>
 {% endblock %}

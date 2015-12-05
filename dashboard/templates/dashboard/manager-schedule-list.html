@@ -26,7 +26,47 @@
 {% endblock %}
 
 {% block content %}
-    <div>
+    <div class="appts-table">
+        <table class="table">
+            <caption>List of upcoming appointments</caption>
+            <thead>
+                <tr>
+                    <th>Appointment #</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Technician(s)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in appts %}
+                    <tr>
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+                        <td>
+                            {{ appt.date }}
+                        </td>
+                        <td>
+                            {{ appt.get_time_slot_display }}
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for technician in appt.technician.all %}
+                                    <li>- {{ technician }}</li>
+                                {% empty %}
+                                    No one is assigned yet
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{% url 'appt-tech-edit' pk=appt.pk %}">Assign Technician</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <p>No appointments at this time!</p>
+                {% endfor %}
+            </tbody>
+        </table>
 {#        <h2>#}
 {#            My Appointments#}
 {#            <small>#}
@@ -35,19 +75,19 @@
 {#                </a>#}
 {#            </small>#}
 {#        </h2>#}
-        {% for appt_group in appts %}
-            <div class="row">
-                {% for appt in appt_group %}
-                    {% if appt %}
-                        {% include 'appt_mgmt/appt-block.html' %}
-                    {% endif %}
-                {% endfor %}
-
-            </div>
-        {% empty %}
-            <p>No appointments at this time.
-            </p>
-        {% endfor %}
+{#        {% for appt_group in appts %}#}
+{#            <div class="row">#}
+{#                {% for appt in appt_group %}#}
+{#                    {% if appt %}#}
+{#                        {% include 'appt_mgmt/appt-block.html' %}#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{##}
+{#            </div>#}
+{#        {% empty %}#}
+{#            <p>No appointments at this time.#}
+{#            </p>#}
+{#        {% endfor %}#}
     </div>
 {% endblock %}
 

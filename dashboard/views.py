@@ -25,7 +25,7 @@ class ManagerScheduleListView(ManagerPermissionMixin, LoginRequiredMixin, ListVi
 
     def get_context_data(self, **kwargs):
         context = super(ManagerScheduleListView, self).get_context_data(**kwargs)
-        context['appts'] = grouper(self.object_list.all(), 3)
+        context['appts'] = self.object_list.all()
         return context
 
 

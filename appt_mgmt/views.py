@@ -280,6 +280,10 @@ class ApptDetailView(LoginRequiredMixin, DetailView):
     def get_object(self, queryset=None):
         return get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super(ApptDetailView, self).get_context_data(**kwargs)
+        context['serviced_cars'] = ServicedCar.objects.filter(appointment=self.appt)
+
 
 class ApptListView(LoginRequiredMixin, ListView):
     model = Appointment
