@@ -219,7 +219,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-MAX_NUM_APPT_TIME_SLOT = 1
+MAX_NUM_APPT_TIME_SLOT = 5
 
 # Secret key for prod server
 SECRET_KEY = os.environ.get('SECRET_KEY')

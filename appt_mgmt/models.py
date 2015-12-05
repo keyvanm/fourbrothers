@@ -1,10 +1,16 @@
+from decimal import Decimal
+
 from django.conf import settings
+from django.core.exceptions import ValidationError
+from django.core.mail import send_mail
 from django.db import models
+from django.template.loader import render_to_string
 
 from django_extensions.db.models import TimeStampedModel
 
 from user_manager.models.address import Address, ParkingLocation
 from user_manager.models.car import Car
+from user_manager.models.promo import Promotion
 
 
 class Appointment(TimeStampedModel):
@@ -27,16 +33,11 @@ class Appointment(TimeStampedModel):
     address = models.ForeignKey(ParkingLocation)
     technician = models.ManyToManyField(settings.AUTH_USER_MODEL, limit_choices_to={'profile__type': 'technician'},
                                         related_name='assigned_appts', blank=True)
-    GRATUITY_CHOICES = (
-        (0, '0%'),
-        (5, '5%'),
-        (10, '10%'),
-        (15, '15%'),
-        (20, '20%'),
-    )
-    gratuity = models.PositiveSmallIntegerField(choices=GRATUITY_CHOICES, default=10)
 
-    paid = models.BooleanField(default=False)
+    @property
+    def paid(self):
+        return self.invoice is not None
+
     completed = models.BooleanField(default=False)
     additional_info = models.TextField(blank=True)
 
@@ -57,6 +58,7 @@ class Appointment(TimeStampedModel):
     def is_first_paid_appt(self):
         return Appointment.objects.filter(user=self.user, paid=True).count() == 0
 
+
 class Service(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
@@ -72,3 +74,113 @@ class ServicedCar(models.Model):
     appointment = models.ForeignKey(Appointment)
     car = models.ForeignKey(Car)
     services = models.ManyToManyField(Service)
+
+
+def decimalize(func):
+    def func_wrapper(*args, **kwargs):
+        return func(*args, **kwargs).quantize(Decimal("1.00"))
+
+    return func_wrapper
+
+
+class Invoice(models.Model):
+    appointment = models.OneToOneField(Appointment)
+
+    appt_fee = models.DecimalField(max_digits=10, decimal_places=2)
+
+    GRATUITY_CHOICES = (
+        (0, '0%'),
+        (5, '5%'),
+        (10, '10%'),
+        (15, '15%'),
+        (20, '20%'),
+    )
+    gratuity = models.PositiveSmallIntegerField(choices=GRATUITY_CHOICES, default=10)
+
+    LOYALTY_CHOICES = (
+        (0, '$0'),
+        (10, '$10'),
+        (20, '$20'),
+        (30, '$30'),
+        (40, '$40'),
+        (50, '$50'),
+    )
+    loyalty = models.PositiveSmallIntegerField(choices=LOYALTY_CHOICES)
+
+    promo = models.ForeignKey(Promotion, blank=True, null=True)
+
+    @classmethod
+    def create(cls, appointment):
+        invoice = cls(appointment=appointment)
+        invoice.appt_fee = appointment.get_price()
+        return invoice
+
+    def discount_used(self):
+        if self.loyalty and self.promo:
+            raise DoubleDiscountException('You cannot use loyalty points and promotion code in one cart')
+        if self.loyalty:
+            return "loyalty"
+        if self.promo:
+            return "promo"
+        return None
+
+    @decimalize
+    def discount(self):
+        if self.discount_used() == "loyalty":
+            return self.loyalty
+        if self.discount_used() == "promo":
+            return self.promo.get_discounted_price(self.appt_fee)
+        return Decimal(0)
+
+    @decimalize
+    def fee_after_discount(self):
+        return self.appt_fee - self.discount()
+
+    @decimalize
+    def fee_after_gratuity(self):
+        return self.fee_after_discount() * Decimal(self.gratuity / 100.0)
+
+    @decimalize
+    def tax(self):
+        return self.fee_after_gratuity() * Decimal(0.13)
+
+    @decimalize
+    def fee_after_tax(self):
+        return self.fee_after_gratuity() * Decimal(1.13)
+
+    def total_price(self):
+        return self.fee_after_tax()
+
+    def clean(self):
+        if self.fee_after_discount < 39.99:
+            raise ValidationError('You cannot order a cart under $39.99')
+        user_loyalty_points = self.request.user.profile.loyalty_points
+        if self.loyalty > user_loyalty_points:
+            raise ValidationError('You do not have enough loyalty points')
+
+    def save(self, *args, **kwargs):
+        if self.promo:
+            self.appointment.user.profile.promos_used.add(self.promo)
+        if self.loyalty:
+            self.appointment.user.profile.loyalty_points -= self.loyalty
+            self.appointment.user.profile.save()
+
+        msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': self.appt})
+        msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': self.appt})
+
+        subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
+
+        if settings.SEND_MAIL:
+            send_mail(
+                subject,
+                msg_plain,
+                from_email,
+                [to],
+                html_message=msg_html,
+                fail_silently=settings.DEBUG
+            )
+        return super(Invoice, self).save(*args, **kwargs)
+
+
+class DoubleDiscountException(ValidationError):
+    pass
