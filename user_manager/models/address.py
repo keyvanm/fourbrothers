@@ -7,9 +7,10 @@ from model_utils.choices import Choices
 class Address(TimeStampedModel):
     address1 = models.CharField(max_length=255, verbose_name="Street Address")
     address2 = models.CharField(max_length=255, blank=True, verbose_name="Apt/Suite/Bldg")
-    CITY_CHOICES = Choices('Downtown Toronto', 'East York', 'Etobicoke', 'Markham', 'North Toronto', 'North York', 'Scarborough', 'Thornhill', 'Vaughan', 'York')
+    CITY_CHOICES = Choices(('Toronto', 'Downtown Toronto'), 'East York', 'Etobicoke', 'Markham', 'North Toronto', 'North York', 'Scarborough', 'Thornhill', 'Vaughan', 'York')
     city = models.CharField(choices=CITY_CHOICES, max_length=200)
-    state = models.CharField(max_length=200, verbose_name='State/Province')
+    STATE_CHOICES = Choices('Ontario')
+    state = models.CharField(max_length=200, verbose_name='Province', choices=STATE_CHOICES)
     postal_code = models.CharField(max_length=20, verbose_name="ZIP/Postal Code")
     country = models.CharField(max_length=200, default="Canada")
 
