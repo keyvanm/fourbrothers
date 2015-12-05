@@ -30,14 +30,14 @@
     <div class="container">
         <div class="row">
     <div>
-        <h2>
-            My Cars
+        <h2>My Cars</h2>
             <small>
-                <a href="{% url 'car-add' %}">
-                    <span class="glyphicon glyphicon-plus"></span> Add a car
+            <p>
+                    <a href="{% url 'car-add' %}" class="btn btn-primary btn-lg hvr-shrink">
+                    Add Car<span class="glyphicon glyphicon-plus" style="padding-left:5px;"></span>
                 </a>
-            </small>
-        </h2>
+                </p>
+                </small>
         {% for car_group in cars %}
             <div class="row">
                 {% for car in car_group %}
