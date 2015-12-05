@@ -23,11 +23,16 @@
 {#        {% if redirect_field_value %}#}
             <input type="hidden" name="{{ redirect_field_name }}" value="{% url 'appt-choose-type' %}"/>
 {#        {% endif %}#}
+        <div class="checkbox">
+            <label>
+              <input type="checkbox" id="terms"> I agree to <a href="{% url 'terms' %}" target="_blank">Terms & Conditions</a>
+            </label>
+        </div>
         <div class="form-actions">
 {#            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#tosModal">#}
 {#                {% trans "Sign Up" %}#}
 {#            </button>#}
-            <button type="submit" class="btn btn-primary">{% trans "Sign Up" %}</button>
+            <button type="submit" class="btn btn-primary signup-btn" disabled>{% trans "Sign Up" %}</button>
         </div>
     </form>
 
@@ -58,6 +63,18 @@
 </div>
 </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("#terms").click(function() {
+            if ($("#terms").prop('checked')) {
+                $(".signup-btn").prop('disabled', false)
+            } else {
+                $(".signup-btn").prop('disabled', true)
+            }
+        });
+    });
+</script>
 {% endblock %}
 
 {% block bootstrap3_extra_head %}{{ form.media }}{% endblock %}

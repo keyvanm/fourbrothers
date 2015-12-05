@@ -20,7 +20,7 @@ from django.contrib import admin
 from django.contrib.auth import update_session_auth_hash
 from django.views.generic.base import TemplateView
 import appt_mgmt
-from fourbrothers.views import index_view
+from fourbrothers.views import index_view, terms_view
 
 urlpatterns = [
     url(r'^accounts/address/', include('user_manager.addr_urls')),
@@ -41,6 +41,7 @@ urlpatterns = [
     url(r'^privacy-statement/', TemplateView.as_view(template_name='static-content/privacy.html'), name='privacy-statement'),
     url(r'^report-error/', TemplateView.as_view(template_name='static-content/report.html'), name='report-error'),
     url(r'^help/', TemplateView.as_view(template_name='static-content/help.html'), name='help'),
+    url(r'^terms/', terms_view, name='terms'),
 
 ]
 
