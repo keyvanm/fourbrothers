@@ -202,6 +202,9 @@ class AppointmentEditView(ApptCreateEditMixin, LoginRequiredMixin, UpdateView):
     template_name = 'appt_mgmt/appt-edit.html'
     # context_object_name = 'appt'
 
+    def get_object(self, queryset=None):
+        return get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
+
     def get_form(self, form_class=None):
         form = super(ApptCreateEditMixin, self).get_form(form_class)
         try:
