@@ -26,9 +26,11 @@ class ManagerScheduleListView(ManagerPermissionMixin, LoginRequiredMixin, ListVi
 
     def get_context_data(self, **kwargs):
         context = super(ManagerScheduleListView, self).get_context_data(**kwargs)
-        context['appts'] = self.object_list.all()
-        context['past_appointments'] = self.object_list.filter(date__lt=date.today(), paid=True).order_by('date')
-        context['upcoming_appointments'] = self.object_list.filter(date__gte=date.today(), paid=True).order_by('date')
+        # context['appts'] = self.object_list.all()
+        context['past_appointments'] = self.object_list.filter(date__lt=date.today(), invoice__isnull=False,
+                                                               canceled=False).order_by('date')
+        context['upcoming_appointments'] = self.object_list.filter(date__gte=date.today(), invoice__isnull=False,
+                                                                   canceled=False).order_by('date')
         return context
 
 

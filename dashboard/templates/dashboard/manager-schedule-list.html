@@ -26,12 +26,9 @@
 {% endblock %}
 
 {% block content %}
-    <h3>
-        Upcoming Appointments
-    </h3>
     <div class="appts-table">
         <table class="table">
-            <caption>List of upcoming appointments</caption>
+            <caption>Upcoming Appointments</caption>
             <thead>
                 <tr>
                     <th>#</th>
@@ -92,12 +89,9 @@
 {#            </p>#}
 {#        {% endfor %}#}
     </div>
-    <h3>
-        Past Appointments
-    </h3>
     <div class="appts-table">
         <table class="table">
-            <caption>List of upcoming appointments</caption>
+            <caption>Past Appointments</caption>
             <thead>
                 <tr>
                     <th>#</th>
@@ -131,8 +125,8 @@
                             <a class="btn btn-primary" href="{% url 'appt-tech-edit' pk=appt.pk %}">Assign Technician</a>
                         </td>
                     </tr>
-                {% empty %}
-                    <p>No appointments at this time!</p>
+{#                {% empty %}#}
+{#                    <p>No appointments at this time!</p>#}
                 {% endfor %}
             </tbody>
         </table>
