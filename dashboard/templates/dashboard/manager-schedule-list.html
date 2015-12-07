@@ -26,6 +26,9 @@
 {% endblock %}
 
 {% block content %}
+    <h3>
+        Upcoming Appointments
+    </h3>
     <div class="appts-table">
         <table class="table">
             <caption>List of upcoming appointments</caption>
@@ -38,7 +41,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for appt in appts %}
+                {% for appt in upcoming_appointments %}
                     <tr>
                         <td>
                             {{ forloop.counter }}
@@ -88,6 +91,51 @@
 {#            <p>No appointments at this time.#}
 {#            </p>#}
 {#        {% endfor %}#}
+    </div>
+    <h3>
+        Past Appointments
+    </h3>
+    <div class="appts-table">
+        <table class="table">
+            <caption>List of upcoming appointments</caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Technician(s)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in past_appointments %}
+                    <tr>
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+                        <td>
+                            {{ appt.date }}
+                        </td>
+                        <td>
+                            {{ appt.get_time_slot_display }}
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for technician in appt.technician.all %}
+                                    <li>- {{ technician }}</li>
+                                {% empty %}
+                                    No one is assigned yet
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{% url 'appt-tech-edit' pk=appt.pk %}">Assign Technician</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <p>No appointments at this time!</p>
+                {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
 

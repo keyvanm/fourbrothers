@@ -1,4 +1,5 @@
 # Create your views here.
+from datetime import date
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect
@@ -26,6 +27,8 @@ class ManagerScheduleListView(ManagerPermissionMixin, LoginRequiredMixin, ListVi
     def get_context_data(self, **kwargs):
         context = super(ManagerScheduleListView, self).get_context_data(**kwargs)
         context['appts'] = self.object_list.all()
+        context['past_appointments'] = self.object_list.filter(date__lt=date.today(), paid=True).order_by('date')
+        context['upcoming_appointments'] = self.object_list.filter(date__gte=date.today(), paid=True).order_by('date')
         return context
 
 
