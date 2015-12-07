@@ -36,7 +36,10 @@ class Appointment(TimeStampedModel):
 
     @property
     def paid(self):
-        return self.invoice is not None
+        try:
+            return self.invoice is not None
+        except:
+            return False
 
     completed = models.BooleanField(default=False)
     additional_info = models.TextField(blank=True)
@@ -105,7 +108,7 @@ class Invoice(models.Model):
         (40, '$40'),
         (50, '$50'),
     )
-    loyalty = models.PositiveSmallIntegerField(choices=LOYALTY_CHOICES)
+    loyalty = models.PositiveSmallIntegerField(choices=LOYALTY_CHOICES, default=0)
 
     promo = models.ForeignKey(Promotion, blank=True, null=True)
 
