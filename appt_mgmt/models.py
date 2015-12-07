@@ -176,8 +176,8 @@ class Invoice(models.Model):
             self.appointment.user.profile.loyalty_points -= self.loyalty
             self.appointment.user.profile.save()
 
-        msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': self.appointment})
-        msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': self.appointment})
+        msg_plain = render_to_string('appt_mgmt/confirmation-email.txt', {'appt': self.appointment})
+        msg_html = render_to_string('appt_mgmt/confirmation-email.html', {'appt': self.appointment})
 
         subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.appointment.user.email
 
