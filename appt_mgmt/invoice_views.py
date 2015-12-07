@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
 from django.shortcuts import get_object_or_404
@@ -6,7 +7,7 @@ from appt_mgmt.forms import InvoiceForm
 from appt_mgmt.models import Invoice
 from appt_mgmt.views import get_appt_or_404
 from fourbrothers.utils import LoginRequiredMixin
-from user_manager.models.promo import Promotion
+from user_manager.models.promo import Promotion, InvalidPromotionException
 from django.conf import settings
 from django.contrib import messages
 import stripe
@@ -50,32 +51,56 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super(InvoiceCreateView, self).get_context_data(**kwargs)
         context['errors'] = []
+        context['warnings'] = []
         appt = self.get_appt()
         context['appt'] = appt
+
+        user_loyalty_points = self.request.user.profile.loyalty_points
+        appt_fee = appt.get_price()
+        if user_loyalty_points < 10 or appt_fee - 10 < 39.99:
+            context['loyalty_choices'] = []
+        elif user_loyalty_points < 20 or appt_fee - 20 < 39.99:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:2]
+        elif user_loyalty_points < 30 or appt_fee - 30 < 39.99:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:3]
+        elif user_loyalty_points < 40 or appt_fee - 40 < 39.99:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:4]
+        elif user_loyalty_points < 50 or appt_fee - 50 < 39.99:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:5]
+        else:
+            context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:6]
+
         invoice = self.get_invoice(appt, context)
 
         context['invoice'] = invoice
         context['stripe_public_key'] = settings.STRIPE_PUBLIC_KEY
         context['total_price_cents'] = invoice.total_price() * 100
+
         return context
 
     def get_invoice(self, appt, context):
         invoice = Invoice.create(appt)
         loyalty = self.request.GET.get('loyalty')
-        promo_code = self.request.GET.get('promo_code')
-        if loyalty and promo_code:
+        promo = self.request.GET.get('promo')
+        gratuity = self.request.GET.get('gratuity')
+        if loyalty and promo:
             raise Http404
         if loyalty:
-            invoice.loyalty = int(loyalty)
-        if promo_code:
+            loyalty = int(loyalty)
+            loyalty_choices = [choice[0] for choice in context['loyalty_choices']]
+            if loyalty not in loyalty_choices:
+                raise Http404
+            invoice.loyalty = loyalty
+        if promo:
             try:
-                invoice.promo = get_object_or_404(Promotion, code=promo_code)
-            except Promotion.DoesNotExist:
-                context['errors'].append('Invalid promotion code')
-        if invoice.fee_after_discount < 39.99:
+                invoice.promo = Promotion.get_promo(promo, appt)
+            except InvalidPromotionException, e:
+                context['warnings'].append(e.message)
+        if gratuity:
+            invoice.gratuity = int(gratuity)
+
+        if invoice.fee_after_discount() < 39.99:
             context['errors'].append('You cannot order a cart under $39.99')
-            invoice.loyalty = 0
-            invoice.promo = None
         return invoice
 
     def get_form(self, form_class=None):
@@ -83,24 +108,18 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         if self.request.method == 'GET':
             if self.request.GET.get('loyalty'):
                 form.fields['loyalty'].initial = self.request.GET.get('loyalty')
-            if self.request.GET.get('promo_code'):
-                form.fields['promo'].initial = self.request.GET.get('promo_code')
+            if self.request.GET.get('promo'):
+                try:
+                    promo = Promotion.get_promo(self.request.GET.get('promo'), self.get_appt())
+                    form.fields['promo'].initial = promo
+                except InvalidPromotionException:
+                    pass
+            if self.request.GET.get('gratuity'):
+                gratuity = int(self.request.GET.get('gratuity'))
+                if gratuity not in [choice[0] for choice in Invoice.GRATUITY_CHOICES]:
+                    raise Http404
+                form.fields['gratuity'].initial = self.request.GET.get('gratuity')
 
-            invoice = self.get_invoice(self.get_appt(), {})
-            user_loyalty_points = self.request.user.profile.loyalty_points
-            appt_fee = invoice.appointment.get_price()
-            if user_loyalty_points < 10 or appt_fee - 10 < 39.99:
-                del form.fields['loyalty']
-            elif user_loyalty_points < 20 or appt_fee - 20 < 39.99:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:2]
-            elif user_loyalty_points < 30 or appt_fee - 30 < 39.99:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:3]
-            elif user_loyalty_points < 40 or appt_fee - 40 < 39.99:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:4]
-            elif user_loyalty_points < 50 or appt_fee - 50 < 39.99:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:5]
-            else:
-                form.fields['loyalty'].choices = Invoice.LOYALTY_CHOICES[0:6]
         return form
 
     def get_success_url(self):
@@ -108,7 +127,13 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         request = self.request
-        form.instance.appt_fee = self.get_appt().get_price()
+        form.instance.appointment = self.get_appt()
+        form.instance.appt_fee = form.instance.appointment.get_price()
+
+        user_loyalty_points = self.request.user.profile.loyalty_points
+        if int(form.cleaned_data['loyalty']) > user_loyalty_points:
+            raise ValidationError('You do not have enough loyalty points')
+
         total_payable = form.instance.total_price()
         stripe.api_key = settings.STRIPE_SECRET_KEY
         # stripe_public_key = settings.STRIPE_PUBLIC_KEY
