@@ -42,6 +42,7 @@ class MySignupForm(forms.Form):
                                 widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
     phone_number = forms.CharField(max_length=40, required=True,
                                    widget=forms.TextInput(attrs={'placeholder': 'Phone number'}))
+    newsletter_subscription = forms.BooleanField(widget=forms.CheckboxInput(attrs={'checked': 'true'}), required=False)
 
     def signup(self, request, user):
         form = MySignupForm(request.POST)
@@ -50,5 +51,6 @@ class MySignupForm(forms.Form):
             user.first_name = form.cleaned_data['first_name']
             user.last_name = form.cleaned_data['last_name']
             user.profile.phone_number = form.cleaned_data['phone_number']
+            user.profile.newsletter = form.cleaned_data['newsletter_subscription']
             user.profile.save()
             user.save()

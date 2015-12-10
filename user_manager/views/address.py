@@ -1,5 +1,7 @@
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
+from django.http.response import Http404
+from django.shortcuts import get_object_or_404
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic.list import ListView
 
@@ -42,7 +44,7 @@ class AddressCreateView(LoginRequiredMixin, CreateView):
 
 
 class PrivateAddressCreateView(AddressCreateView):
-    model = Address
+    model = PrivateParkingLocation
     form_class = PrivateAddressForm
 
     def form_valid(self, form):
@@ -57,9 +59,15 @@ class SharedAddressCreateView(AddressCreateView):
 
 
 class PrivateAddressEditView(LoginRequiredMixin, UpdateView):
-    model = PrivateParkingLocation
+    model = Address
     form_class = PrivateAddressForm
     template_name = 'user_manager/address_manager/address-edit.html'
+
+    def get_object(self, queryset=None):
+        address = super(PrivateAddressEditView, self).get_object(queryset=queryset)
+        if address.parkinglocation_set.owner != self.request.user:
+            raise Http404
+        return address
 
     def get_success_url(self):
         return reverse('address-list')

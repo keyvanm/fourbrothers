@@ -11,3 +11,7 @@ def index_view(request):
             return render(request, 'index.html')
     else:
         return render(request, 'index.html')
+
+
+def terms_view(request):
+    return render(request, 'terms.html')

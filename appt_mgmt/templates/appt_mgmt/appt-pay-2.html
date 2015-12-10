@@ -1,0 +1,187 @@
+{% extends 'appt_mgmt/appt_mgmt_base.html' %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block title %}Confirm and pay{% endblock %}
+
+{% block content %}
+    <form {% if not errors %}method="post" action=""{% endif %}>
+        {% csrf_token %}
+        <div class="app-content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="page-header" style="margin-top:0px;">
+                            <h1>Pay for your order</h1>
+
+                            <p>Do not press your browser's back button or you will risk losing your progress.</p>
+                        </div>
+
+                        <div class="panel panel-primary">
+                            <div id="invoice" class="panel-heading">
+                                <ul class="list-unstyled">
+                                    {% for serviced_car in appt.servicedcar_set.all %}
+                                        <li>
+                                            <h1>{{ serviced_car.car }}</h1>
+                                            <ul>
+                                                {% for service in serviced_car.services.all %}
+                                                    <li>
+                                                        <p>{{ service }}</p>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                                <hr>
+                                <h3 class="panel-title">
+                                    <h2>Your Subtotal before tax and gratuity is ${{ invoice.appt_fee }}</h2>
+                                    {% if invoice.discount != 0 %}
+                                        <h3>- ${{ invoice.discount }} Discount ({{ invoice.pretty_discount_type }})</h3>
+                                    {% endif %}
+                                    <h3>+ ${{ invoice.gratuity_amount }} ({{ invoice.gratuity }}% Gratuity)</h3>
+
+                                    <h3>+ ${{ invoice.tax }} (13% HST)</h3>
+                                    <hr>
+                                    <h1>Grand Total = ${{ invoice.total_price }}</h1>
+                                </h3>
+                            </div>
+                            {% if errors %}
+                                <div class="alert alert-danger">
+                                    {% for error in errors %}
+                                        <p>{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            {% if warnings %}
+                                <div class="alert alert-warning">
+                                    {% for warning in warnings %}
+                                        <p>{{ warning }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                            <div class="panel-body">
+                                <ul class="list-unstyled">
+                                    {% bootstrap_form form %}
+                                </ul>
+                                <div>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#loyaltyModal">
+                                        Use loyalty points to pay
+                                    </button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#promoModal">
+                                        Use promo code
+                                    </button>
+                                </div>
+                                <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
+                                {#                <input class="btn btn-primary" type="submit" value="Pay"/>#}
+                                {% if not errors %}
+                                    <script
+                                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                            data-key="{{ stripe_public_key }}"
+                                            data-amount="{{ total_price_cents }}"
+                                            data-name="FourBrothers"
+                                            {#                        data-description="${{ total_price_after_gratuity }}"#}
+                                            {#                        data-image="https://s3.amazonaws.com/stripe-uploads/acct_14sgA4LTjRqtW0Rpmerchant-icon-1414533378555-fb_logo.png"#}
+                                            data-zip-code="true"
+                                            data-currency="CAD"
+                                            data-email="{{ user.email }}">
+                                    </script>
+                                {% endif %}
+                            </div>
+                            <div class="panel-footer"><h4>All prices are in Canadian Dollars (CAD)</h4></div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <h2>More Instructions</h2>
+
+                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
+                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
+                            galley of type and scrambled it to make a type specimen book. It has survived not only five
+                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
+                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
+                            passages, and more recently with desktop publishing software like Aldus PageMaker including
+                            versions of Lorem Ipsum.</p>
+                        <img src="http://www.munkytradingco.com/wp-content/uploads/2014/04/placeholder3.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div class="modal fade" id="loyaltyModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">Use loyalty points to pay</h4>
+                </div>
+                <div class="modal-body">
+                    {% if invoice.discount_type == "promo" %}
+                        <p>If you use loyalty points to pay, you cannot use a promo code discount</p>
+                    {% endif %} 
+                    <select class="form-control" id="loyalty-select">
+                        {% for loyalty_choice in loyalty_choices %}
+                            <option value="{{ loyalty_choice.0 }}">{{ loyalty_choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="apply-loyalty">Apply discount</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="promoModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                    <h4 class="modal-title">Use promo code</h4>
+                </div>
+                <div class="modal-body">
+                    {% if invoice.discount_type == "loyalty" %}
+                        <p>If you use a promo code, you cannot use loyalty points to pay</p>
+                    {% endif %}
+                    <input class="form-control" type="text" id="promo-input" placeholder="Promo code">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="apply-promo">Apply promo code</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
+
+{% block bootstrap3_extra_script %}
+    <script type="text/javascript">
+        $("#id_gratuity").change(function () {
+            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                    {% if invoice.discount_type == 'loyalty' %}
+                        + "&loyalty=" + $("#id_loyalty").val()
+                    {% elif invoice.discount_type == 'promo' %}
+                        + "&promo=" + $("#id_promo").val()
+                    {% endif %}
+
+            window.location.assign(window.location.pathname + query_string);
+        });
+
+        $("#apply-loyalty").click(function () {
+            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                                + "&loyalty=" + $("#loyalty-select").val()
+            window.location.assign(window.location.pathname + query_string);
+        });
+
+        $("#apply-promo").click(function () {
+            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                                + "&promo=" + $("#promo-input").val()
+            window.location.assign(window.location.pathname + query_string);
+        });
+    </script>
+{% endblock %}
