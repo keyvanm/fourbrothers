@@ -213,7 +213,7 @@ a {
 
 .banner {
     text-align: center;
-    background-image: url("http://static.wixstatic.com/media/d55411_7966d87c35d3483885b2dc6a45214c1d.jpg");
+    background-image: url("../img/Fotolia_81725042_M.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
@@ -224,6 +224,25 @@ a {
 }
 
 .banner .jumbotron {
+    background-color: rgba(0, 0, 0, 0.65);
+    padding-top: 6%;
+    padding-bottom: 6%;
+    height:600px;
+}
+
+.banner2 {
+    text-align: center;
+    background-image: url("../img/Fotolia_53424077_M.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.banner2 h1, .banner2 p {
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.banner2 .jumbotron {
     background-color: rgba(0, 0, 0, 0.65);
     padding-top: 6%;
     padding-bottom: 6%;
