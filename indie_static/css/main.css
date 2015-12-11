@@ -202,6 +202,10 @@ a.social-icon-footer {
   padding-bottom:50px;
 }
 
+#featured-services img {
+  height: 150px!important;
+}
+
 .services hr {
   margin-top:40px;
 }
@@ -738,9 +742,6 @@ a:hover, a:active, a:focus {
     max-width: 100%;
 }
 
-#featured-services img {
-  height: 150px!important;
-}
 
 .large_number{
     float: left;
