@@ -65,3 +65,19 @@
         </div>
     {% endif %}
 {% endblock content %}
+
+{% block bootstrap3_extra_script %}
+    <script type="text/javascript">
+        window.onbeforeunload = function() {
+            return 'You will lose your progress so far'
+        };
+
+        $(document).ready(function() {
+            $("#checkout-btn").click(function(){
+                if (!$(this).prop('disabled')) {
+                    window.onbeforeunload = null;
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -184,41 +184,54 @@
             }
             return cookieValue;
         }
-        $("#id_gratuity").change(function () {
-            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
-                    {% if invoice.discount_type == 'loyalty' %}
-                        + "&loyalty=" + $("#id_loyalty").val()
-                    {% elif invoice.discount_type == 'promo' %}
-                        + "&promo=" + $("#id_promo").val()
-                    {% endif %}
+        window.onbeforeunload = function() {
+            return 'You will lose your progress so far'
+        };
 
-            window.location.assign(window.location.pathname + query_string);
-        });
+        $( document ).ready(function() {
+            $("#id_gratuity").change(function () {
+                var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                        {% if invoice.discount_type == 'loyalty' %}
+                            + "&loyalty=" + $("#id_loyalty").val();
+                        {% elif invoice.discount_type == 'promo' %}
+                            + "&promo=" + $("#id_promo").val();
+                        {% endif %}
+                window.onbeforeunload = null;
+                window.location.assign(window.location.pathname + query_string);
+            });
 
-        $("#apply-loyalty").click(function () {
-            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
-                    + "&loyalty=" + $("#loyalty-select").val()
-            window.location.assign(window.location.pathname + query_string);
-        });
+            $("#apply-loyalty").click(function () {
+                var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                        + "&loyalty=" + $("#loyalty-select").val();
+                window.onbeforeunload = null;
+                window.location.assign(window.location.pathname + query_string);
+            });
 
-        $("#apply-promo").click(function () {
-            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
-                    + "&promo=" + $("#promo-input").val()
-            window.location.assign(window.location.pathname + query_string);
-        });
+            $("#apply-promo").click(function () {
+                var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                        + "&promo=" + $("#promo-input").val();
+                window.onbeforeunload = null;
+                window.location.assign(window.location.pathname + query_string);
+            });
 
 
-        $(".servicedcar-del").click(function () {
-            var response = confirm("Are you sure you want to remove this car from the cart?");
-            if (response) {
-                $.post("/book/servicedcar/" + $(this).data("pk") + "/delete/", {csrfmiddlewaretoken: getCookie('csrftoken')}, function () {
-                    location.reload();
-                });
-            }
-        });
+            $(".servicedcar-del").click(function () {
+                var response = confirm("Are you sure you want to remove this car from the cart?");
+                if (response) {
+                    $.post("/book/servicedcar/" + $(this).data("pk") + "/delete/", {csrfmiddlewaretoken: getCookie('csrftoken')}, function () {
+                        window.onbeforeunload = null;
+                        location.reload();
+                    });
+                }
+            });
 
-        $(".servicedcar-edit").click(function () {
-            alert('In order to edit the services added to a car, please delete it and add it back with the services desired');
+            $(".stripe-button-el").click(function () {
+                window.onbeforeunload = null;
+            });
+
+            $(".servicedcar-edit").click(function () {
+                alert('In order to edit the services added to a car, please delete it and add it back with the services desired');
+            });
         });
     </script>
 {% endblock %}
