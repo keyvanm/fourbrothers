@@ -353,8 +353,11 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
 def appt_service_delete_view(request, pk):
     serviced_car = get_object_or_404(ServicedCar, pk=pk)
     appt = serviced_car.appointment
+    if appt.paid:
+        return redirect('appt-list')
     serviced_car.delete()
     return redirect('appt-pay', pk=appt.pk)
+
 
 
 class ApptCancelView(LoginRequiredMixin, View):
