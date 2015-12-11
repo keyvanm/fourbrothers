@@ -466,9 +466,6 @@ line-height: 2.2;
   font-family: "Cantarell",sans-serif;
 }
 
-#why-us .btn, .book-call .btn {
-  margin-top:40px;
-}
 
 
 #why-us .container{
@@ -485,7 +482,6 @@ line-height: 2.2;
 
 #warranty .btn {
   background:#FFA500;
-  margin-top:40px;
 }
 
 
@@ -607,7 +603,7 @@ border-top: 3px solid #FC9A00!important;
   font-family: 'Fjalla One', sans-serif;
   border-radius: 0px;
   padding: 10px 30px;  
-  margin-bottom: 20px;
+  margin: 20px 0px;
 }
 
 .panel-body {
@@ -666,9 +662,7 @@ font-size: 1.2rem;
   padding:0px 0px 80px;
 }
 
-.book-call .btn {
-  margin-top:20px;
-}
+
 
 a {
    outline: 0;
@@ -903,7 +897,6 @@ margin-top:20px;
   background:#fff;
   height:570px;
   text-align:center;
-  font-family: 'Titillium Web', sans-serif;
   cursor:default;
   padding:0;
   margin-bottom:30px;
@@ -914,7 +907,6 @@ margin-top:20px;
   background:#fff;
   height:380px;
   text-align:center;
-  font-family: 'Titillium Web', sans-serif;
   cursor:default;
   padding:0;
   margin-bottom:30px;
@@ -981,19 +973,19 @@ margin-top:20px;
 
 /*Skin v1*/
 
-.skinonecolor {color:#38b880;}
-.skinonebg {background:#38b880;}
-.skinoneklaus_features i {color:#38b880;}
+.skinonecolor {color:#FC9A00;}
+.skinonebg {background:#FC9A00;}
+.skinoneklaus_features i {color:#337AB7;}
 .skinonegetquote li a {background:#38b880;}
 .skinonegetquote li a:hover{background:#47cc92;}
-.skinoneultimate {background:#38b880;border:0;color:#fff;}
-.skinoneucolor {border-bottom:1px solid #33ab77;}
+.skinoneultimate {background:#999;border:0;color:#fff;}
+.skinoneucolor {border-bottom:1px solid #fff;}
 .skinoneucolor h5 {color:#fff;}
 .skinoneucolor span {color:#fff;}
 .skinoneucolor p {color:#fff;}
 .skinoneucolor li {color:#fff;}
 .skinoneucolor i {color:#fff;}
-.skinoneklaus_plancolor {background:#33ab77;}
+.skinoneklaus_plancolor {background:#777;}
 .skinoneucolorget li a {background:#fff;color:#3db983;}
 .skinoneucolorget li a:hover {background:#65ebb1;color:#fff;}
 
@@ -1016,9 +1008,11 @@ height: auto;
   margin-right:10px;
 }
 
-  
-<<<<<<< HEAD
-=======
+.product-back-color h3 {
+  color:#FC9A00;
+}
+
+
 .flat .plan {
   border-radius: 6px;
   list-style: none;
@@ -1103,4 +1097,4 @@ height: auto;
 .appts-table caption {
     font-size: 20pt;
 }
->>>>>>> e1f2e0d73558d3c45917c7886457760ef6ccaa6e
+
