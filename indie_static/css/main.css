@@ -887,8 +887,9 @@ margin-top:20px;
 
 .product-back-color {
   background: rgb(255, 255, 255) none repeat scroll 0% 0%;
-  padding:10px;
+  padding:20px;
   margin:15px;
+  text-align: left;
 }
 
 /*Klaus Structure*/
