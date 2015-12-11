@@ -1,24 +1,22 @@
 from datetime import date
-from decimal import Decimal
 import datetime
 
 from django import forms
 from django.conf import settings
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.contrib import messages
 from django.http.response import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView, UpdateView, FormMixin, DeleteView
+
+from django.views.generic.edit import CreateView, UpdateView, FormMixin
+
 from django.contrib.humanize.templatetags.humanize import naturalday
-import stripe
 import dateutil.parser
 
 from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField, \
@@ -28,8 +26,6 @@ from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation
 from user_manager.models.car import Car
-from user_manager.models.promo import Promotion, InvalidPromotionException
-from user_manager.models.user_profile import CreditCard
 
 
 def get_appt_or_404(pk, user):
@@ -109,7 +105,6 @@ class ApptCreateView(ApptCreateEditMixin, LoginRequiredMixin, CreateView):
         except InvalidDateException:
             context['time_slot_choices'] = []
         return context
-
 
     def get_success_url(self):
         return reverse('appt-service', kwargs={'pk': self.object.pk})
@@ -286,8 +281,10 @@ class ApptListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApptListView, self).get_context_data(**kwargs)
-        past_appointments = self.object_list.filter(date__lt=date.today(), invoice__isnull=False, canceled=False).order_by('date')
-        upcoming_appointments = self.object_list.filter(date__gte=date.today(), invoice__isnull=False, canceled=False).order_by('date')
+        past_appointments = self.object_list.filter(date__lt=date.today(), invoice__isnull=False,
+                                                    canceled=False).order_by('date')
+        upcoming_appointments = self.object_list.filter(date__gte=date.today(), invoice__isnull=False,
+                                                        canceled=False).order_by('date')
         # pending_appointments = self.object_list.filter(date__gte=date.today(), paid=False)
 
         context['past_appointments'] = grouper(past_appointments, 3)
@@ -351,13 +348,13 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
         # messages.success(self.request, 'Appointment booked successfully')
         return super(ApptServiceCreateView, self).form_valid(form)
 
-
-class ApptServiceDeleteView(LoginRequiredMixin, View):
-    def post(self, request, pk):
-        serviced_car = get_object_or_404(ServicedCar, pk=pk)
-        appt = serviced_car.appointment
-        serviced_car.delete()
-        return redirect('appt-pay', pk=appt.pk)
+@csrf_exempt
+@require_POST
+def appt_service_delete_view(request, pk):
+    serviced_car = get_object_or_404(ServicedCar, pk=pk)
+    appt = serviced_car.appointment
+    serviced_car.delete()
+    return redirect('appt-pay', pk=appt.pk)
 
 
 class ApptCancelView(LoginRequiredMixin, View):

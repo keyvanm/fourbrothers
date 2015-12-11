@@ -169,21 +169,6 @@
 
 {% block bootstrap3_extra_script %}
     <script type="text/javascript">
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie != '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
         window.onbeforeunload = function() {
             return 'You will lose your progress so far'
         };
@@ -218,7 +203,7 @@
             $(".servicedcar-del").click(function () {
                 var response = confirm("Are you sure you want to remove this car from the cart?");
                 if (response) {
-                    $.post("/book/servicedcar/" + $(this).data("pk") + "/delete/", {csrfmiddlewaretoken: getCookie('csrftoken')}, function () {
+                    $.post("/book/servicedcar/" + $(this).data("pk") + "/delete/", function () {
                         window.onbeforeunload = null;
                         location.reload();
                     });
