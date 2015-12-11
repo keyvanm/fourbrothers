@@ -363,6 +363,9 @@ def appt_service_delete_view(request, pk):
 class ApptCancelView(LoginRequiredMixin, View):
     def get(self, request, pk):
         appt = get_appt_or_404(pk, request.user)
+        if appt.paid:
+            return redirect('appt-list')
         if appt.servicedcar_set.count() == 0:
+            appt.delete()
             return redirect('homepage')
         return redirect('appt-pay', pk=appt.pk)
