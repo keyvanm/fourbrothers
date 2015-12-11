@@ -22,7 +22,14 @@
                                 <ul class="list-unstyled">
                                     {% for serviced_car in appt.servicedcar_set.all %}
                                         <li>
-                                            <h1>{{ serviced_car.car }}</h1>
+                                            <h3>{{ serviced_car.car }}
+                                                <a class="servicedcar-del" data-pk="{{ serviced_car.pk }}" href="#">
+                                                    <i class="text-danger fa fa-trash"></i>
+                                                </a>
+                                                <a class="servicedcar-edit" href="#">
+                                                    <i class="text-info fa fa-pencil"></i>
+                                                </a>
+                                            </h3>
                                             <ul>
                                                 {% for service in serviced_car.services.all %}
                                                     <li>
@@ -33,6 +40,7 @@
                                         </li>
                                     {% endfor %}
                                 </ul>
+                                <a class="btn btn-primary btn-lg hvr-shrink" href="{% url 'appt-service' pk=appt.pk %}">Add another car</a>
                                 <hr>
                                 <h3 class="panel-title">
                                     <h2>Your Subtotal before tax and gratuity is ${{ invoice.appt_fee }}</h2>
@@ -119,7 +127,7 @@
                 <div class="modal-body">
                     {% if invoice.discount_type == "promo" %}
                         <p>If you use loyalty points to pay, you cannot use a promo code discount</p>
-                    {% endif %} 
+                    {% endif %}
                     <select class="form-control" id="loyalty-select">
                         {% for loyalty_choice in loyalty_choices %}
                             <option value="{{ loyalty_choice.0 }}">{{ loyalty_choice.1 }}</option>
@@ -161,27 +169,69 @@
 
 {% block bootstrap3_extra_script %}
     <script type="text/javascript">
-        $("#id_gratuity").change(function () {
-            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
-                    {% if invoice.discount_type == 'loyalty' %}
-                        + "&loyalty=" + $("#id_loyalty").val()
-                    {% elif invoice.discount_type == 'promo' %}
-                        + "&promo=" + $("#id_promo").val()
-                    {% endif %}
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie != '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        window.onbeforeunload = function() {
+            return 'You will lose your progress so far'
+        };
 
-            window.location.assign(window.location.pathname + query_string);
-        });
+        $( document ).ready(function() {
+            $("#id_gratuity").change(function () {
+                var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                        {% if invoice.discount_type == 'loyalty' %}
+                            + "&loyalty=" + $("#id_loyalty").val();
+                        {% elif invoice.discount_type == 'promo' %}
+                            + "&promo=" + $("#id_promo").val();
+                        {% endif %}
+                window.onbeforeunload = null;
+                window.location.assign(window.location.pathname + query_string);
+            });
 
-        $("#apply-loyalty").click(function () {
-            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
-                                + "&loyalty=" + $("#loyalty-select").val()
-            window.location.assign(window.location.pathname + query_string);
-        });
+            $("#apply-loyalty").click(function () {
+                var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                        + "&loyalty=" + $("#loyalty-select").val();
+                window.onbeforeunload = null;
+                window.location.assign(window.location.pathname + query_string);
+            });
 
-        $("#apply-promo").click(function () {
-            var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
-                                + "&promo=" + $("#promo-input").val()
-            window.location.assign(window.location.pathname + query_string);
+            $("#apply-promo").click(function () {
+                var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
+                        + "&promo=" + $("#promo-input").val();
+                window.onbeforeunload = null;
+                window.location.assign(window.location.pathname + query_string);
+            });
+
+
+            $(".servicedcar-del").click(function () {
+                var response = confirm("Are you sure you want to remove this car from the cart?");
+                if (response) {
+                    $.post("/book/servicedcar/" + $(this).data("pk") + "/delete/", {csrfmiddlewaretoken: getCookie('csrftoken')}, function () {
+                        window.onbeforeunload = null;
+                        location.reload();
+                    });
+                }
+            });
+
+            $(".stripe-button-el").click(function () {
+                window.onbeforeunload = null;
+            });
+
+            $(".servicedcar-edit").click(function () {
+                alert('In order to edit the services added to a car, please delete it and add it back with the services desired');
+            });
         });
     </script>
 {% endblock %}

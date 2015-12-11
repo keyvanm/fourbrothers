@@ -1,7 +1,7 @@
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import reverse
 from django.http.response import Http404
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, redirect
 from django.views.generic.edit import CreateView
 from appt_mgmt.forms import InvoiceForm
 from appt_mgmt.models import Invoice
@@ -44,6 +44,13 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
     model = Invoice
     form_class = InvoiceForm
     template_name = 'appt_mgmt/appt-pay-2.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        appt = self.get_appt()
+        if appt.servicedcar_set.count() == 0:
+            messages.warning(request, 'Your cart is empty. Please pick a car and one or more services for it')
+            return redirect('appt-service', pk=appt.pk)
+        return super(InvoiceCreateView, self).dispatch(request, *args, **kwargs)
 
     def get_appt(self):
         return get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
