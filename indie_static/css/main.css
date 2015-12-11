@@ -900,9 +900,15 @@ display: inline-block;
 margin-top:20px;
 }
 
+.buy-contain {
+   min-height:230px;
+}
+
 .product-row h3 {
   margin-top: 0px;
+  color:#FC9A00;
 }
+
 
 .product-back-color {
   background: rgb(255, 255, 255) none repeat scroll 0% 0%;
