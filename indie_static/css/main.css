@@ -203,7 +203,7 @@ a.social-icon-footer {
 }
 
 #featured-services img {
-  height: 150px!important;
+  height: 150px;
 }
 
 .services hr {
@@ -905,7 +905,7 @@ margin-top:20px;
 }
 
 .buy-contain {
-   min-height:230px;
+   min-height:231px;
 }
 
 .product-row h3 {
