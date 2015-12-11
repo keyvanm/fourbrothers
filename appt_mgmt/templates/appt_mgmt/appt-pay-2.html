@@ -40,7 +40,7 @@
                                         </li>
                                     {% endfor %}
                                 </ul>
-                                <a class="btn btn-primary btn-lg hvr-shrink" href="{% url 'appt-service' pk=appt.pk %}">Add another car</a>
+                                <a id="add-service" class="btn btn-primary btn-lg hvr-shrink" href="{% url 'appt-service' pk=appt.pk %}">Add another car</a>
                                 <hr>
                                 <h3 class="panel-title">
                                     <h2>Your Subtotal before tax and gratuity is ${{ invoice.appt_fee }}</h2>
@@ -231,6 +231,10 @@
 
             $(".servicedcar-edit").click(function () {
                 alert('In order to edit the services added to a car, please delete it and add it back with the services desired');
+            });
+
+            $("#add-service").click(function () {
+                window.onbeforeunload = null;
             });
         });
     </script>
