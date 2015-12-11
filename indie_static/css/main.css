@@ -739,7 +739,7 @@ a:hover, a:active, a:focus {
 }
 
 #featured-services img {
-  height: 150px;
+  height: 150px!important;
 }
 
 .large_number{
