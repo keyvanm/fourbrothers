@@ -738,6 +738,9 @@ a:hover, a:active, a:focus {
     max-width: 100%;
 }
 
+#featured-services img {
+  height: 150px;
+}
 
 .large_number{
     float: left;
