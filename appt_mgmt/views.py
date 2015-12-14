@@ -1,24 +1,22 @@
 from datetime import date
-from decimal import Decimal
 import datetime
 
 from django import forms
 from django.conf import settings
-from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.contrib import messages
 from django.http.response import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_POST
 from django.views.generic.base import View
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+
 from django.views.generic.edit import CreateView, UpdateView, FormMixin
+
 from django.contrib.humanize.templatetags.humanize import naturalday
-import stripe
 import dateutil.parser
 
 from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField, \
@@ -28,8 +26,6 @@ from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation
 from user_manager.models.car import Car
-from user_manager.models.promo import Promotion, InvalidPromotionException
-from user_manager.models.user_profile import CreditCard
 
 
 def get_appt_or_404(pk, user):
@@ -109,7 +105,6 @@ class ApptCreateView(ApptCreateEditMixin, LoginRequiredMixin, CreateView):
         except InvalidDateException:
             context['time_slot_choices'] = []
         return context
-
 
     def get_success_url(self):
         return reverse('appt-service', kwargs={'pk': self.object.pk})
@@ -286,186 +281,16 @@ class ApptListView(LoginRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super(ApptListView, self).get_context_data(**kwargs)
-        past_appointments = self.object_list.filter(date__lt=date.today(), invoice__isnull=False, canceled=False).order_by('date')
-        upcoming_appointments = self.object_list.filter(date__gte=date.today(), invoice__isnull=False, canceled=False).order_by('date')
+        past_appointments = self.object_list.filter(date__lt=date.today(), invoice__isnull=False,
+                                                    canceled=False).order_by('date')
+        upcoming_appointments = self.object_list.filter(date__gte=date.today(), invoice__isnull=False,
+                                                        canceled=False).order_by('date')
         # pending_appointments = self.object_list.filter(date__gte=date.today(), paid=False)
 
         context['past_appointments'] = grouper(past_appointments, 3)
         context['upcoming_appointments'] = grouper(upcoming_appointments, 3)
         # context['pending_appointments'] = grouper(pending_appointments, 3)
         return context
-
-
-def get_or_none(model, *args, **kwargs):
-    try:
-        return model.objects.get(*args, **kwargs)
-    except model.DoesNotExist:
-        return None
-
-
-def create_and_charge_new_customer(request, token, total_price):
-    request.user.creditcards.all().delete()
-    customer = stripe.Customer.create(
-        source=token,
-        description="{}, customer of {}".format(request.user.get_full_name(),
-                                                get_current_site(request).name),
-        email=request.user.email
-    )
-    request.user.profile.stripe_customer_id = customer.stripe_id
-    request.user.profile.save()
-    stripe.Charge.create(
-        amount=int(total_price * 100),  # amount in cents, again
-        currency="cad",
-        customer=customer.id,
-        description="Paid ${} for service".format(total_price)
-    )
-
-
-# class ApptPayView(LoginRequiredMixin, View):
-#     def get_price(self, appt, sales_tax_percent, form, promo_code=None, loyalty=0):
-#         if promo_code:
-#             try:
-#                 try:
-#                     promotion = Promotion.objects.get(code=promo_code)
-#                 except Promotion.DoesNotExist:
-#                     raise InvalidPromotionException("This promo code is invalid")
-#                 total_price_before_tax = promotion.get_discount(appt)
-#             except InvalidPromotionException as e:
-#                 total_price_before_tax = appt.get_price()
-#                 form.errs = {'promotion': e.message}
-#         else:
-#             total_price_before_tax = appt.get_price()
-#
-#         total_price_before_tax = total_price_before_tax.quantize(Decimal("1.00"))
-#         total_sales_tax = (total_price_before_tax * Decimal(sales_tax_percent / 100.0)).quantize(Decimal("1.00"))
-#         total_price = (total_price_before_tax + total_sales_tax).quantize(Decimal("1.00"))
-#         if total_price < 39.99:
-#             raise Http404
-#         total_price_before_loyalty = total_price
-#         if loyalty:
-#             loyalty_points = Decimal(loyalty)
-#             total_price -= loyalty_points
-#
-#         total_gratuity = (total_price * Decimal(appt.gratuity / 100.0)).quantize(Decimal("1.00"))
-#         total_price_after_gratuity = (total_price + total_gratuity).quantize(Decimal("1.00"))
-#
-#         return total_price_before_tax, total_sales_tax, total_price_before_loyalty, total_price, total_gratuity, total_price_after_gratuity
-#
-#     def get(self, request, pk):
-#         pay_form = PayForm(initial={'gratuity': '10'})
-#         appt = get_appt_or_404(pk, request.user)
-#
-#         if self.request.GET.get('loyalty'):
-#             loyalty = int(self.request.GET.get('loyalty'))
-#             pay_form.fields['loyalty'].initial = loyalty
-#         else:
-#             loyalty = 0
-#
-#         if self.request.GET.get('promo_code'):
-#             pay_form.fields['promo_code'].initial = self.request.GET.get('promo_code')
-#
-#         total_price_before_tax, total_sales_tax, total_price_before_loyalty, total_price, total_gratuity, total_price_after_gratuity = self.get_price(
-#             appt, 13, form=pay_form, promo_code=self.request.GET.get('promo_code'), loyalty=loyalty)
-#
-#         user_loyalty_points = self.request.user.profile.loyalty_points
-#         if user_loyalty_points < 10 or total_price_before_loyalty - 10 < 39.99:
-#             del pay_form.fields['loyalty']
-#         elif user_loyalty_points < 20 or total_price_before_loyalty - 20 < 39.99:
-#             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:2]
-#         elif user_loyalty_points < 30 or total_price_before_loyalty - 30 < 39.99:
-#             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:3]
-#         elif user_loyalty_points < 40 or total_price_before_loyalty - 40 < 39.99:
-#             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:4]
-#         elif user_loyalty_points < 50 or total_price_before_loyalty - 50 < 39.99:
-#             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:5]
-#         else:
-#             pay_form.fields['loyalty'].choices = pay_form.LOYALTY_POINTS[0:6]
-#
-#         stripe_public_key = settings.STRIPE_PUBLIC_KEY
-#         return render(request, 'appt_mgmt/appt-pay.html',
-#                       {'appt': appt, 'pay_form': pay_form, 'stripe_public_key': stripe_public_key,
-#                        'total_price_before_tax': total_price_before_tax, 'total_tax': total_sales_tax,
-#                        'total_price': total_price, 'total_gratuity': total_gratuity,
-#                        'total_price_after_gratuity': total_price_after_gratuity,
-#                        'total_price_cents': int(total_price_after_gratuity * 100)})
-#
-#     @method_decorator(csrf_protect)
-#     def post(self, request, pk):
-#         pay_form = PayForm(request.POST)
-#         if pay_form.is_valid():
-#             appt = get_appt_or_404(pk, request.user)
-#             appt.gratuity = int(pay_form.cleaned_data['gratuity'])
-#             appt.save()
-#
-#             promo_code = pay_form.cleaned_data.get('promo_code')
-#             loyalty_points = pay_form.cleaned_data.get('loyalty')
-#             _, _, _, total_price, _, total_payable = self.get_price(appt, 13, form=pay_form, promo_code=promo_code,
-#                                                                  loyalty=loyalty_points)
-#             if total_price < 39.99:
-#                 messages.error(request, 'You cannot order under $39.99')
-#                 return redirect('appt-pay', pk=pk)
-#
-#             stripe.api_key = settings.STRIPE_SECRET_KEY
-#             # stripe_public_key = settings.STRIPE_PUBLIC_KEY
-#             token = request.POST['stripeToken']
-#             try:
-#                 if total_payable:
-#                     if not request.user.profile.stripe_customer_id:
-#                         create_and_charge_new_customer(request, token, total_payable)
-#                     else:
-#                         customer = stripe.Customer.retrieve(request.user.profile.stripe_customer_id)
-#                         if customer.get("deleted", None):
-#                             create_and_charge_new_customer(request, token, total_payable)
-#                         else:
-#                             token_object = stripe.Token.retrieve(token)
-#                             cc = get_or_none(CreditCard, user=request.user, fingerprint=token_object.card.fingerprint)
-#                             if cc is None:
-#                                 card = customer.sources.create(source=token)
-#                                 cc = CreditCard(user=request.user, fingerprint=card.fingerprint, card_id=card.id)
-#                                 cc.save()
-#                             stripe.Charge.create(
-#                                 amount=int(total_payable * 100),  # amount in cents, again
-#                                 currency="cad",
-#                                 source=cc.card_id,
-#                                 customer=customer.id,
-#                                 description="Paid ${}".format(total_payable)
-#                             )
-#                     if promo_code:
-#                         try:
-#                             promotion = Promotion.objects.get(code=promo_code)
-#                             self.request.user.profile.promos_used.add(promotion)
-#                         except:
-#                             pass
-#
-#                 appt.paid = True
-#                 appt.save(update_fields=('paid',))
-#                 if loyalty_points:
-#                     self.request.user.profile.loyalty_points -= int(loyalty_points)
-#                 self.request.user.profile.loyalty_points += int(total_payable / 20)
-#                 self.request.user.profile.save()
-#
-#                 messages.success(request, 'Appointment booked successfully!')
-#
-#                 msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': appt})
-#                 msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': appt})
-#
-#                 subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.request.user.email
-#
-#                 if settings.SEND_MAIL:
-#                     send_mail(
-#                         subject,
-#                         msg_plain,
-#                         from_email,
-#                         [to],
-#                         html_message=msg_html,
-#                         fail_silently=settings.DEBUG
-#                     )
-#
-#                 return redirect('appt-list')
-#             except stripe.CardError, e:
-#                 # The card has been declined
-#                 messages.warning(request, 'Transaction unsuccessful. Please try again.')
-#                 return redirect('appt-pay', pk=pk)
 
 
 class ApptServiceCreateView(LoginRequiredMixin, CreateView):
@@ -515,9 +340,32 @@ class ApptServiceCreateView(LoginRequiredMixin, CreateView):
         context['available_cars'] = self.available_cars
         context['serviced_cars'] = ServicedCar.objects.filter(appointment=self.appt)
         context['total_so_far'] = self.appt.get_price()
+        context['appt'] = self.appt
         return context
 
     def form_valid(self, form):
         form.instance.appointment = get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
         # messages.success(self.request, 'Appointment booked successfully')
         return super(ApptServiceCreateView, self).form_valid(form)
+
+@csrf_exempt
+@require_POST
+def appt_service_delete_view(request, pk):
+    serviced_car = get_object_or_404(ServicedCar, pk=pk)
+    appt = serviced_car.appointment
+    if appt.paid:
+        return redirect('appt-list')
+    serviced_car.delete()
+    return redirect('appt-pay', pk=appt.pk)
+
+
+
+class ApptCancelView(LoginRequiredMixin, View):
+    def get(self, request, pk):
+        appt = get_appt_or_404(pk, request.user)
+        if appt.paid:
+            return redirect('appt-list')
+        if appt.servicedcar_set.count() == 0:
+            appt.delete()
+            return redirect('homepage')
+        return redirect('appt-pay', pk=appt.pk)

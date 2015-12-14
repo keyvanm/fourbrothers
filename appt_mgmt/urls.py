@@ -4,7 +4,7 @@ from django.views.generic.base import TemplateView
 from appt_mgmt.invoice_views import InvoiceCreateView
 
 from appt_mgmt.views import SharedPLApptCreateView, PrivatePLApptCreateView, ApptDetailView, ApptListView, \
-    ApptServiceCreateView, AppointmentEditView, ApptDelete
+    ApptServiceCreateView, AppointmentEditView, ApptDelete, appt_service_delete_view, ApptCancelView
 
 
 urlpatterns = [
@@ -22,5 +22,8 @@ urlpatterns = [
     url(r'^appointments/(?P<pk>\d+)/delete/$', ApptDelete.as_view(), name='appt-delete'),
     url(r'^appointments/(?P<pk>\d+)/$', ApptDetailView.as_view(), name='appt-detail'),
     url(r'^appointments/(?P<pk>\d+)/add-service/$', ApptServiceCreateView.as_view(), name='appt-service'),
+    url(r'^servicedcar/(?P<pk>\d+)/delete/$', appt_service_delete_view, name='appt-service-delete'),
+
+    url(r'^appointments/(?P<pk>\d+)/cancel/$', ApptCancelView.as_view(), name='appt-cancel'),
 
 ]
