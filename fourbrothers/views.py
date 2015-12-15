@@ -28,7 +28,7 @@ def contact_us(request):
         form = ContactUsForm(request.POST)
         if form.is_valid():
             send_mail(form.cleaned_data['subject'], form.cleaned_data['message'], form.cleaned_data['email'],
-                      "adam@fourbrothers.ca", fail_silently=False)
+                      ("adam@fourbrothers.ca", ), fail_silently=False)
             messages.success(request, "Thank you for contacting us!")
             return redirect('contact')
         return render(request, 'static-content/contact.html', context={'form': form})
