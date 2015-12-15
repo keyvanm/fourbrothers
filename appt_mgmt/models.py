@@ -151,19 +151,16 @@ class Invoice(models.Model):
         return self.fee_after_discount() * Decimal(self.gratuity / 100.0)
 
     @decimalize
-    def fee_after_gratuity(self):
-        return self.fee_after_discount() * (Decimal(1) + Decimal(self.gratuity / 100.0))
-
-    @decimalize
     def tax(self):
-        return self.fee_after_gratuity() * Decimal(0.13)
+        return self.fee_after_discount() * Decimal(0.13)
 
     @decimalize
     def fee_after_tax(self):
-        return self.fee_after_gratuity() * Decimal(1.13)
+        return self.fee_after_discount() * Decimal(1.13)
 
+    @decimalize
     def total_price(self):
-        return self.fee_after_tax()
+        return self.fee_after_tax() + self.gratuity_amount()
 
     def clean(self):
         if self.fee_after_discount < 39.99:

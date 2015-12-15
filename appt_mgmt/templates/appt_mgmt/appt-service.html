@@ -21,7 +21,9 @@
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
                 {% bootstrap_form form %}
-                <p class="min-order-warning {% if total_so_far >= 39.99 %}hidden{% endif %}">You should order at least $39.99 to checkout</p>
+                <div class="min-order-warning alert alert-warning {% if total_so_far >= 39.99 %}hidden{% endif %}">
+                    You should order at least $39.99 to checkout
+                </div>
                 <a href="{% url 'appt-cancel' pk=appt.pk %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
                 {% if available_cars.count > 1 %}
                     <input class="btn btn-primary btn-lg  hvr-shrink" type="submit" value="Save and Add Another"
