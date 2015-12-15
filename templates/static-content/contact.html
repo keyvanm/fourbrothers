@@ -8,93 +8,134 @@
 
 
 {% block no_container_content %}
-<div class="services swatch-yellow-black has-bottom">
-     <div class="container">
-        <div class="row">
-            <div class="col-lg-8 text-left">
-                  <h1 class="page-name">Drop us a line!</h1>
-                  <p>Questions? Comments? Concerns? If you wish to contact Four Brothers Auto Services please use our email contact form below. We'd love to hear from you!</p>
-            </div>
-    </div>
-  </div>
-</div>
-<div id="how_to" class=" swatch-yellow-black has-bottom">
-     <div class="container">
-        <div class="row">
-            <div class="col-lg-6">
-             <div id="googlemaps2"><iframe src="https://www.google.com/maps/d/embed?mid=z5avF7RKDSEs.kpRb6xDYQWMo" width="640" height="480"></iframe>
- </div>
-            </div> 
-            <div class="col-lg-6 text-left" style="padding-top:0px;">
-            <h1 style="margin-top: 50px;">Our service area</h1>
-                  <p style="padding-bottom:0px;">Our current service area consists of the GTA (Greater Toronto Area) and the surrounding area. Unfortunately, if you live far enough outside of our service area, we will not be able to service your vehicle. However, we are a growing business and are in the process of expanding our service area. Please check again the next time you want our services and we may be able to schedule you an appointment.</p>
-                  <div class="col-lg-6">
-                    <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o" style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Toronto</h3>
-                    <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o" style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>North York</h3>
-                    <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o" style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Scarborough </h3>
-                    <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o" style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Richmond Hill</h3>
+    <div class="services swatch-yellow-black has-bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 text-left">
+                    <h1 class="page-name">Drop us a line!</h1>
+
+                    <p>Questions? Comments? Concerns? If you wish to contact Four Brothers Auto Services please use our
+                        email contact form below. We'd love to hear from you!</p>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div id="how_to" class=" swatch-yellow-black has-bottom">
+        <div class="container">
+            <div class="row">
                 <div class="col-lg-6">
-                    <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o" style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Etobicoke</h3>
-                    <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o" style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Markham</h3>
-                    <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o" style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Vaughan</h3><br>
+                    <div id="googlemaps2">
+                        <iframe src="https://www.google.com/maps/d/embed?mid=z5avF7RKDSEs.kpRb6xDYQWMo" width="640"
+                                height="480"></iframe>
+                    </div>
                 </div>
-                  <div class="col-lg-12" style="padding-top:20px;">
-                  <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
-                Book An Appointment!
-            </a>
-            </div>
-            </div>   
-        </div>
-      </div>
- </div>
- <div class="services">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 text-left">
-                <h2>Business Hours</h2>
-                 <p>Monday: 8:00 a.m. – 9:00 p.m.<br>
-                 Tuesday: 8:00 a.m. – 9:00 p.m.<br>
-                 Wednesday: 8:00 a.m. – 9:00 p.m.<br>
-                 Thursday: 8:00 a.m. – 9:00 p.m.<br>
-                 Friday: 8:00 a.m. – 9:00 p.m.<br>
-                 Saturday & Sunday: 9:00 a.m. – 8:00 p.m.<br>
-                 *Weather Permitting
-                 </p>
-                 <h2>Holiday Hours</h2>
-                 <p>Closed on all statutory holidays. Feel free to email us for a complete list of closed dates for 2015/2016.</p>
-            </div>
-            <div id="email-us" class="col-lg-8 text-left">
-            <div class="col-lg-12 text-left">
-                <h2>Email us.</h2>
-            </div>
-                  <div class="form-group">
-                    <div class=" ">
-                    <div class="col-lg-6 text-left">
-                     <input  class=" form-control" id="id_email" name="email" placeholder="First Name" type="email">
-                     </div>
-                      <div class="col-lg-6 text-left">
-                     <input  class=" form-control" id="id_email" name="email" placeholder="Last Name" type="email">
-                     </div>
-                      <div class="col-lg-6 text-left">
-                     <input  class=" form-control" id="id_email" name="email" placeholder="Email" type="email">
-                     </div>
-                      <div class="col-lg-6 text-left">
-                     <input  class=" form-control" id="id_email" name="email" placeholder="Subject" type="email">
-                     </div>
+                <div class="col-lg-6 text-left" style="padding-top:0px;">
+                    <h1 style="margin-top: 50px;">Our service area</h1>
+
+                    <p style="padding-bottom:0px;">Our current service area consists of the GTA (Greater Toronto Area)
+                        and the surrounding area. Unfortunately, if you live far enough outside of our service area, we
+                        will not be able to service your vehicle. However, we are a growing business and are in the
+                        process of expanding our service area. Please check again the next time you want our services
+                        and we may be able to schedule you an appointment.</p>
+
+                    <div class="col-lg-6">
+                        <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o"
+                                                                            style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Toronto
+                        </h3>
+
+                        <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o"
+                                                                            style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>North
+                            York</h3>
+
+                        <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o"
+                                                                            style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Scarborough
+                        </h3>
+
+                        <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o"
+                                                                            style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Richmond
+                            Hill</h3>
                     </div>
+                    <div class="col-lg-6">
+                        <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o"
+                                                                            style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Etobicoke
+                        </h3>
+
+                        <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o"
+                                                                            style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Markham
+                        </h3>
+
+                        <h3 style="margin-bottom: 0px;margin-top: 10px;"><i class="fa fa-check-circle-o"
+                                                                            style="color:#FC9A00;font-size:2rem;padding-right:5px;"></i>Vaughan
+                        </h3><br>
                     </div>
-                     <div class="col-lg-12 text-left">
-                     <textarea class="form-control" cols="40" id="id_additional_info" name="additional_info" placeholder="Message" rows="10" title=""></textarea>
-                   <div class="form-actions">
-            <button type="submit" class="btn btn-primary">Send</button>
+                    <div class="col-lg-12" style="padding-top:20px;">
+                        <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
+                            Book An Appointment!
+                        </a>
                     </div>
-                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
- <script>
- $('.aniview').AniView();
- </script>
+    <div class="services">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 text-left">
+                    <h2>Business Hours</h2>
+
+                    <p>Monday: 8:00 a.m. – 9:00 p.m.<br>
+                        Tuesday: 8:00 a.m. – 9:00 p.m.<br>
+                        Wednesday: 8:00 a.m. – 9:00 p.m.<br>
+                        Thursday: 8:00 a.m. – 9:00 p.m.<br>
+                        Friday: 8:00 a.m. – 9:00 p.m.<br>
+                        Saturday & Sunday: 9:00 a.m. – 8:00 p.m.<br>
+                        *Weather Permitting
+                    </p>
+
+                    <h2>Holiday Hours</h2>
+
+                    <p>Closed on all statutory holidays. Feel free to email us for a complete list of closed dates for
+                        2015/2016.</p>
+                </div>
+                <form method="post">
+                    {% csrf_token %}
+                    <div id="email-us" class="col-lg-8 text-left">
+                        <div class="form-group">
+                            <label class="control-label" for="id_first_name">First name</label>
+                            <input class="form-control" id="id_first_name" maxlength="40" name="first_name"
+                                   placeholder="First Name" required="required" title="" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="id_last_name">Last name</label>
+                            <input class="form-control" id="id_last_name" maxlength="40" name="last_name"
+                                   placeholder="Last Name" required="required" title="" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="id_email">Email</label>
+                            <input class="form-control" id="id_email" maxlength="200" name="email" placeholder="Email"
+                                   required="required" title="" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="id_subject">Subject</label>
+                            <input class="form-control" id="id_subject" maxlength="200" name="subject"
+                                   placeholder="Subject"
+                                   required="required" title="" type="text">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="id_message">Message</label>
+                        <textarea class="form-control" cols="40" id="id_message" name="message" placeholder="Message"
+                                  required="required" rows="10" title=""></textarea>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Send</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('.aniview').AniView();
+    </script>
 {% endblock no_container_content %}

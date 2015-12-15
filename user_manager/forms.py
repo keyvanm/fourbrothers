@@ -54,3 +54,13 @@ class MySignupForm(forms.Form):
             user.profile.newsletter = form.cleaned_data['newsletter_subscription']
             user.profile.save()
             user.save()
+
+
+class ContactUsForm(forms.Form):
+    first_name = forms.CharField(max_length=40, required=True,
+                                 widget=forms.TextInput(attrs={'placeholder': 'First Name'}))
+    last_name = forms.CharField(max_length=40, required=True,
+                                widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
+    email = forms.EmailField(max_length=200, required=True)
+    subject = forms.CharField(max_length=200, required=True)
+    message = forms.CharField(widget=forms.Textarea)
