@@ -18,7 +18,7 @@
                 </button>
                 <ul class="dropdown-menu">
                     {% if pl.privateparkinglocation %}
-                        <li><a href="{% url 'address-edit' pk=pl.pk %}">Edit</a></li>
+                        <li><a href="{% url 'address-edit' pk=pl.address.pk %}">Edit</a></li>
                         <li class="divider"></li>
                     {% endif %}
                     <li><a class="delete-addr" href="{% url 'address-delete' pk=pl.address.pk %}">Delete</a></li>
