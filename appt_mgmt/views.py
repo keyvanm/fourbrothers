@@ -5,7 +5,7 @@ from django import forms
 from django.conf import settings
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
-from django.http.response import Http404, HttpResponseRedirect
+from django.http.response import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.template.loader import render_to_string
 from django.views.decorators.csrf import csrf_exempt
@@ -354,10 +354,9 @@ def appt_service_delete_view(request, pk):
     serviced_car = get_object_or_404(ServicedCar, pk=pk)
     appt = serviced_car.appointment
     if appt.paid:
-        return redirect('appt-list')
+        return HttpResponse(status_code=404)
     serviced_car.delete()
-    return redirect('appt-pay', pk=appt.pk)
-
+    return HttpResponse()
 
 
 class ApptCancelView(LoginRequiredMixin, View):
