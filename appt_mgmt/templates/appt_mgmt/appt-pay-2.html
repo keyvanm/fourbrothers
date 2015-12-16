@@ -40,7 +40,8 @@
                                         </li>
                                     {% endfor %}
                                 </ul>
-                                <a id="add-service" class="btn btn-primary btn-lg hvr-shrink" href="{% url 'appt-service' pk=appt.pk %}">Add another car</a>
+                                <a id="add-service" class="btn btn-primary btn-lg hvr-shrink"
+                                   href="{% url 'appt-service' pk=appt.pk %}">Add another car</a>
                                 <hr>
                                 <h3 class="panel-title">
                                     <h2>Your Subtotal before tax and gratuity is ${{ invoice.appt_fee }}</h2>
@@ -169,17 +170,17 @@
 
 {% block bootstrap3_extra_script %}
     <script type="text/javascript">
-        window.onbeforeunload = function() {
+        window.onbeforeunload = function () {
             return 'You will lose your progress so far'
         };
 
-        $( document ).ready(function() {
+        $(document).ready(function () {
             $("#id_gratuity").change(function () {
                 var query_string = "?gratuity=" + $("#id_gratuity :selected").val()
                         {% if invoice.discount_type == 'loyalty' %}
                             + "&loyalty=" + $("#id_loyalty").val();
                         {% elif invoice.discount_type == 'promo' %}
-                            + "&promo=" + $("#id_promo").val();
+                            +"&promo=" + $("#id_promo").val();
                         {% endif %}
                 window.onbeforeunload = null;
                 window.location.assign(window.location.pathname + query_string);
@@ -203,7 +204,10 @@
             $(".servicedcar-del").click(function () {
                 var response = confirm("Are you sure you want to remove this car from the cart?");
                 if (response) {
-                    $.post("/book/servicedcar/" + $(this).data("pk") + "/delete/", function () {
+                    $.ajax({
+                        method: "POST",
+                        url: "/book/servicedcar/" + $(this).data("pk") + "/delete/"
+                    }).done(function () {
                         window.onbeforeunload = null;
                         location.reload();
                     });
