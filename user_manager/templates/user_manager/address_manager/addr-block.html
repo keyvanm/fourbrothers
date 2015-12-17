@@ -21,7 +21,7 @@
                         <li><a href="{% url 'address-edit' pk=pl.address.pk %}">Edit</a></li>
                         <li class="divider"></li>
                     {% endif %}
-                    <li><a class="delete-addr" href="{% url 'address-delete' pk=pl.address.pk %}">Delete</a></li>
+                    <li><a class="delete-addr" href="{% url 'address-delete' pk=pl.pk %}">Delete</a></li>
                 </ul>
             </div>
         </div>
