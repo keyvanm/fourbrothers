@@ -269,7 +269,8 @@ class ApptDetailView(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super(ApptDetailView, self).get_context_data(**kwargs)
-        context['serviced_cars'] = ServicedCar.objects.filter(appointment=self.appt)
+        context['serviced_cars'] = ServicedCar.objects.filter(appointment=context['appt'])
+        return context
 
 
 class ApptListView(LoginRequiredMixin, ListView):

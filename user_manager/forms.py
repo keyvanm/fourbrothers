@@ -1,7 +1,7 @@
 from django.forms.models import ModelForm
 from django import forms
 
-from user_manager.models.address import Address, SharedParkingLocation, PrivateParkingLocation
+from user_manager.models.address import Address, SharedParkingLocation
 from user_manager.models.car import Car
 from user_manager.models.user_profile import UserProfile
 
@@ -42,7 +42,8 @@ class MySignupForm(forms.Form):
                                 widget=forms.TextInput(attrs={'placeholder': 'Last Name'}))
     phone_number = forms.CharField(max_length=40, required=True,
                                    widget=forms.TextInput(attrs={'placeholder': 'Phone number'}))
-    newsletter_subscription = forms.BooleanField(widget=forms.CheckboxInput(attrs={'checked': 'true'}), required=False)
+    newsletter_subscription = forms.BooleanField(widget=forms.CheckboxInput(attrs={'checked': 'true'}), required=False,
+                                                 label="Receive promotional offers and our weekly newsletter.")
 
     def signup(self, request, user):
         form = MySignupForm(request.POST)

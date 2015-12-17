@@ -1,17 +1,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <dl class="dl-horizontal">
-        <dt>Date</dt>
-        <dd>{{ appt.date }}</dd>
-        <dt>Time</dt>
-        <dd>{{ appt.get_time_slot_display }}</dd>
-        <dt>Address</dt>
-        <dd>{{ appt.address }}</dd>
-        <dt>Service</dt>
-        <dd>{{ appt.services }}</dd>
-        {% for service in appt.services %}
-            <dd>{{ appt.services }}</dd>
-        {% endfor %}
-    </dl>
+    <div class="row">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>Date</dt>
+                <dd>{{ appt.date }}</dd>
+                <dt>Time</dt>
+                <dd>{{ appt.get_time_slot_display }}</dd>
+                <dt>Address</dt>
+                <dd>{{ appt.address }}</dd>
+                <dt>Service</dt>
+                <dd>{{ appt.services }}</dd>
+                {% for serviced_car in serviced_cars %}
+                    <dd> {{ serviced_car.car }}
+                        <ul>
+                            {% for service in serviced_car.services.all %}
+                                <li>{{ service }}</li>
+                            {% endfor %}
+
+                        </ul>
+
+
+                    </dd>
+                {% endfor %}
+            </dl>
+        </div>
+    </div>
+
 {% endblock %}
