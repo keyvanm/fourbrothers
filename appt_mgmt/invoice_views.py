@@ -43,7 +43,7 @@ def create_and_charge_new_customer(request, token, total_price):
 class InvoiceCreateView(LoginRequiredMixin, CreateView):
     model = Invoice
     form_class = InvoiceForm
-    template_name = 'appt_mgmt/appt-pay-2.html'
+    template_name = 'appt_mgmt/appt-pay.html'
 
     def dispatch(self, request, *args, **kwargs):
         appt = self.get_appt()
