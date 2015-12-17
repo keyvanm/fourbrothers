@@ -28,9 +28,9 @@ def contact_us(request):
         form = ContactUsForm(request.POST)
         if form.is_valid():
             email_body = "{0} {1} ({3}) \n {4}".format(form.cleaned_data['first_name'],
-                                                     form.cleaned_data['last_name'],
-                                                     form.cleaned_data['email'],
-                                                     form.cleaned_data['message'])
+                                                       form.cleaned_data['last_name'],
+                                                       form.cleaned_data['email'],
+                                                       form.cleaned_data['message'])
             html_email_body = "<p>{0} {1} ({3})</p><p>{4}<p>".format(form.cleaned_data['first_name'],
                                                                      form.cleaned_data['last_name'],
                                                                      form.cleaned_data['email'],
