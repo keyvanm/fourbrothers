@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.core.mail import send_mail
+from django.core.mail.message import EmailMultiAlternatives
 from django.shortcuts import render, redirect
 
 from user_manager.forms import ContactUsForm
@@ -27,8 +27,21 @@ def contact_us(request):
     if request.method == "POST":
         form = ContactUsForm(request.POST)
         if form.is_valid():
-            send_mail(form.cleaned_data['subject'], form.cleaned_data['message'], form.cleaned_data['email'],
-                      ("adam@fourbrothers.ca", ), fail_silently=False)
+            email_body = "{0} {1} ({3}) \n {4}".format(form.cleaned_data['first_name'],
+                                                     form.cleaned_data['last_name'],
+                                                     form.cleaned_data['email'],
+                                                     form.cleaned_data['message'])
+            html_email_body = "<p>{0} {1} ({3})</p><p>{4}<p>".format(form.cleaned_data['first_name'],
+                                                                     form.cleaned_data['last_name'],
+                                                                     form.cleaned_data['email'],
+                                                                     form.cleaned_data['message'])
+            email = EmailMultiAlternatives(form.cleaned_data['subject'],
+                                           email_body,
+                                           form.cleaned_data['email'],
+                                           ("adam@fourbrothers.ca",),
+                                           reply_to=(form.cleaned_data['email'],))
+            email.attach_alternative(html_email_body, "text/html")
+            email.send()
             messages.success(request, "Thank you for contacting us!")
             return redirect('contact')
         return render(request, 'static-content/contact.html', context={'form': form})
