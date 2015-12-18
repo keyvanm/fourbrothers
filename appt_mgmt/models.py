@@ -59,7 +59,8 @@ class Appointment(TimeStampedModel):
         return total_price_before_tax
 
     def is_first_paid_appt(self):
-        return Appointment.objects.filter(user=self.user, paid=True).count() == 0
+        qs = Appointment.objects.filter(user=self.user)
+        return len([appt for appt in qs if appt.paid]) == 0
 
 
 class Service(models.Model):

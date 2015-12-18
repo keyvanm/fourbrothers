@@ -74,10 +74,13 @@
                                     {% bootstrap_form form %}
                                 </ul>
                                 <div>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal"
-                                            data-target="#loyaltyModal">
-                                        Use loyalty points to pay
-                                    </button>
+                                    {% if user.profile.loyalty_points >= 10 %}
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                data-target="#loyaltyModal">
+                                            Use loyalty points to pay
+                                        </button>
+                                    {% endif %}
+
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#promoModal">
                                         Use promo code
@@ -118,30 +121,32 @@
             </div>
         </div>
     </form>
-    <div class="modal fade" id="loyaltyModal">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">Use loyalty points to pay</h4>
-                </div>
-                <div class="modal-body">
-                    {% if invoice.discount_type == "promo" %}
-                        <p>If you use loyalty points to pay, you cannot use a promo code discount</p>
-                    {% endif %}
-                    <select class="form-control" id="loyalty-select">
-                        {% for loyalty_choice in loyalty_choices %}
-                            <option value="{{ loyalty_choice.0 }}">{{ loyalty_choice.1 }}</option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="apply-loyalty">Apply discount</button>
+    {% if user.profile.loyalty_points >= 10 %}
+        <div class="modal fade" id="loyaltyModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                        <h4 class="modal-title">Use loyalty points to pay</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% if invoice.discount_type == "promo" %}
+                            <p>If you use loyalty points to pay, you cannot use a promo code discount</p>
+                        {% endif %}
+                        <select class="form-control" id="loyalty-select">
+                            {% for loyalty_choice in loyalty_choices %}
+                                <option value="{{ loyalty_choice.0 }}">{{ loyalty_choice.1 }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="apply-loyalty">Apply discount</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
     <div class="modal fade" id="promoModal">
         <div class="modal-dialog">

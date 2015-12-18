@@ -3,6 +3,7 @@ import datetime
 
 from django import forms
 from django.conf import settings
+from django.contrib import messages
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.http.response import Http404, HttpResponseRedirect, HttpResponse
@@ -199,6 +200,14 @@ class AppointmentEditView(ApptCreateEditMixin, LoginRequiredMixin, UpdateView):
 
     def get_object(self, queryset=None):
         return get_appt_or_404(self.kwargs[self.pk_url_kwarg], self.request.user)
+
+    def dispatch(self, request, *args, **kwargs):
+        appt = self.get_object()
+        now = datetime.datetime.now()
+        if (appt.date - now.date()).days <= 1:
+            messages.error(self.request, 'You cannot edit this appointment since its date is within a day')
+            return redirect('appt-list')
+        return super(AppointmentEditView, self).dispatch(request, *args, **kwargs)
 
     def get_form(self, form_class=None):
         form = super(ApptCreateEditMixin, self).get_form(form_class)

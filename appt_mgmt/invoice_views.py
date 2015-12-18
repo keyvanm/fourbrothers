@@ -93,7 +93,10 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         if loyalty and promo:
             raise Http404
         if loyalty:
-            loyalty = int(loyalty)
+            try:
+                loyalty = int(loyalty)
+            except ValueError:
+                raise Http404
             loyalty_choices = [choice[0] for choice in context['loyalty_choices']]
             if loyalty not in loyalty_choices:
                 raise Http404
