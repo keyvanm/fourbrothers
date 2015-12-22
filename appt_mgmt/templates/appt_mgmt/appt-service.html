@@ -11,6 +11,7 @@
 {% block content %}
     <div class="page-header" style="margin-top:0px;padding-top:50px;">
         <h1>Choose Service</h1>
+
         <p>Do not press your browser's back button or you will risk losing your progress.</p>
     </div>
     <div>
@@ -20,16 +21,44 @@
         <div class="well col-lg-6 column" style="margin-bottom:50px;">
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
-                {% bootstrap_form form %}
+                {% bootstrap_field form.car %}
+                <div class="form-group">
+                    <label class="control-label" for="id_services_0">Services</label>
+
+                    <div id="id_services">
+                        {% for service in form.services.field.queryset %}
+                            <div class="checkbox">
+                                <label for="id_services_{{ forloop.counter0 }}">
+                                    <input class="" id="id_services_{{ forloop.counter0 }}" name="services"
+                                           type="checkbox" value="{{ service.id }}">
+                                    {{ service }}
+                                    <p>
+                                        {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="50"
+                                                 width="50" alt="">
+                                        {% else %}
+                                            <img src="https://placehold.it/50x50" alt="">
+                                        {% endif %}
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                </label>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 <div class="min-order-warning alert alert-warning {% if total_so_far >= 39.99 %}hidden{% endif %}">
                     You should order at least $39.99 to checkout
                 </div>
-                <a href="{% url 'appt-cancel' pk=appt.pk %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
+                <a href="{% url 'appt-cancel' pk=appt.pk %}"
+                   class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
                 {% if available_cars.count > 1 %}
                     <input class="btn btn-primary btn-lg  hvr-shrink" type="submit" value="Save and Add Another"
                            name="_addanother">
                 {% endif %}
-                <input {% if total_so_far < 39.99 %}disabled{% endif %} class="btn btn-primary btn-lg hvr-shrink" id="checkout-btn" type="submit" value="Checkout"/>
+                <input {% if total_so_far < 39.99 %}disabled{% endif %} class="btn btn-primary btn-lg hvr-shrink"
+                       id="checkout-btn" type="submit" value="Checkout"/>
 
             </form>
         </div>
@@ -42,6 +71,7 @@
                 <div class="col-lg-6">
                     <div class="live-cart" data-amount={{ total_so_far }}>
                         <h3>${{ total_so_far }}</h3>
+
                         <p>+HST</p>
                     </div>
                 </div>
@@ -70,12 +100,12 @@
 
 {% block bootstrap3_extra_script %}
     <script type="text/javascript">
-        window.onbeforeunload = function() {
+        window.onbeforeunload = function () {
             return 'You will lose your progress so far'
         };
 
-        $(document).ready(function() {
-            $("#checkout-btn").click(function(){
+        $(document).ready(function () {
+            $("#checkout-btn").click(function () {
                 if (!$(this).prop('disabled')) {
                     window.onbeforeunload = null;
                 }
