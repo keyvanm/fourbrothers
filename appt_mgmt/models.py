@@ -1,4 +1,5 @@
 from decimal import Decimal
+import datetime
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -11,6 +12,17 @@ from django_extensions.db.models import TimeStampedModel
 from user_manager.models.address import Address, ParkingLocation
 from user_manager.models.car import Car
 from user_manager.models.promo import Promotion
+from django.core.exceptions import ValidationError
+
+
+class InvalidDateException(ValidationError):
+    pass
+
+
+def validate_appt_date(date):
+    today = datetime.date.today()
+    if date < today or date in settings.DISABLED_DATES:
+        raise InvalidDateException('You cannot book an appointment on this date')
 
 
 class Appointment(TimeStampedModel):
@@ -18,11 +30,8 @@ class Appointment(TimeStampedModel):
     cars = models.ManyToManyField(Car, through='ServicedCar')
     canceled = models.BooleanField(default=False)
 
-    date = models.DateField(
-        # validators=[
-        #     MinValueValidator(datetime.date.today())
-        # ]
-    )
+    date = models.DateField(validators=[validate_appt_date])
+
     TIME_SLOT_CHOICES = (
         ('8am', '8 - 11 AM'),
         ('11am', '11 AM - 2 PM'),

@@ -2,13 +2,14 @@ import datetime
 
 from bootstrap3_datetime.widgets import DateTimePicker
 from django import forms
+from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.forms.models import ModelForm
 from django.utils import formats, six
 from django.utils.encoding import force_str, force_text
 from django.utils.translation import ugettext_lazy as _
 
-from appt_mgmt.models import Appointment, ServicedCar, Service, Invoice
+from appt_mgmt.models import Appointment, ServicedCar, Service, Invoice, InvalidDateException
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from user_manager.models.address import SharedParkingLocation
 from user_manager.models.promo import Promotion
@@ -68,6 +69,7 @@ class AppointmentForm(ModelForm):
         widget=DateTimePicker(options={"format": "YYYY-MM-DD",
                                        "pickTime": False,
                                        # "startDate": str(valid_start_date_for_booking_appointments())
+                                       "disabledDates": [str(d) for d in settings.DISABLED_DATES],
                                        }))
 
     class Meta:
@@ -84,39 +86,13 @@ class AppointmentForm(ModelForm):
         cleaned_data = super(AppointmentForm, self).clean()
         date = cleaned_data.get('date')
         today = date.today()
-        if (date == today and datetime.datetime.now()) or date < today:
+
+        if (date in settings.DISABLED_DATES) or (date == today and datetime.datetime.now()) or date < today:
             raise InvalidDateException('You cannot book an appointment on this date')
         if date:
             time_slot = cleaned_data['time_slot']
             if Appointment.objects.filter(date=date, time_slot=time_slot).count() >= MAX_NUM_APPT_TIME_SLOT:
                 raise InvalidDateException("Can't book more than 10 appointments in one time slot")
-
-
-# class AppointmentEditForm(ModelForm):
-#     date = forms.DateField(
-#         widget=DateTimePicker(options={
-#                                   "format": "YYYY-MM-DD",
-#                                   "pickTime": False,
-#                                   # "startDate": str(valid_start_date_for_booking_appointments())
-#                               }))
-#
-#     class Meta:
-#         model = Appointment
-#         fields = ['date', 'time_slot', 'address']
-#
-#     def clean_date(self):
-#         date = self.cleaned_data['date']
-#         if date < datetime.date.today():
-#             raise forms.ValidationError("You can't pick a date in the past!")
-#         return date
-#
-#     def clean(self):
-#         cleaned_data = super(AppointmentEditForm, self).clean()
-#         date = cleaned_data.get('date')
-#         if date:
-#             time_slot = cleaned_data['time_slot']
-#             if Appointment.objects.filter(date=date, time_slot=time_slot, paid=True).count() >= MAX_NUM_APPT_TIME_SLOT:
-#                 raise forms.ValidationError("Can't book more than 10 appointments in one time slot")
 
 
 class BuildingAppointmentForm(AppointmentForm):
@@ -149,7 +125,3 @@ class InvoiceForm(forms.ModelForm):
     class Meta:
         model = Invoice
         fields = ['gratuity', 'promo', 'loyalty']
-
-
-class InvalidDateException(ValidationError):
-    pass

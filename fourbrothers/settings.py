@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import datetime
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -220,6 +221,20 @@ USE_TZ = True
 
 
 MAX_NUM_APPT_TIME_SLOT = 5
+
+DISABLED_DATES = (
+    datetime.date(2016, 1, 1),
+    datetime.date(2016, 2, 15),
+    datetime.date(2016, 3, 25),
+    datetime.date(2016, 3, 28),
+    datetime.date(2016, 5, 23),
+    datetime.date(2016, 7, 1),
+    datetime.date(2016, 8, 1),
+    datetime.date(2016, 9, 5),
+    datetime.date(2016, 10, 10),
+    datetime.date(2016, 12, 25),
+    datetime.date(2016, 12, 26),
+)
 
 # Secret key for prod server
 SECRET_KEY = os.environ.get('SECRET_KEY')

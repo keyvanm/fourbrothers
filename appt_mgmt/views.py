@@ -20,9 +20,8 @@ from django.views.generic.edit import CreateView, UpdateView, FormMixin
 from django.contrib.humanize.templatetags.humanize import naturalday
 import dateutil.parser
 
-from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField, \
-    InvalidDateException
-from appt_mgmt.models import Appointment, ServicedCar
+from appt_mgmt.forms import AppointmentForm, CarServiceForm, BuildingAppointmentForm, DateChoiceField
+from appt_mgmt.models import Appointment, ServicedCar, InvalidDateException
 from fourbrothers.settings import MAX_NUM_APPT_TIME_SLOT
 from fourbrothers.utils import LoginRequiredMixin, grouper
 from user_manager.models.address import PrivateParkingLocation, SharedParkingLocation
@@ -51,8 +50,10 @@ class ApptCreateEditMixin(FormMixin):
         requested_date = dateutil.parser.parse(self.request.GET.get('date')).date()
         _time_slot_choices = []
 
-        today = requested_date.today()
-        if requested_date >= today:
+        today = datetime.date.today()
+        if requested_date in settings.DISABLED_DATES:
+            raise InvalidDateException('You cannot book an appointment on this date')
+        elif requested_date >= today:
             pass
         elif requested_date == today:
             now = datetime.datetime.now()
