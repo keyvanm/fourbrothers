@@ -239,7 +239,7 @@ a {
     background-image: url("../img/Fotolia_53424077_M.jpg");
     background-repeat: no-repeat;
     background-size: cover;
-    background-position: center;
+    background-position: top center;
 }
 
 .banner2 h1, .banner2 p {
@@ -626,9 +626,27 @@ border-top: 3px solid #FC9A00!important;
   font-family: 'Fjalla One', sans-serif;
   border-radius: 0px;
   padding: 10px 30px;  
-  margin: 20px 0px;
+
 }
 
+.btn-info {
+    color: #FFF;
+    background-color: #337AB7!important;
+    border-color: #2E6DA4!important;
+}
+
+.btn-info:hover {
+background-color: #286090;
+border-color: #204D74;
+}
+
+.office-hide  {
+  display:none!important;
+}
+
+.btn-primary {
+margin: 20px 0px;
+}
 .panel-body {
     font-family: 'Cantarell', sans-serif;
 }

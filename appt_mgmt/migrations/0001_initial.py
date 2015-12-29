@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import appt_mgmt.models
 import django.utils.timezone
 from django.conf import settings
 import django_extensions.db.fields
@@ -22,7 +23,7 @@ class Migration(migrations.Migration):
                 ('created', django_extensions.db.fields.CreationDateTimeField(default=django.utils.timezone.now, verbose_name='created', editable=False, blank=True)),
                 ('modified', django_extensions.db.fields.ModificationDateTimeField(default=django.utils.timezone.now, verbose_name='modified', editable=False, blank=True)),
                 ('canceled', models.BooleanField(default=False)),
-                ('date', models.DateField()),
+                ('date', models.DateField(validators=[appt_mgmt.models.validate_appt_date])),
                 ('time_slot', models.CharField(max_length=10, choices=[(b'8am', b'8 - 11 AM'), (b'11am', b'11 AM - 2 PM'), (b'2pm', b'2 - 5 PM'), (b'5pm', b'5 - 8 PM')])),
                 ('completed', models.BooleanField(default=False)),
                 ('additional_info', models.TextField(blank=True)),
