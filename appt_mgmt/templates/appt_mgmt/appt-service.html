@@ -18,10 +18,19 @@
         {% bootstrap_form_errors form %}
     </div>
     <div class="row">
-        <div class="well col-lg-6 column" style="margin-bottom:50px;">
+    <div id="cart" class="col-md-12 text-right" style="text-align:right;">
+
+                    <div class="live-cart" data-amount={{ total_so_far }}>
+                        <h1>${{ total_so_far }}</h1>
+
+                        <p>+HST</p>
+                    </div>
+        </div>
+        <div class="col-lg-12 column" style="margin-bottom:50px;">
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
-                {% bootstrap_field form.car %}
+                <div class="col-lg-6" >{% bootstrap_field form.car %}</div>
+                 <div class="col-lg-12" >
                 <div class="form-group">
                     <label class="control-label" for="id_services_0">Services</label>
 
@@ -48,7 +57,8 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="min-order-warning alert alert-warning {% if total_so_far >= 39.99 %}hidden{% endif %}">
+                
+                <div  class="min-order-warning alert alert-warning {% if total_so_far >= 39.99 %}hidden{% endif %}">
                     You should order at least $39.99 to checkout
                 </div>
                 <a href="{% url 'appt-cancel' pk=appt.pk %}"
@@ -61,38 +71,35 @@
                        id="checkout-btn" type="submit" value="Checkout"/>
 
             </form>
+            </div>
         </div>
-        <div id="cart" class="well col-md-4 column col-md-offset-1">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h3>Cart:</h3>
-                    <i class="fa fa-shopping-cart fa-3x"></i>
-                </div>
-                <div class="col-lg-6">
+        <div id="cart" class="col-md-12 text-right" style="text-align:right;">
+            
+
                     <div class="live-cart" data-amount={{ total_so_far }}>
-                        <h3>${{ total_so_far }}</h3>
+                        <h1>${{ total_so_far }}</h1>
 
                         <p>+HST</p>
                     </div>
-                </div>
-            </div>
+               
+           
         </div>
     </div>
     {% if serviced_cars %}
         <div class="row">
-            <div class="col-md-12 well">
-                <ul>
+            <div class="col-md-12">
+            
                     {% for serviced_car in serviced_cars %}
-                        <li>
+                        <h2>
                             {{ serviced_car.car }}
-                            <ul>
+                        <h2>
+                            <p>
                                 {% for service in serviced_car.services.all %}
                                     <li>{{ service }}</li>
                                 {% endfor %}
-                            </ul>
-                        </li>
+                            </p>
                     {% endfor %}
-                </ul>
+
             </div>
         </div>
     {% endif %}
