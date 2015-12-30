@@ -120,8 +120,9 @@ h6,li {
     f font-family: "Fjalla One",sans-serif;
 }
 p {
-    font-size:1rem;
+    font-size:1.2rem;
      font-family: "Cantarell",sans-serif;
+     line-height:1.5;
 }
 
 .well {

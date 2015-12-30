@@ -12,7 +12,7 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="page-header" style="margin-top:0px;">
-                            <h1>Pay for your order</h1>
+                            <h1>Order Summary</h1>
 
                             <p>Do not press your browser's back button or you will risk losing your progress.</p>
                         </div>
@@ -41,10 +41,10 @@
                                     {% endfor %}
                                 </ul>
                                 <a id="add-service" class="btn btn-primary btn-lg hvr-shrink"
-                                   href="{% url 'appt-service' pk=appt.pk %}">Add another car</a>
+                                   href="{% url 'appt-service' pk=appt.pk %}">Add Another Car</a>
                                 <hr>
                                 <h3 class="panel-title">
-                                    <h2>Your Subtotal before tax and gratuity is ${{ invoice.appt_fee }}</h2>
+                                    <h2>Subtotal ${{ invoice.appt_fee }}</h2>
                                     {% if invoice.discount != 0 %}
                                         <h3>- ${{ invoice.discount }} Discount ({{ invoice.pretty_discount_type }})</h3>
                                     {% endif %}
@@ -52,7 +52,7 @@
 
                                     <h3>+ ${{ invoice.tax }} (13% HST)</h3>
                                     <hr>
-                                    <h1>Grand Total = ${{ invoice.total_price }}</h1>
+                                    <h1>Total = ${{ invoice.total_price }}</h1>
                                 </h3>
                             </div>
                             {% if errors %}
@@ -77,13 +77,13 @@
                                     {% if user.profile.loyalty_points >= 10 %}
                                         <button type="button" class="btn btn-primary" data-toggle="modal"
                                                 data-target="#loyaltyModal">
-                                            Use loyalty points to pay
+                                            Loyalty Points 
                                         </button>
                                     {% endif %}
 
                                     <button type="button" class="btn btn-primary" data-toggle="modal"
                                             data-target="#promoModal">
-                                        Use promo code
+                                        Promo Code
                                     </button>
                                 </div>
                                 <a href="{% url 'homepage' %}" class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
@@ -108,14 +108,8 @@
                     <div class="col-lg-6">
                         <h2>More Instructions</h2>
 
-                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has
-                            been the industry's standard dummy text ever since the 1500s, when an unknown printer took a
-                            galley of type and scrambled it to make a type specimen book. It has survived not only five
-                            centuries, but also the leap into electronic typesetting, remaining essentially unchanged.
-                            It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum
-                            passages, and more recently with desktop publishing software like Aldus PageMaker including
-                            versions of Lorem Ipsum.</p>
-                        <img src="http://www.munkytradingco.com/wp-content/uploads/2014/04/placeholder3.png">
+                        <p>Four Brothers Auto Service does not charge a delivery fee. As such, gratuity is greatly appreciated! All major credit cards are accepted. All payments are protected and secure.</p><br>
+                         <img src="{% static 'img/Fotolia_78037383_M.jpg' %}">
                     </div>
                 </div>
             </div>
@@ -127,7 +121,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                        <h4 class="modal-title">Use loyalty points to pay</h4>
+                        <h4 class="modal-title">Use Loyalty Points</h4>
                     </div>
                     <div class="modal-body">
                         {% if invoice.discount_type == "promo" %}
@@ -141,7 +135,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="apply-loyalty">Apply discount</button>
+                        <button type="button" class="btn btn-primary" id="apply-loyalty">Apply Discount</button>
                     </div>
                 </div>
             </div>
@@ -153,7 +147,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-                    <h4 class="modal-title">Use promo code</h4>
+                    <h4 class="modal-title">Use Promo Code</h4>
                 </div>
                 <div class="modal-body">
                     {% if invoice.discount_type == "loyalty" %}
@@ -163,7 +157,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="apply-promo">Apply promo code</button>
+                    <button type="button" class="btn btn-primary" id="apply-promo">Apply Promo Code</button>
                 </div>
             </div>
         </div>
