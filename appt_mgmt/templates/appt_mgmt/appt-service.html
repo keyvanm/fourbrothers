@@ -18,7 +18,16 @@
         {% bootstrap_form_errors form %}
     </div>
     <div class="row">
-        <div class="well col-lg-6 column" style="margin-bottom:50px;">
+     <div id="cart" class="col-md-12" style="text-align:right;">
+                
+                    <div class="live-cart" data-amount={{ total_so_far }}>
+                        <h3 style="font-size:3rem;">${{ total_so_far }}</h3>
+
+                        <p>+HST</p>
+                    </div>
+                
+        </div>
+        <div class="col-lg-12" style="margin-bottom:50px;">
             <form enctype="multipart/form-data" method="post">
                 {% csrf_token %}
                 {% bootstrap_field form.car %}
@@ -61,21 +70,6 @@
                        id="checkout-btn" type="submit" value="Checkout"/>
 
             </form>
-        </div>
-        <div id="cart" class="well col-md-4 column col-md-offset-1">
-            <div class="row">
-                <div class="col-lg-6">
-                    <h3>Cart:</h3>
-                    <i class="fa fa-shopping-cart fa-3x"></i>
-                </div>
-                <div class="col-lg-6">
-                    <div class="live-cart" data-amount={{ total_so_far }}>
-                        <h3>${{ total_so_far }}</h3>
-
-                        <p>+HST</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     {% if serviced_cars %}
