@@ -72,7 +72,7 @@ $(document).ready(function animationHover(element, animation){
             $('form').unbind('submit', false );
             $('.min-order-warning').hide();
         }
-        $(".live-cart h1").html("$" + new_cost);
+        $(".live-cart h3").html("$" + new_cost);
     });
 
     //if (Number($("#total-before-tax").text()) < 10) {
