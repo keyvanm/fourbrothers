@@ -39,7 +39,7 @@
                             <div class="checkbox">
                                 <label for="id_services_{{ forloop.counter0 }}">
                                     <input class="" id="id_services_{{ forloop.counter0 }}" name="services"
-                                           type="checkbox" value="{{ service.id }}">
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
                                     {{ service }}
                                     <p>
                                         {% if service.picture %}
