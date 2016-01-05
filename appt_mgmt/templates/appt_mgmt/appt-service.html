@@ -64,7 +64,7 @@
                 <a href="{% url 'appt-cancel' pk=appt.pk %}"
                    class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
                 {% if available_cars.count > 1 %}
-                    <input class="btn btn-primary btn-lg  hvr-shrink" type="submit" value="Save and Add Another"
+                    <input class="btn btn-primary btn-lg  hvr-shrink" type="submit" value="Save & Add Another Car"
                            id="add-another-btn" name="_addanother">
                 {% endif %}
                 <input {% if total_so_far < 39.99 %}disabled{% endif %} class="btn btn-primary btn-lg hvr-shrink"

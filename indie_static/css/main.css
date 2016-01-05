@@ -125,6 +125,10 @@ p {
      line-height:1.5;
 }
 
+@media screen and (max-width: 1200px) {
+  #tire-fix{display:none;}
+}
+
 .well {
   border-radius: 0px!important;
 box-shadow: none!important;
