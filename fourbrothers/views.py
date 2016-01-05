@@ -42,6 +42,6 @@ def contact_us(request):
                                            reply_to=(form.cleaned_data['email'],))
             email.attach_alternative(html_email_body, "text/html")
             email.send()
-            messages.success(request, "Thank you for contacting us!")
+            messages.success(request, "Thank you for contacting us! We will try to respond as soon as possible.")
             return redirect('contact')
         return render(request, 'static-content/contact.html', context={'form': form})
