@@ -9,7 +9,7 @@
 {#{% block account_nav_appt %}active{% endblock %}#}
 
 {% block bootstrap3_extra_head %}
-    <style>
+    <style xmlns="http://www.w3.org/1999/html">
         h2 {
             margin-bottom: 20px;
         }
@@ -35,6 +35,7 @@
                     <th>Owner</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Car & Services</th>
                     <th>Technician(s)</th>
                 </tr>
             </thead>
@@ -55,6 +56,16 @@
                         </td>
                         <td>
                             <ul class="list-unstyled">
+                                {% for servicedcar in appt.servicedcar_set.all %}
+                                    <li><b>{{ servicedcar.car }}:</b></li>
+                                    {% for service in servicedcar.services.all %}
+                                        <li><ul><li>{{ service.name }}</li></ul></li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
                                 {% for technician in appt.technician.all %}
                                     <li>- {{ technician }}</li>
                                 {% empty %}
@@ -64,6 +75,9 @@
                         </td>
                         <td>
                             <a class="btn btn-primary" href="{% url 'appt-tech-edit' pk=appt.pk %}">Assign Technician</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{% url 'manager-schedule-detail' pk=appt.pk %}">Detail</a>
                         </td>
                     </tr>
                 {% empty %}
@@ -102,6 +116,7 @@
                     <th>Owner</th>
                     <th>Date</th>
                     <th>Time</th>
+                    <th>Car & Services</th>
                     <th>Technician(s)</th>
                 </tr>
             </thead>
@@ -122,6 +137,16 @@
                         </td>
                         <td>
                             <ul class="list-unstyled">
+                                {% for servicedcar in appt.servicedcar_set.all %}
+                                    <li><b>{{ servicedcar.car }}:</b></li>
+                                    {% for service in servicedcar.services.all %}
+                                        <li><ul><li>{{ service.name }}</li></ul></li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
                                 {% for technician in appt.technician.all %}
                                     <li>- {{ technician }}</li>
                                 {% empty %}
@@ -131,6 +156,9 @@
                         </td>
                         <td>
                             <a class="btn btn-primary" href="{% url 'appt-tech-edit' pk=appt.pk %}">Assign Technician</a>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{% url 'manager-schedule-detail' pk=appt.pk %}">Detail</a>
                         </td>
                     </tr>
 {#                {% empty %}#}

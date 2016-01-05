@@ -34,7 +34,7 @@
                     <div class="panel-body">
                         <ul class="list-unstyled">
                             <li>Date: {{ appt.date }}</li>
-                            <li>Time: {{ appt.time_slot }}</li>
+                            <li>Time: {{ appt.get_time_slot_display }}</li>
                             <li>
                                 Technician:
                                 {% if appt.technician %}
@@ -65,11 +65,42 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title addr-name">Cars & Services</h3>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-unstyled">
+                            {% for servicedcar in appt.servicedcar_set.all %}
+                                <li><b>{{ servicedcar.car }}:</b></li>
+                                {% for service in servicedcar.services.all %}
+                                    <li><ul><li>{{ service.name }}</li></ul></li>
+                                {% endfor %}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
         </div>
+    {% if appt.additional_info %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title addr-name">Additional Info</h3>
+                    </div>
+                    <div class="panel-body">
+                        {{ appt.additional_info }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
     </div>
 
     <form method="post" action="completed/">
         {% csrf_token %}
-        <input class="btn btn-primary btn-lg org-btn hvr-shrink" type="submit" value="Completed"/>
+        <input class="btn btn-primary btn-lg hvr-shrink" type="submit" value="Completed"/>
     </form>
 {% endblock %}

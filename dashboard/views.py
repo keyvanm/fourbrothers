@@ -52,7 +52,11 @@ class TechScheduleListView(ManagerTechnicianPermissionMixin, LoginRequiredMixin,
 
     def get_context_data(self, **kwargs):
         context = super(TechScheduleListView, self).get_context_data(**kwargs)
-        context['appts'] = grouper(self.object_list.all(), 3)
+        # context['appts'] = self.object_list.all()
+        context['past_appointments'] = self.object_list.filter(date__lt=date.today(), invoice__isnull=False,
+                                                               canceled=False).order_by('date')
+        context['upcoming_appointments'] = self.object_list.filter(date__gte=date.today(), invoice__isnull=False,
+                                                                   canceled=False).order_by('date')
         return context
 
 

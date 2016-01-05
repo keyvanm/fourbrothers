@@ -9,7 +9,7 @@
 {#{% block account_nav_appt %}active{% endblock %}#}
 
 {% block bootstrap3_extra_head %}
-    <style>
+    <style xmlns="http://www.w3.org/1999/html">
         h2 {
             margin-bottom: 20px;
         }
@@ -26,7 +26,62 @@
 {% endblock %}
 
 {% block content %}
-    <div>
+    <div class="appts-table">
+        <table class="table">
+            <caption>Upcoming Appointments</caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Owner</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Car & Services</th>
+                    <th>Technician(s)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in upcoming_appointments %}
+                    <tr>
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+                        <td>
+                            {{ appt.user.get_full_name }}
+                        </td>
+                        <td>
+                            {{ appt.date }}
+                        </td>
+                        <td>
+                            {{ appt.get_time_slot_display }}
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for servicedcar in appt.servicedcar_set.all %}
+                                    <li><b>{{ servicedcar.car }}:</b></li>
+                                    {% for service in servicedcar.services.all %}
+                                        <li><ul><li>{{ service.name }}</li></ul></li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for technician in appt.technician.all %}
+                                    <li>- {{ technician }}</li>
+                                {% empty %}
+                                    No one is assigned yet
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{% url 'tech-schedule-detail' pk=appt.pk %}">Detail</a>
+                        </td>
+                    </tr>
+                {% empty %}
+                    <p>No appointments at this time!</p>
+                {% endfor %}
+            </tbody>
+        </table>
 {#        <h2>#}
 {#            My Appointments#}
 {#            <small>#}
@@ -35,19 +90,76 @@
 {#                </a>#}
 {#            </small>#}
 {#        </h2>#}
-        {% for appt_group in appts %}
-            <div class="row">
-                {% for appt in appt_group %}
-                    {% if appt %}
-                        {% include 'appt_mgmt/appt-block.html' %}
-                    {% endif %}
+{#        {% for appt_group in appts %}#}
+{#            <div class="row">#}
+{#                {% for appt in appt_group %}#}
+{#                    {% if appt %}#}
+{#                        {% include 'appt_mgmt/appt-block.html' %}#}
+{#                    {% endif %}#}
+{#                {% endfor %}#}
+{##}
+{#            </div>#}
+{#        {% empty %}#}
+{#            <p>No appointments at this time.#}
+{#            </p>#}
+{#        {% endfor %}#}
+    </div>
+    <div class="appts-table">
+        <table class="table">
+            <caption>Past Appointments</caption>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Owner</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Car & Services</th>
+                    <th>Technician(s)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for appt in past_appointments %}
+                    <tr>
+                        <td>
+                            {{ forloop.counter }}
+                        </td>
+                        <td>
+                            {{ appt.user.get_full_name }}
+                        </td>
+                        <td>
+                            {{ appt.date }}
+                        </td>
+                        <td>
+                            {{ appt.get_time_slot_display }}
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for servicedcar in appt.servicedcar_set.all %}
+                                    <li><b>{{ servicedcar.car }}:</b></li>
+                                    {% for service in servicedcar.services.all %}
+                                        <li><ul><li>{{ service.name }}</li></ul></li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-unstyled">
+                                {% for technician in appt.technician.all %}
+                                    <li>- {{ technician }}</li>
+                                {% empty %}
+                                    No one is assigned yet
+                                {% endfor %}
+                            </ul>
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="{% url 'tech-schedule-detail' pk=appt.pk %}">Detail</a>
+                        </td>
+                    </tr>
+{#                {% empty %}#}
+{#                    <p>No appointments at this time!</p>#}
                 {% endfor %}
-
-            </div>
-        {% empty %}
-            <p>No appointments at this time.
-            </p>
-        {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}
 
