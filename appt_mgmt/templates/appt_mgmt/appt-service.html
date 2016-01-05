@@ -65,7 +65,7 @@
                    class="btn btn-danger btn-lg cancel-btn hvr-shrink">Cancel</a>
                 {% if available_cars.count > 1 %}
                     <input class="btn btn-primary btn-lg  hvr-shrink" type="submit" value="Save and Add Another"
-                           name="_addanother">
+                           id="add-another-btn" name="_addanother">
                 {% endif %}
                 <input {% if total_so_far < 39.99 %}disabled{% endif %} class="btn btn-primary btn-lg hvr-shrink"
                        id="checkout-btn" type="submit" value="Checkout"/>
@@ -115,6 +115,12 @@
                     window.onbeforeunload = null;
                 }
             });
+        });
+
+        $("#add-another-btn").click(function () {
+            if (!$(this).prop('disabled')) {
+                window.onbeforeunload = null;
+            }
         });
     </script>
 {% endblock %}
