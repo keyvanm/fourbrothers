@@ -126,7 +126,8 @@ p {
 }
 
 @media screen and (max-width: 1200px) {
-  #tire-fix{display:none;}
+  #tire-fix{display:none;
+      }
     .navbar-header {
         float: none;
     }
