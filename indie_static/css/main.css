@@ -125,6 +125,10 @@ p {
      line-height:1.5;
 }
 
+#apply-promo, #apply-loyalty {
+  margin: 0px 0px 0px 5px!important;
+}
+
 @media screen and (max-width: 1200px) {
   #tire-fix{display:none;
       }
