@@ -224,6 +224,14 @@ MAX_NUM_APPT_TIME_SLOT = 5
 
 DISABLED_DATES = (
     datetime.date(2016, 1, 1),
+    datetime.date(2016, 1, 5),
+    datetime.date(2016, 1, 6),
+    datetime.date(2016, 1, 9),
+    datetime.date(2016, 1, 10),
+    datetime.date(2016, 1, 11),
+    datetime.date(2016, 1, 12),
+    datetime.date(2016, 1, 13),
+    datetime.date(2016, 1, 14),
     datetime.date(2016, 2, 15),
     datetime.date(2016, 3, 25),
     datetime.date(2016, 3, 28),
