@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div style="padding: 80px; 0px" id="single-apt-detail" class="row">
-    <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
-        <h2>A Friendly Reminder...</h2>
-        <h4>1. If parked underground be sure you specified your parking spot.</h4>
-        <h4>2. Make sure the car is accessible and in a clean and safe environment.</h4>
-        <h4>3. Leave your hood unlocked, and open just enough, to remain unlocked [if not home].</h4>
-        <h4>4. If you have building security please notify them of your appointment.</h4>
-        <h4>5. If you need to cancel your appointment please contact us.</h4>
+    <div style="padding: 80px 0px;" id="single-apt-detail" class="row">
+    <div class="col-lg-12">
+        <h1>A Friendly Reminder...</h1>
+        <p>1. If parked underground be sure you specified your parking spot.</p>
+        <p>2. Make sure the car is accessible and in a clean and safe environment.</p>
+        <p>3. Leave your hood unlocked, and open just enough, to remain unlocked [if not home].</p>
+        <p>4. If you have building security please notify them of your appointment.</p>
+        <p>5. If you need to cancel your appointment please contact us.</p>
         </div>
-        <div class="col-lg-6 col-md-12 col-sm-6 col-xs-12">
+        <div class="col-lg-12">
                 <h1>Appointment Summary</h1>
                 <h3>Date</h3>
                 <p>{{ appt.date }}</p>
