@@ -4,6 +4,7 @@
     <div style="padding: 80px 0px;" id="single-apt-detail" class="row">
     <div class="col-lg-6">
         <h1>A Friendly Reminder...</h1>
+        <hr>
         <p>1. If parked underground be sure you specified your parking spot.</p>
         <p>2. Make sure the car is accessible and in a clean and safe environment.</p>
         <p>3. Leave your hood unlocked, and open just enough, to remain unlocked [if not home].</p>
@@ -13,16 +14,16 @@
         <div class="col-lg-6">
                 <h1>Appointment Summary</h1>
                 <hr>
-                <h3>Date</h3>
+                <h3 style="margin-top;margin-bottom:0px;">Date</h3>
                 <p>{{ appt.date }}</p>
-                <h3>Time<h3>
+                <h3 style="margin-top;margin-bottom:0px;">Time</h3>
                 <p>{{ appt.get_time_slot_display }}</p>
-                <h3>Address<h3>
+                <h3 style="margin-top;margin-bottom:0px;">Address</h3>
                 <p>{{ appt.address }}</p>
-                <h3>Services<h3>
+                <h3 style="margin-top;margin-bottom:0px;">Services</h3>
                 <p>{{ appt.services }}</p>
                 {% for serviced_car in serviced_cars %}
-                    <h4> {{ serviced_car.car }}</h4>
+                    <h4 style="margin-top;margin-bottom:0px;"> {{ serviced_car.car }}</h4>
                         
                             {% for service in serviced_car.services.all %}
                                 <p>{{ service }}</p>
