@@ -100,7 +100,7 @@
     </div>
 
     {% if not appt.completed %}
-        <form method="post" action="completed/">
+        <form method="post" action="{% url 'appt-complete' pk=appt.pk %}">
         {% csrf_token %}
         <input class="btn btn-primary btn-lg hvr-shrink" type="submit" value="Completed"/>
     </form>

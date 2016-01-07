@@ -100,6 +100,8 @@ class ApptComplete(LoginRequiredMixin, View):
 
         appt.completed = True
         appt.save()
-
-        return redirect('tech-schedule-detail', pk=pk)
+        if request.user.profile.type == "technician":
+            return redirect('tech-schedule-detail', pk=pk)
+        elif request.user.profile.type == "manager":
+            return redirect('manager-schedule-detail', pk=pk)
 

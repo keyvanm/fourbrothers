@@ -99,7 +99,8 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
                 raise Http404
             loyalty_choices = [choice[0] for choice in context['loyalty_choices']]
             if loyalty not in loyalty_choices:
-                raise Http404
+                context['errors'].append('You cannot apply {0} loyalty points'.format(loyalty))
+                invoice.loyalty = 0
             invoice.loyalty = loyalty
         if promo:
             try:
