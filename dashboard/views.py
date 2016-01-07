@@ -1,5 +1,6 @@
 # Create your views here.
 from datetime import date
+from django.conf import settings
 from django.core.mail import send_mail
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect
@@ -79,25 +80,23 @@ class ApptTechUpdate(LoginRequiredMixin, UpdateView):
 
 
 class ApptComplete(LoginRequiredMixin, View):
-    model=Appointment
-
     @method_decorator(csrf_protect)
     def post(self, request, pk):
         appt = get_object_or_404(Appointment, pk=pk)
+        if settings.SEND_MAIL:
+            msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': appt})
+            msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': appt})
 
-        msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': appt})
-        msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': appt})
+            subject, from_email, to = 'Appointment Completion', 'info@fourbrothers.com', self.request.user.email
 
-        subject, from_email, to = 'Appointment Completion', 'info@fourbrothers.com', self.request.user.email
-
-        send_mail(
-            subject,
-            msg_plain,
-            from_email,
-            [to],
-            html_message=msg_html,
-            fail_silently=False
-        )
+            send_mail(
+                subject,
+                msg_plain,
+                from_email,
+                [to],
+                html_message=msg_html,
+                fail_silently=False
+            )
 
         appt.completed = True
         appt.save()

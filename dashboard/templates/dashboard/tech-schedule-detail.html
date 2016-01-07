@@ -99,8 +99,11 @@
     {% endif %}
     </div>
 
-    <form method="post" action="completed/">
+    {% if not appt.completed %}
+        <form method="post" action="completed/">
         {% csrf_token %}
         <input class="btn btn-primary btn-lg hvr-shrink" type="submit" value="Completed"/>
     </form>
+    {% endif %}
+
 {% endblock %}
