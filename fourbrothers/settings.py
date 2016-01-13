@@ -174,11 +174,13 @@ else:
     COLLECTFAST_ENABLED = False
 
 # HTTPS Security
+SECURE_REDIRECT_EXEMPT = [r'^about/$', ]
 if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
     CSRF_COOKIE_DOMAIN = "fourbrothers.ca"
+    SECURE_SSL_REDIRECT = True
 
 # if DEBUG:
 #     EMAIL_HOST = '127.0.0.1'
