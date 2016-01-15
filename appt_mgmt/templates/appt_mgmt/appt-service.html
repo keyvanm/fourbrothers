@@ -66,7 +66,7 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="min-order-warning alert alert-warning {% if total_so_far >= 39.99 %}hidden{% endif %}">
+                <div style="clear: both;" class="min-order-warning alert alert-warning {% if total_so_far >= 39.99 %}hidden{% endif %}">
                     You should order at least $39.99 to checkout
                 </div>
                 <a href="{% url 'appt-cancel' pk=appt.pk %}"
