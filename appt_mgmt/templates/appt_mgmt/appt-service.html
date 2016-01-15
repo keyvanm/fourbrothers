@@ -36,7 +36,7 @@
 
                     <div id="id_services" for="id_check_{{ forloop.counter0 }}">
                         {% for service in form.services.field.queryset %}
-                            <div class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
+                            <div style="min-height:150px;" class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
                                 <label for="id_services_{{ forloop.counter0 }}">
                                 <div for="id_collapse_{{ forloop.counter0 }}">
                                  <input class="" id="id_services_{{ forloop.counter0 }}" name="services"
@@ -61,7 +61,6 @@
                                     </div>
                                     </div>
                                 </label>
-                                <hr>
                             </div>
     
                         {% endfor %}
