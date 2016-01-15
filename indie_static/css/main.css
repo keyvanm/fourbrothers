@@ -530,6 +530,14 @@ line-height: 2.2;
   text-shadow: 0px 0.5px 0.5px rgba(0, 0, 0, 0.5);
 }
 
+.checkbox+.checkbox {
+  margin-top: 10px!important;
+}
+
+#id_check_4 {
+ clear:both;
+}
+
 #why-us h3 {
   font-family: "Cantarell",sans-serif;
 }
