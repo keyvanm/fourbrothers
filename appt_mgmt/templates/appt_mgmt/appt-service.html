@@ -38,9 +38,11 @@
                         {% for service in form.services.field.queryset %}
                             <div class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
                                 <label for="id_services_{{ forloop.counter0 }}">
-                                    <input class="" id="id_services_{{ forloop.counter0 }}" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                    <a class="btn btn-primary" role="button" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample"><input class="" id="id_services_{{ forloop.counter0 }}" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}"></a>
                                     {{ service }}
+                                    <div class="collapse" id="collapseExample">
+                                    <div class="well">
                                     <p>
                                         {% if service.picture %}
                                             <img class="img-responsive" src="{{ service.picture.url }}" height="50"
@@ -52,10 +54,12 @@
                                             {{ service.description }}
                                         </small>
                                     </p>
+                                    </div>
+                                    </div>
                                 </label>
                                 <hr>
                             </div>
-                            
+    
                         {% endfor %}
                     </div>
                 </div>
