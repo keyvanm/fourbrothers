@@ -34,9 +34,9 @@
                 <div class="form-group">
                     <label class="control-label" for="id_services_0">Services</label>
 
-                    <div id="id_services">
+                    <div id="id_services" for="id_check_{{ forloop.counter0 }}">>
                         {% for service in form.services.field.queryset %}
-                            <div class="checkbox">
+                            <div class="checkbox" id="id_check_{{ forloop.counter0 }}">
                                 <label for="id_services_{{ forloop.counter0 }}">
                                     <input class="" id="id_services_{{ forloop.counter0 }}" name="services"
                                            type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
