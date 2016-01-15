@@ -534,6 +534,13 @@ line-height: 2.2;
   margin-top: 10px!important;
 }
 
+#service-list label {
+  padding: 20px;
+  text-align: left;
+  font-family: "Fjalla One",sans-serif;
+  background: #eee;
+}
+
 #id_check_4 {
  clear:both;
 }
