@@ -534,7 +534,12 @@ line-height: 2.2;
   margin-top: 10px!important;
 }
 
-#service-list label {
+#id_services .checkbox input[type=checkbox]{
+  position: relative!important;
+  margin-left: 0px!important;
+}
+
+#id_services label {
   padding: 20px;
   text-align: left;
   font-family: "Fjalla One",sans-serif;
