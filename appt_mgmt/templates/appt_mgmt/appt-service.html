@@ -32,15 +32,15 @@
                 {% csrf_token %}
                 <div style="width:50%;">{% bootstrap_field form.car %}</div>
                 <div class="form-group">
-                    <label class="control-label" for="id_services_0">Services</label>
+                    <label class="control-label">Services</label>
 
-                    <div id="id_services"  for="id_check_{{ forloop.counter0 }}">
+                    <div id="id_services" >
                         {% for service in form.services.field.queryset %}
-                            <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
-                                <label for="id_services_{{ forloop.counter0 }}">
-                                <div for="id_collapse_{{ forloop.counter0 }}">
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="50"
+                            <div style="min-height:100px;" class="col-lg-3 checkbox" id="">
+                                <label>
+                                <div >
+                                 {% if service.0.picture %}
+                                            <img class="img-responsive" src="{{ service.0.picture.url }}" height="50"
                                                  width="50" alt="">
                                         {% else %}
                                             <img style="display:none;" src="https://placehold.it/50x50" alt="">
@@ -48,14 +48,14 @@
                                  <input class="" id="id_services_{{ forloop.counter0 }}" name="services"
                                            type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
                                               
-                                    {{ service }}<br>
+                                    {{ service.0 }}<br>
                                     <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_{{ forloop.counter0 }}" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_{{ forloop.counter0 }}">
+                                    <div class="collapse" id="">
                                     <div class="well">
                                     <p>
                                         
                                         <small>
-                                            {{ service.description }}
+                                            {{ service.0.description }}
                                         </small>
                                     </p>
                                     </div>
