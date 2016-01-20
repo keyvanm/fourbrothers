@@ -84,10 +84,10 @@ class ApptComplete(LoginRequiredMixin, View):
     def post(self, request, pk):
         appt = get_object_or_404(Appointment, pk=pk)
         if settings.SEND_MAIL:
-            msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': self.appointment})
-            msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': self.appointment})
+            msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': appt})
+            msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': appt})
 
-            subject, from_email, to = 'Appointment Completion', 'info@fourbrothers.com', self.appointment.user.email
+            subject, from_email, to = 'Appointment Completion', 'info@fourbrothers.com', self.request.user.email
 
             send_mail(
                 subject,
