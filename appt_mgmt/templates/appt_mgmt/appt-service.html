@@ -132,4 +132,9 @@
             }
         });
     </script>
+<script type="text/javascript">
+    $("#id_check_8").html(function(index, currentHtml) {
+    return currentHtml.replace('"', '<br /><br /><br /><br />"');
+});
+    </script>
 {% endblock %}
