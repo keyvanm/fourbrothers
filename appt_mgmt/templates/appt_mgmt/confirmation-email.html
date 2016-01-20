@@ -8,16 +8,16 @@
 <title>Four Brothers Auto Service</title>
 <link rel="stylesheet" type="text/css" href="http://zurb.com/playground/projects/responsive-email-templates/stylesheets/email.css "/>
 </head>
-<body bgcolor="#FFFFFF">
+<body bgcolor="#EEEEEE">
  
-<table class="head-wrap" bgcolor="#999999">
+<table class="head-wrap" bgcolor="#FFFFFF">
 <tr>
 <td></td>
 <td class="header container">
 <div class="content">
-<table bgcolor="#999999">
+<table bgcolor="#FFFFFF">
 <tr>
-<td><img src="http://placehold.it/200x50/"/></td>
+<td><img style="width:200px;" src="https://fourbros-media.s3.amazonaws.com/static/img/logo-02A.png?Signature=zLlCOYgxWwtxhOXG%2Bho9d6htg7w%3D&Expires=1453276812&AWSAccessKeyId=AKIAJVEKSBR4C4STD2GA"/></td>
 <td align="right"><h6 class="collapse">Appointment Confirmation</h6></td>
 </tr>
 </table>
@@ -37,6 +37,12 @@
 <td>
 <h3>Hi, {{ appt.user.name }}</h3>
 <p class="lead">Thanks for choosing Four Brothers Auto Service for your next Automotive Service Appointment. Please review the following details for your upcoming appointment.</p>
+<p><i>1. If parked underground be sure you specified your parking spot.</i></p>
+<p><i>2. Make sure the car is accessible and in a clean and safe environment.</i></p>
+<p><i>3. Leave your hood unlocked, and open just enough, to remain unlocked [if not home].</i></p>
+<p><i>4. If you have building security, please notify them of your appointment.</i></p>
+<p><i>5. If you need to cancel your appointment please contact us.</i></p>
+
 <h3>Date</h3>
 <p>{{ appt.date }}</p>
                 <h3>Time</h3>
@@ -60,19 +66,19 @@
         </div>
 </p>
  
-<p class="callout">
-If you have any further inquires please visit our website <a href="https://fourbrothers.ca">Click it! &raquo;</a>
+<p style="background:#eeeeee"class="callout">
+If you have any further inquires please visit our website <a style="color:#FC9A00"href="https://fourbrothers.ca">Click it! &raquo;</a>
 </p> 
  
-<table class="social" width="100%">
+<table class="social" style="background:#323131;" width="100%">
 <tr>
 <td>
  
 <table align="left" class="column">
 <tr>
 <td>
-<h5 class="">Connect with Us:</h5>
-<p class=""><a href="#" class="soc-btn fb">Facebook</a> <a href="#" class="soc-btn tw">Twitter</a> <a href="#" class="soc-btn gp">Google+</a></p>
+<h5 class="" style="color:#FFFFFF;">Connect with Us:</h5>
+<p class=""><a href="https://www.facebook.com/fourbrothersautoservice/?_rdr=p" class="soc-btn fb">Facebook</a> <a href="https://twitter.com/4brothersauto" class="soc-btn tw">Twitter</a> <a href="https://plus.google.com/110708725541254700512" class="soc-btn gp">Google+</a></p>
 </td>
 </tr>
 </table> 
@@ -80,10 +86,9 @@ If you have any further inquires please visit our website <a href="https://fourb
 <table align="left" class="column">
 <tr>
 <td>
-<h5 class="">Contact Info:</h5>
-<p>Phone: <strong>408.341.0600</strong><br/>
-Email: <strong><a href="emailto:hseldon@trantor.com"><span class="__cf_email__" data-cfemail="630b10060f070c0d231711020d170c114d000c0e">[email&#160;protected]</span><script data-cfhash='f9e31' type="text/javascript">
-/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("data-cfhash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}t.parentNode.removeChild(t);}}catch(u){}}()/* ]]> */</script></a></strong></p>
+<h5 class="" style="color:#FFFFFF;">Contact Info:</h5>
+<p style="color:#FFFFFF;">Phone: <strong style="color:#FFFFFF;"><a style="color:#ffffff;" href="tel:+18003530742">1-(800)-353-0742</a></strong><br/>
+Email: <strong><a style="color:#ffffff;" href="emailto:info@fourbrothers.ca">info@fourbrothers.ca</a></strong></p>
 </td>
 </tr>
 </table> 
@@ -110,8 +115,9 @@ Email: <strong><a href="emailto:hseldon@trantor.com"><span class="__cf_email__" 
 <tr>
 <td align="center">
 <p>
-<a href="#">Terms</a> |
-<a href="#">Privacy</a> |
+<a style="color:#000000" href="https://fourbrothers.ca/terms/">Terms</a> |
+<a style="color:#000000" href="https://fourbrothers.ca/privacy-statement/">Privacy</a> |
+<a style="color:#000000" href="https://fourbrothers.ca/faq/">FAQ</a> 
 </p>
 </td>
 </tr>
