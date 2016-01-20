@@ -32,7 +32,7 @@
                 {% csrf_token %}
                 <div style="width:50%;">{% bootstrap_field form.car %}</div>
                 <div class="form-group">
-                <div>{% form.services %}
+ {% form.services.field.queryset %}
                <h1> {{ service.1 }}</h1>
 {{ service.2 }}
  {% endfor %}
