@@ -35,7 +35,7 @@
                     <label class="control-label" for="id_services_0">Services</label>
 
                     <div id="id_services"  for="id_check_{{ forloop.counter0 }}">
-                        {% for service in form.services.field.queryset %}
+                        {% for service in form.services.field.queryset|dictsort:"service" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
                                 <label for="id_services_{{ forloop.counter0 }}">
                                 <div for="id_collapse_{{ forloop.counter0 }}">
