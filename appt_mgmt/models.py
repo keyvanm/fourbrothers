@@ -186,7 +186,7 @@ class Invoice(models.Model):
         msg_plain = render_to_string('appt_mgmt/confirmation-email.txt', {'appt': self.appointment})
         msg_html = render_to_string('appt_mgmt/confirmation-email.html', {'appt': self.appointment})
 
-        subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.com', self.appointment.user.email
+        subject, from_email, to = 'Appointment Confirmation', 'info@fourbrothers.ca', self.appointment.user.email
 
         if settings.SEND_MAIL:
             send_mail(
