@@ -32,9 +32,13 @@
                 {% csrf_token %}
                 <div style="width:50%;">{% bootstrap_field form.car %}</div>
                 <div class="form-group">
-                    <label class="control-label" for="id_services_0">Services</label>
-{{ service.1 }}
+                <div>{% form.services %}
+               <h1> {{ service.1 }}</h1>
 {{ service.2 }}
+ {% endfor %}
+ </div>
+                    <label class="control-label" for="id_services_0">Services</label>
+
                     <div id="id_services"  for="id_check_{{ forloop.counter0 }}">
                         {% for service in form.services.field.queryset %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
