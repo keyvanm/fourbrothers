@@ -87,7 +87,7 @@ class ApptComplete(LoginRequiredMixin, View):
             msg_plain = render_to_string('appt_mgmt/completion-email.txt', {'appt': appt})
             msg_html = render_to_string('appt_mgmt/completion-email.html', {'appt': appt})
 
-            subject, from_email, to = 'Appointment Completion', 'info@fourbrothers.com', self.request.user.email
+            subject, from_email, to = 'Appointment Completion', 'info@fourbrothers.com', appt.user.email
 
             send_mail(
                 subject,
