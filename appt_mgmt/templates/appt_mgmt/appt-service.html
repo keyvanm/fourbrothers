@@ -39,6 +39,12 @@
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
                                 <label for="id_services_{{ forloop.counter0 }}">
                                 <div for="id_collapse_{{ forloop.counter0 }}">
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="50"
+                                                 width="50" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
                                  <input class="" id="id_services_{{ forloop.counter0 }}" name="services"
                                            type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
                                               
@@ -47,12 +53,7 @@
                                     <div class="collapse" id="id_collapse_{{ forloop.counter0 }}">
                                     <div class="well">
                                     <p>
-                                        {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="50"
-                                                 width="50" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                        {% endif %}
+                                        
                                         <small>
                                             {{ service.description }}
                                         </small>
