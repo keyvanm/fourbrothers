@@ -1,5 +1,125 @@
-<h1>You're appointment is booked!</h1>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<p>Thanks for choosing Four Brothers Auto Services for your car service!</p>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+ 
+<meta name="viewport" content="width=device-width"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<title>Four Brothers Auto Service</title>
+<link rel="stylesheet" type="text/css" href="stylesheets/email.css"/>
+</head>
+<body bgcolor="#FFFFFF">
+ 
+<table class="head-wrap" bgcolor="#999999">
+<tr>
+<td></td>
+<td class="header container">
+<div class="content">
+<table bgcolor="#999999">
+<tr>
+<td><img src="http://placehold.it/200x50/"/></td>
+<td align="right"><h6 class="collapse">Appointment Confirmation</h6></td>
+</tr>
+</table>
+</div>
+</td>
+<td></td>
+</tr>
+</table> 
+ 
+<table class="body-wrap">
+<tr>
+<td></td>
+<td class="container" bgcolor="#FFFFFF">
+<div class="content">
+<table>
+<tr>
+<td>
+<h3>Hi, {{ appt.user.name }}</h3>
+<p class="lead">Thanks for choosing Four Brothers Auto Service for your next Automotive Service Appointment. Please review the following details of your upcoming.</p>
+<h3>Date</h3>
+<p>{{ appt.date }}</p>
+                <h3>Time</h3>
+                <p>{{ appt.get_time_slot_display }}</p>
+                <h3>Address</h3>
+                <p>{{ appt.address }}</p>
+                <h3>Services</h3>
+                <p>{{ appt.services }}</p>
+                {% for serviced_car in serviced_cars %}
+                    <h4 style="margin-top;margin-bottom:0px;"> {{ serviced_car.car }}</h4>
+                        
+                            {% for service in serviced_car.services.all %}
+                                <p>{{ service }}</p>
+                            {% endfor %}
 
-<p>You're appointment is on {{ appt.date }} during {{ appt.get_time_slot_display }}</p>
+                   
+
+
+                   
+                {% endfor %}
+        </div>
+</p>
+ 
+<p class="callout">
+If you have any further inquires please visit our website <a href="https://fourbrothers.ca">Click it! &raquo;</a>
+</p> 
+ 
+<table class="social" width="100%">
+<tr>
+<td>
+ 
+<table align="left" class="column">
+<tr>
+<td>
+<h5 class="">Connect with Us:</h5>
+<p class=""><a href="#" class="soc-btn fb">Facebook</a> <a href="#" class="soc-btn tw">Twitter</a> <a href="#" class="soc-btn gp">Google+</a></p>
+</td>
+</tr>
+</table> 
+ 
+<table align="left" class="column">
+<tr>
+<td>
+<h5 class="">Contact Info:</h5>
+<p>Phone: <strong>408.341.0600</strong><br/>
+Email: <strong><a href="emailto:hseldon@trantor.com"><span class="__cf_email__" data-cfemail="630b10060f070c0d231711020d170c114d000c0e">[email&#160;protected]</span><script data-cfhash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("data-cfhash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}t.parentNode.removeChild(t);}}catch(u){}}()/* ]]> */</script></a></strong></p>
+</td>
+</tr>
+</table> 
+<span class="clear"></span>
+</td>
+</tr>
+</table> 
+</td>
+</tr>
+</table>
+</div> 
+</td>
+<td></td>
+</tr>
+</table> 
+ 
+<table class="footer-wrap">
+<tr>
+<td></td>
+<td class="container">
+ 
+<div class="content">
+<table>
+<tr>
+<td align="center">
+<p>
+<a href="#">Terms</a> |
+<a href="#">Privacy</a> |
+</p>
+</td>
+</tr>
+</table>
+</div> 
+</td>
+<td></td>
+</tr>
+</table> 
+</body>
+</html>
