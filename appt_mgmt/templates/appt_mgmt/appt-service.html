@@ -35,23 +35,23 @@
 
                     <h1 class="control-label" for="id_services_0">Services</h1>
                     <h2>Oil Services</h2>
-                    <div id="id_services"  for="id_check_{{ forloop.counter0 }}">
+                    <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"12:13" %}
-                            <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
-                                <label for="id_services_{{ forloop.counter0 }}">
-                                <div for="id_collapse_{{ forloop.counter0 }}">
+                            <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_1">
+                                <label>
+                                <div>
                                  {% if service.picture %}
                                             <img class="img-responsive" src="{{ service.picture.url }}" height="50"
                                                  width="50" alt="">
                                         {% else %}
                                             <img style="display:none;" src="https://placehold.it/50x50" alt="">
                                     {% endif %}
-                                 <input class="" id="id_services_{{ forloop.counter0 }}" name="services"
+                                 <input class="" id="id_services_1" name="services"
                                            type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
                                               
                                     {{ service }}<br>
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_{{ forloop.counter0 }}" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_{{ forloop.counter0 }}">
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_1" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_1">
                                     <div class="well">
                                     <p>
                                         
