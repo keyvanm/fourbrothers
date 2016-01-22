@@ -581,7 +581,7 @@
     
                         {% endfor %}
                     </div>
-                    <h2>Products</h2>
+                    <h2 style="clear:both">Products</h2>
                              <div id="id_services"  for="id_check_{{ forloop.counter0 }}">
                         {% for service in form.services.field.queryset.all|slice:"18:19" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_{{ forloop.counter0 }}">
