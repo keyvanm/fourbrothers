@@ -34,7 +34,7 @@
                 <div class="form-group">
 
                     <h1 class="control-label" for="id_services_0">Services</h1>
-                    <h2>Oil Services</h2>
+                    <h2 style="clear: both;">Oil Services</h2>
                     <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"12:13" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_1">
@@ -163,7 +163,7 @@
     
                         {% endfor %}
                     </div>
-                    <h2>Interior Detailing</h2>
+                    <h2 style="clear: both;">Interior Detailing</h2>
                                           <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"8:9" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_5">
@@ -292,7 +292,7 @@
     
                         {% endfor %}
                     </div>
-                    <h2>Additional Services</h2>
+                    <h2 style="clear: both;">Additional Services</h2>
                                    <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"16:17" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_9">
@@ -581,7 +581,7 @@
     
                         {% endfor %}
                     </div>
-                    <h2 style="clear">Products</h2>
+                    <h2 style="clear:both;">Products</h2>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"18:19" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_18">
