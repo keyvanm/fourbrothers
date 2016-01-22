@@ -34,6 +34,7 @@
                 <div class="form-group">
 
                     <h1 class="control-label" for="id_services_0">Services</h1>
+                    <hr>
                     <h2 style="clear: both;">Oil Services</h2>
                     <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"12:13" %}
@@ -163,6 +164,7 @@
     
                         {% endfor %}
                     </div>
+                    <hr>
                     <h2 style="clear: both;">Interior Detailing</h2>
                                           <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"8:9" %}
@@ -292,6 +294,7 @@
     
                         {% endfor %}
                     </div>
+                    <hr>
                     <h2 style="clear: both;">Additional Services</h2>
                                    <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"16:17" %}
@@ -581,6 +584,7 @@
     
                         {% endfor %}
                     </div>
+                    <hr>
                     <h2 style="clear:both;">Products</h2>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"18:19" %}
