@@ -103,7 +103,7 @@
                         {% for service in form.services.field.queryset.all|slice:"14:15" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_3">
                                 <label >
-                                <div for="id_collapse_{{ forloop.counter2 }}">
+                                <div>
                                  {% if service.picture %}
                                             <img class="img-responsive" src="{{ service.picture.url }}" height="50"
                                                  width="50" alt="">
@@ -552,8 +552,8 @@
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"7:8" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_17">
-                                <label for="id_services_{{ forloop.counter17 }}">
-                                <div for="id_collapse_{{ forloop.counter17 }}">
+                                <label>
+                                <div>
                                  {% if service.picture %}
                                             <img class="img-responsive" src="{{ service.picture.url }}" height="50"
                                                  width="50" alt="">
@@ -585,8 +585,8 @@
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"18:19" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_18">
-                                <label for="id_services_{{ forloop.counter18 }}">
-                                <div for="id_collapse_{{ forloop.counter18 }}">
+                                <label >
+                                <div >
                                  {% if service.picture %}
                                             <img class="img-responsive" src="{{ service.picture.url }}" height="50"
                                                  width="50" alt="">
@@ -649,8 +649,8 @@
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"22:23" %}
                             <div style="min-height:100px;" class="col-lg-3 checkbox" id="id_check_20">
-                                <label for="id_services_{{ forloop.counter20 }}">
-                                <div for="id_collapse_{{ forloop.counter20 }}">
+                                <label >
+                                <div >
                                  {% if service.picture %}
                                             <img class="img-responsive" src="{{ service.picture.url }}" height="50"
                                                  width="50" alt="">
@@ -694,7 +694,7 @@
                                               
                                     {{ service }}<br>
                                     <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_21" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_21}">
+                                    <div class="collapse" id="id_collapse_21">
                                     <div class="well">
                                     <p>
                                         
