@@ -32,7 +32,7 @@
                 {% csrf_token %}
                 <div style="width:50%;">{% bootstrap_field form.car %}</div>
                 <div class="form-group">
-{{ form.services.field.queryset.all.0 }}
+{% form.services.field.queryset.all.0 %}
                     <label class="control-label" for="id_services_0">Services</label>
                     <div id="id_services"  for="id_check_{{ forloop.counter0 }}">
                        
