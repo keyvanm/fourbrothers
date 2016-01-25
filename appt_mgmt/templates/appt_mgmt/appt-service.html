@@ -102,38 +102,7 @@
     
                         {% endfor %}
                     </div>
-                             <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"15:16" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_4">
-                                <label >
-                                <div>
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_4" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                     {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_4" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_4">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>
+                             
                     </div>
                      <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_interior" aria-expanded="false" aria-controls="collapseExample"> <h1>Interior Detailing&nbsp;<i class="fa fa-plus-square-o"></i>
 </h1></a>
@@ -432,6 +401,102 @@
     
                         {% endfor %}
                     </div>
+                     <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"20:21" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_19">
+                                <label >
+                                <div>
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_19" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_19" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_19">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
+                             <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"22:23" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_20">
+                                <label >
+                                <div >
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_20" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_20" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_20">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
+                    <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"15:16" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_4">
+                                <label >
+                                <div>
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_4" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_4" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_4">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
                     </div>
 
                     <h1 style="clear:both;">Products</h1>
@@ -499,70 +564,7 @@
     
                         {% endfor %}
                     </div>
-                             <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"20:21" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_19">
-                                <label >
-                                <div>
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_19" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                     {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_19" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_19">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>
-                             <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"22:23" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_20">
-                                <label >
-                                <div >
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_20" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                     {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_20" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_20">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>
+                            
                              <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"23:24" %}
                             <div  class="col-lg-12 checkbox" id="id_check_21">
