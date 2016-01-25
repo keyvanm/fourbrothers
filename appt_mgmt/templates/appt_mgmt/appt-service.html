@@ -38,7 +38,7 @@
                    <div class="collapse" id="id_collapse_oil">
                     <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"12:13" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_1">
+                            <div  class="col-lg-12 checkbox" id="id_check_1">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -71,7 +71,7 @@
 
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"13:14" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_2">
+                            <div  class="col-lg-12 checkbox" id="id_check_2">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -103,7 +103,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"14:15" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_3">
+                            <div  class="col-lg-12 checkbox" id="id_check_3">
                                 <label >
                                 <div>
                                  {% if service.picture %}
@@ -135,7 +135,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"15:16" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_4">
+                            <div  class="col-lg-12 checkbox" id="id_check_4">
                                 <label >
                                 <div>
                                  {% if service.picture %}
@@ -166,10 +166,11 @@
                         {% endfor %}
                     </div>
                     </div>
-                    <h2 style="clear: both;">Interior Detailing</h2>
+                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_interior" aria-expanded="false" aria-controls="collapseExample"> <h1>Interior Detailing</h1></a>
+                   <div class="collapse" id="id_collapse_interior">
                                           <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"8:9" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_5">
+                            <div  class="col-lg-12 checkbox" id="id_check_5">
                                 <label>
                                 <div for="id_collapse_5">
                                  {% if service.picture %}
@@ -201,7 +202,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"9:10" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_6">
+                            <div  class="col-lg-12 checkbox" id="id_check_6">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -233,7 +234,7 @@
                     </div>
                              <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"10:11" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_7">
+                            <div  class="col-lg-12 checkbox" id="id_check_7">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -265,7 +266,7 @@
                     </div>
                              <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"11:12" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_8">
+                            <div  class="col-lg-12 checkbox" id="id_check_8">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -295,10 +296,12 @@
     
                         {% endfor %}
                     </div>
-                    <h2 style="clear: both;">Additional Services</h2>
+                    </div>
+                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Services</h1></a>
+                   <div class="collapse" id="id_collapse_add">
                                    <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"16:17" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_9">
+                            <div  class="col-lg-12 checkbox" id="id_check_9">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -330,7 +333,7 @@
                     </div>
                     <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"0:1" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_10">
+                            <div  class="col-lg-12 checkbox" id="id_check_10">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -362,7 +365,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"1:2" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_11">
+                            <div  class="col-lg-12 checkbox" id="id_check_11">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -394,7 +397,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"2:3" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_12">
+                            <div  class="col-lg-12 checkbox" id="id_check_12">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -426,7 +429,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"3:4" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_13">
+                            <div  class="col-lg-12 checkbox" id="id_check_13">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -458,7 +461,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"4:5" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_14">
+                            <div  class="col-lg-12 checkbox" id="id_check_14">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -490,7 +493,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"5:6" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_15">
+                            <div  class="col-lg-12 checkbox" id="id_check_15">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -522,7 +525,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"6:7" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_16">
+                            <div  class="col-lg-12 checkbox" id="id_check_16">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -554,7 +557,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"7:8" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_17">
+                            <div  class="col-lg-12 checkbox" id="id_check_17">
                                 <label>
                                 <div>
                                  {% if service.picture %}
@@ -584,10 +587,12 @@
     
                         {% endfor %}
                     </div>
+                    </div>
+                    
                     <h2 style="clear:both;">Products</h2>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"18:19" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_18">
+                            <div  class="col-lg-12 checkbox" id="id_check_18">
                                 <label >
                                 <div >
                                  {% if service.picture %}
@@ -619,7 +624,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"20:21" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_19">
+                            <div  class="col-lg-12 checkbox" id="id_check_19">
                                 <label >
                                 <div>
                                  {% if service.picture %}
@@ -651,7 +656,7 @@
                     </div>
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"22:23" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_20">
+                            <div  class="col-lg-12 checkbox" id="id_check_20">
                                 <label >
                                 <div >
                                  {% if service.picture %}
@@ -683,7 +688,7 @@
                     </div>
                              <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"23:24" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_21">
+                            <div  class="col-lg-12 checkbox" id="id_check_21">
                                 <label >
                                 <div >
                                  {% if service.picture %}
@@ -715,7 +720,7 @@
                     </div>
                     <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"24:25" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_21">
+                            <div  class="col-lg-12 checkbox" id="id_check_21">
                                 <label >
                                 <div >
                                  {% if service.picture %}
@@ -747,7 +752,7 @@
                     </div>
                     <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"25:26" %}
-                            <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_21">
+                            <div  class="col-lg-12 checkbox" id="id_check_21">
                                 <label >
                                 <div >
                                  {% if service.picture %}
