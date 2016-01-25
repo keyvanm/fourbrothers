@@ -545,6 +545,7 @@ line-height: 2.2;
   font-family: "Fjalla One",sans-serif;
     width: 100%;
     border-bottom:2px solid #eee;
+    padding-bottom: 5px;
 }
 
 #id_services label a {
