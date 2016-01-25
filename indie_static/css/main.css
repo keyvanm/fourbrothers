@@ -540,11 +540,15 @@ line-height: 2.2;
 }
 
 #id_services label {
-  padding: 20px;
+
   text-align: left;
   font-family: "Fjalla One",sans-serif;
-  background: #eee;
     width: 100%;
+    border-bottom:2px solid #eee;
+}
+
+#id_services label a {
+  float:right;
 }
 
 
