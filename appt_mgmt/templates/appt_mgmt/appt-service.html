@@ -34,7 +34,8 @@
                 <div class="form-group">
 
                     <h1 class="control-label" for="id_services_0">Select a Service</h1>
-                  <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_oil" aria-expanded="false" aria-controls="collapseExample"> <h1>Oil Services</h1></a>
+                  <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_oil" aria-expanded="false" aria-controls="collapseExample"> <h1>Oil Services<i class="fa fa-plus-square-o"></i>
+</h1></a>
                    <div class="collapse" id="id_collapse_oil">
                     <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"12:13" %}
@@ -166,7 +167,8 @@
                         {% endfor %}
                     </div>
                     </div>
-                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_interior" aria-expanded="false" aria-controls="collapseExample"> <h1>Interior Detailing</h1></a>
+                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_interior" aria-expanded="false" aria-controls="collapseExample"> <h1>Interior Detailing<i class="fa fa-plus-square-o"></i>
+</h1></a>
                    <div class="collapse" id="id_collapse_interior">
                                           <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"8:9" %}
@@ -297,7 +299,8 @@
                         {% endfor %}
                     </div>
                     </div>
-                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Services</h1></a>
+                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Services<i class="fa fa-plus-square-o"></i>
+</h1></a>
                    <div class="collapse" id="id_collapse_add">
                                    <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"16:17" %}
