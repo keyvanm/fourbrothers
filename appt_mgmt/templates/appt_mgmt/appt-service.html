@@ -34,7 +34,8 @@
                 <div class="form-group">
 
                     <h1 class="control-label" for="id_services_0">Services</h1>
-                    <h2 style="clear: both;">Oil Services</h2>
+                  <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_oil" aria-expanded="false" aria-controls="collapseExample"> <h1>Oil Services</h1></a>
+                   <div class="collapse" id="id_collapse_oil">
                     <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"12:13" %}
                             <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_1">
@@ -67,6 +68,7 @@
     
                         {% endfor %}
                     </div>
+
                              <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"13:14" %}
                             <div style="min-height:100px;" class="col-lg-12 checkbox" id="id_check_2">
@@ -162,6 +164,7 @@
                             </div>
     
                         {% endfor %}
+                    </div>
                     </div>
                     <h2 style="clear: both;">Interior Detailing</h2>
                                           <div id="id_services">
