@@ -64,15 +64,15 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
 
         user_loyalty_points = self.request.user.profile.loyalty_points
         appt_fee = appt.get_price()
-        if user_loyalty_points < 10 or appt_fee - 10 < 39.99:
+        if user_loyalty_points < 10 or appt_fee - 10 < 39.98:
             context['loyalty_choices'] = []
-        elif user_loyalty_points < 20 or appt_fee - 20 < 39.99:
+        elif user_loyalty_points < 20 or appt_fee - 20 < 39.98:
             context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:2]
-        elif user_loyalty_points < 30 or appt_fee - 30 < 39.99:
+        elif user_loyalty_points < 30 or appt_fee - 30 < 39.98:
             context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:3]
-        elif user_loyalty_points < 40 or appt_fee - 40 < 39.99:
+        elif user_loyalty_points < 40 or appt_fee - 40 < 39.98:
             context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:4]
-        elif user_loyalty_points < 50 or appt_fee - 50 < 39.99:
+        elif user_loyalty_points < 50 or appt_fee - 50 < 39.98:
             context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:5]
         else:
             context['loyalty_choices'] = Invoice.LOYALTY_CHOICES[0:6]
@@ -110,7 +110,7 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         if gratuity:
             invoice.gratuity = int(gratuity)
 
-        if invoice.fee_after_discount() < 39.99:
+        if invoice.fee_after_discount() < 39.98:
             context['errors'].append('You cannot order a cart under $39.99')
         return invoice
 

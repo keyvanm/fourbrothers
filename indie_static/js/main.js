@@ -62,7 +62,7 @@ $(document).ready(function animationHover(element, animation){
         new_cost = new_cost.toFixed(2);
         //console.log("new cost: " + new_cost);
         $(".live-cart").data("amount", new_cost);
-        if (new_cost < 39.99){
+        if (new_cost < 39.98){
             $("#checkout-btn").attr('disabled', 'disabled');
             $('form').submit(false);
             $('.min-order-warning').show();

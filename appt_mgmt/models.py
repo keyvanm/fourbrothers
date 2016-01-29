@@ -173,7 +173,7 @@ class Invoice(models.Model):
         return self.fee_after_tax() + self.gratuity_amount()
 
     def clean(self):
-        if self.fee_after_discount < 39.99:
+        if self.fee_after_discount < 39.98:
             raise ValidationError('You cannot order a cart under $39.99')
 
     def save(self, *args, **kwargs):
