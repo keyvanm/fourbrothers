@@ -28,7 +28,7 @@ if User.objects.count() == 0:
     jeff.save()
     jeff.groups.add(fourbros_staff)
 
-    adam = User.objects.create_user('adam', 'a@b.com', 'password')
+    adam = User.objects.create_user('adam', 'adam@fourbrothers.ca', 'password')
     adam.first_name = "Adam"
     adam.last_name = "Zameret"
     adam.is_staff = True
