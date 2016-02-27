@@ -1,4 +1,11 @@
 {% extends 'base.html' %}
+{% block bootstrap3_extra_head %}
+    <link href="{% static 'css/index.css' %}" media="all" rel="stylesheet">
+     <meta name=”description” content=”A description of the page” />
+     <title>The Title of the Page</title>
+    <meta name="robots" content="index,follow"> 
+    <meta name="keywords" content="put your keywords here" /> 
+{% endblock %}
 
 {% block content %}
 <div class="app-content">
