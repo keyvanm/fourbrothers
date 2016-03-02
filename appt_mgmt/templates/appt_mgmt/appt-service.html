@@ -37,8 +37,143 @@
                   <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_oil" aria-expanded="false" aria-controls="collapseExample"> <h1>Oil Services&nbsp;<i class="fa fa-plus-square-o"></i>
 </h1></a>
                    <div class="collapse" id="id_collapse_oil">
-
+                               <div id="id_services" >
+                        {% for service in form.services.field.queryset.all|slice:"12:13" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_1">
+                                <label>
+                                <div>
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_1" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                    {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_1" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_1">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
+                             
+                            
+                             <div id="id_services" >
+                        {% for service in form.services.field.queryset.all|slice:"23:24" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_21">
+                                <label >
+                                <div >
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_21" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_21" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_21">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
+                        
+                     <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"5:6" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_15">
+                                <label>
+                                <div>
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_15" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_15" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_15">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
                              <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"7:8" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_17">
+                                <label>
+                                <div>
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_17" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_17" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_17">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div> 
+
+                    </div>
+                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_interior" aria-expanded="false" aria-controls="collapseExample"> <h1>Interior Detailing&nbsp;<i class="fa fa-plus-square-o"></i>
+</h1></a>
+                   <div class="collapse" id="id_collapse_interior">
+                   <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"13:14" %}
                             <div  class="col-lg-12 checkbox" id="id_check_2">
                                 <label>
@@ -70,6 +205,7 @@
     
                         {% endfor %}
                     </div>
+
                     <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"2:3" %}
                             <div  class="col-lg-12 checkbox" id="id_check_12">
@@ -103,140 +239,7 @@
                         {% endfor %}
                     </div>
                         
-                             <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"6:7" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_16">
-                                <label>
-                                <div>
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_16" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                     {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_16" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_16">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>    
-                          
-                            
-                             <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"7:8" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_17">
-                                <label>
-                                <div>
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_17" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                     {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_17" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_17">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>     
-                    </div>
-                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_interior" aria-expanded="false" aria-controls="collapseExample"> <h1>Interior Detailing&nbsp;<i class="fa fa-plus-square-o"></i>
-</h1></a>
-                   <div class="collapse" id="id_collapse_interior">
-                          <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"3:4" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_13">
-                                <label>
-                                <div>
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_13" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                     {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_13" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_13">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>
-                     <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"5:6" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_15">
-                                <label>
-                                <div>
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_15" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                     {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_15" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_15">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>
+                    
                       
                       <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"19:20" %}
@@ -310,6 +313,70 @@
                      <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Services&nbsp;<i class="fa fa-plus-square-o"></i>
 </h1></a>
                    <div class="collapse" id="id_collapse_add">
+                     <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"3:4" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_13">
+                                <label>
+                                <div>
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_13" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_13" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_13">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
+                   <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"6:7" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_16">
+                                <label>
+                                <div>
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_16" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_16" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_16">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>    
                        <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"17:18" %}
                             <div  class="col-lg-12 checkbox" id="id_check_122">
@@ -654,72 +721,6 @@
                                      {{ service }}
                                     <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_20" aria-expanded="false" aria-controls="collapseExample">More Details</a>
                                     <div class="collapse" id="id_collapse_20">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>
-                          <div id="id_services" >
-                        {% for service in form.services.field.queryset.all|slice:"12:13" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_1">
-                                <label>
-                                <div>
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_1" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                    {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_1" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_1">
-                                    <div>
-                                    <p>
-                                        
-                                        <small>
-                                            {{ service.description }}
-                                        </small>
-                                    </p>
-                                    </div>
-                                    </div>
-                                    </div>
-                                </label>
-                            </div>
-    
-                        {% endfor %}
-                    </div>
-                             
-                            
-                             <div id="id_services" >
-                        {% for service in form.services.field.queryset.all|slice:"23:24" %}
-                            <div  class="col-lg-12 checkbox" id="id_check_21">
-                                <label >
-                                <div >
-                                 {% if service.picture %}
-                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
-                                                 width="100" alt="">
-                                        {% else %}
-                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
-                                    {% endif %}
-                                 <input class="" id="id_services_21" name="services"
-                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
-                                              
-                                     {{ service }}
-                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_21" aria-expanded="false" aria-controls="collapseExample">More Details</a>
-                                    <div class="collapse" id="id_collapse_21">
                                     <div>
                                     <p>
                                         
