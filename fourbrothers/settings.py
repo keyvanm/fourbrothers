@@ -58,6 +58,8 @@ INSTALLED_APPS = (
     'user_manager',
     'appt_mgmt',
     'dashboard',
+    #
+    'rollyourown.seo',
 )
 
 MIDDLEWARE_CLASSES = (
