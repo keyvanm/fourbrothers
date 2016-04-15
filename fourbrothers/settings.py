@@ -58,8 +58,6 @@ INSTALLED_APPS = (
     'user_manager',
     'appt_mgmt',
     'dashboard',
-    #
-    'rollyourown.seo',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -241,6 +239,8 @@ DISABLED_DATES = (
     datetime.date(2016, 2, 15),
     datetime.date(2016, 3, 25),
     datetime.date(2016, 3, 28),
+    datetime.date(2016, 4, 16),
+    datetime.date(2016, 4, 17),
     datetime.date(2016, 5, 23),
     datetime.date(2016, 7, 1),
     datetime.date(2016, 8, 1),

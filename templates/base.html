@@ -1,7 +1,6 @@
 {% extends 'bootstrap3/bootstrap3.html' %}
 {% load staticfiles %}
 {% load bootstrap3 %}
-{% load seo %}
 
 {% block bootstrap3_title %}{% block title %}{% endblock title %}Interior Detailing and More!{% endblock bootstrap3_title %}
 
@@ -17,8 +16,11 @@
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
    <script type="text/javascript" href="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-alpha1/jquery.min.js"></script>
     <link rel="stylesheet" href="{% static 'css/animate.css' %}">
-     {% get_metadata %}
     <meta name="google-site-verification" content="gzYrEVAsoUfUnCqaEwxrVLrGPtKxkYDGPdlfKeNHmVo" />
+     <meta charset="utf-8">
+       <meta name="robots" content="index,follow"> 
+       <meta name="description" content="We specialize in automotive interior detailing, oil change, tire change and repair. Four Brothers is mobile auto service with a focus on keeping your car clean!" />
+    <meta name="author" content="Jeffrey Gingras">
     <meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34="/>
     <link rel="stylesheet" href="{% static 'css/hover.min.css' %}">
     <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
