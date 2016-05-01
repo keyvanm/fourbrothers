@@ -222,7 +222,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-MAX_NUM_APPT_TIME_SLOT = 5
+MAX_NUM_APPT_TIME_SLOT = 2
 
 DISABLED_DATES = (
     datetime.date(2016, 1, 1),
