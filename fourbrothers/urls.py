@@ -21,7 +21,6 @@ from django.contrib.auth import update_session_auth_hash
 from django.views.generic.base import TemplateView
 import appt_mgmt
 from fourbrothers.views import index_view, terms_view, contact_us
-from django.contrib import admin
 
 
 urlpatterns = [
