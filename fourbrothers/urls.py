@@ -22,7 +22,6 @@ from django.views.generic.base import TemplateView
 import appt_mgmt
 from fourbrothers.views import index_view, terms_view, contact_us
 
-
 urlpatterns = [
     url(r'^accounts/address/', include('user_manager.addr_urls')),
     url(r'^accounts/cars/', include('user_manager.car_urls')),
