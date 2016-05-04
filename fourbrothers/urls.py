@@ -21,11 +21,8 @@ from django.contrib.auth import update_session_auth_hash
 from django.views.generic.base import TemplateView
 import appt_mgmt
 from fourbrothers.views import index_view, terms_view, contact_us
-from rollyourown.seo.admin import register_seo_admin
 from django.contrib import admin
-from myapp.seo import MyMetadata
 
-register_seo_admin(admin.site, MyMetadata)
 
 urlpatterns = [
     url(r'^accounts/address/', include('user_manager.addr_urls')),
