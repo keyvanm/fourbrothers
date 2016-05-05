@@ -33,13 +33,13 @@ def create_and_charge_new_customer(request, token, total_price):
     if not settings.DEBUG:
         request.user.profile.stripe_customer_id = customer.stripe_id
         request.user.profile.save()
-    raise Http404
     stripe.Charge.create(
         amount=int(total_price * 100),  # amount in cents, again
         currency="cad",
         customer=customer.id,
         description="Paid ${} for service".format(total_price)
     )
+    raise Http404
 
 
 class InvoiceCreateView(LoginRequiredMixin, CreateView):
@@ -182,6 +182,5 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
             # The card has been declined
             messages.warning(request, 'Transaction unsuccessful. Please try again.')
             return super(InvoiceCreateView, self).form_invalid(form)
-
         return super(InvoiceCreateView, self).form_valid(form)
 
