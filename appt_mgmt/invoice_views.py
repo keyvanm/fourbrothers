@@ -24,6 +24,7 @@ def get_or_none(model, *args, **kwargs):
 
 def create_and_charge_new_customer(request, token, total_price):
     request.user.creditcards.all().delete()
+    raise Http404
     customer = stripe.Customer.create(
         source=token,
         description="{}, customer of {}".format(request.user.get_full_name(),
@@ -172,7 +173,6 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
                             customer=customer.id,
                             description="Paid ${}".format(total_payable)
                         )
-            raise Http404
             self.request.user.profile.loyalty_points += int(total_payable / 20)
             self.request.user.profile.save()
 
