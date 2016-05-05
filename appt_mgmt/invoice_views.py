@@ -30,7 +30,6 @@ def create_and_charge_new_customer(request, token, total_price):
                                                 get_current_site(request).name),
         email=request.user.email
     )
-    raise Http404
     if not setting.DEBUG:
         request.user.profile.stripe_customer_id = customer.stripe_id
         request.user.profile.save()
@@ -40,6 +39,7 @@ def create_and_charge_new_customer(request, token, total_price):
         customer=customer.id,
         description="Paid ${} for service".format(total_price)
     )
+    raise Http404
 
 
 class InvoiceCreateView(LoginRequiredMixin, CreateView):
