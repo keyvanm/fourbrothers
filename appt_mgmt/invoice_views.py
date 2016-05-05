@@ -149,6 +149,7 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         total_payable = form.instance.total_price()
         stripe.api_key = settings.STRIPE_SECRET_KEY
         # stripe_public_key = settings.STRIPE_PUBLIC_KEY
+        raise Http404
         token = request.POST['stripeToken']
         try:
             if total_payable:
