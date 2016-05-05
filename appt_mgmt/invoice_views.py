@@ -14,8 +14,6 @@ import stripe
 from user_manager.models.user_profile import CreditCard
 from django.contrib.sites.shortcuts import get_current_site
 
-from django.http import HttpResponse
-
 
 def get_or_none(model, *args, **kwargs):
     try:
@@ -183,8 +181,5 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
             # The card has been declined
             messages.warning(request, 'Transaction unsuccessful. Please try again.')
             return super(InvoiceCreateView, self).form_invalid(form)
-        try:
-            return super(InvoiceCreateView, self).form_valid(form)
-        except Exception as e:
-            return HttpResponse(str(e))
 
+        return super(InvoiceCreateView, self).form_valid(form)
