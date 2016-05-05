@@ -200,9 +200,9 @@ else:
 # Stripe settings
 STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "sk_test_ozBjcexqlj2ZBUp6VRkB8yyP")
 STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY", "pk_test_2EZfjLSASrilnHsWADe0pOSP")
-# if DEBUG:
-#     STRIPE_SECRET_KEY = "sk_test_ozBjcexqlj2ZBUp6VRkB8yyP"
-#     STRIPE_PUBLIC_KEY = "pk_test_2EZfjLSASrilnHsWADe0pOSP"
+if DEBUG:
+    STRIPE_SECRET_KEY = "sk_test_ozBjcexqlj2ZBUp6VRkB8yyP"
+    STRIPE_PUBLIC_KEY = "pk_test_2EZfjLSASrilnHsWADe0pOSP"
 
 
 # Internationalization
