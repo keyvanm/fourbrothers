@@ -149,7 +149,6 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
         total_payable = form.instance.total_price()
         stripe.api_key = settings.STRIPE_SECRET_KEY
         # stripe_public_key = settings.STRIPE_PUBLIC_KEY
-        raise Http404
         token = request.POST['stripeToken']
         try:
             if total_payable:
@@ -178,7 +177,7 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
             self.request.user.profile.save()
 
             messages.success(request, 'Appointment booked successfully!')
-
+        raise Http404
         except stripe.CardError, e:
             # The card has been declined
             messages.warning(request, 'Transaction unsuccessful. Please try again.')
