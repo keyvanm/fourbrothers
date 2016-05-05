@@ -172,12 +172,12 @@ class InvoiceCreateView(LoginRequiredMixin, CreateView):
                             customer=customer.id,
                             description="Paid ${}".format(total_payable)
                         )
-
+            raise Http404
             self.request.user.profile.loyalty_points += int(total_payable / 20)
             self.request.user.profile.save()
 
             messages.success(request, 'Appointment booked successfully!')
-        raise Http404
+
         except stripe.CardError, e:
             # The card has been declined
             messages.warning(request, 'Transaction unsuccessful. Please try again.')
