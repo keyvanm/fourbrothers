@@ -24,13 +24,13 @@ def get_or_none(model, *args, **kwargs):
 
 def create_and_charge_new_customer(request, token, total_price):
     request.user.creditcards.all().delete()
-    raise Http404
     customer = stripe.Customer.create(
         source=token,
         description="{}, customer of {}".format(request.user.get_full_name(),
                                                 get_current_site(request).name),
         email=request.user.email
     )
+    raise Http404
     if not setting.DEBUG:
         request.user.profile.stripe_customer_id = customer.stripe_id
         request.user.profile.save()
