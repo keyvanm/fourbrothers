@@ -30,8 +30,9 @@ def create_and_charge_new_customer(request, token, total_price):
                                                 get_current_site(request).name),
         email=request.user.email
     )
-    request.user.profile.stripe_customer_id = customer.stripe_id
-    request.user.profile.save()
+    if not setting.DEBUG:
+        request.user.profile.stripe_customer_id = customer.stripe_id
+        request.user.profile.save()
     stripe.Charge.create(
         amount=int(total_price * 100),  # amount in cents, again
         currency="cad",
