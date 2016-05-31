@@ -5,13 +5,125 @@
 {% block bootstrap3_extra_head %}
     <link href="{% static 'css/main.css' %}" media="all" rel="stylesheet">
      <meta name=”description” content=”A description of the page” />
-     <title>The Title of the Page</title>
+     <title>Products & Services</title>
     <meta name="robots" content="index,follow"> 
     <meta name="keywords" content="put your keywords here" /> 
 {% endblock %}
 
 
 {% block no_container_content %}
+<div class="service-details">
+     <div class="container">
+        <div class="row">
+            <div style="padding: 96px 0px;" class="col-md-offset-1 col-lg-11 text-left">
+                 <img class="service-img" style="margin-top:-60px;" height="100%" src="{% static 'img/Car-Cleaning-Kit.png' %}">
+            </div>
+    </div>
+  </div>
+</div>
+<div class="products-services">
+           <div class="triple-banners">
+<div class="container">
+<div class="col-lg-12">
+        <h1 class="page-name">INTERIOR DETAILING</h1>
+        <p>All prices include all fees, including environmental fees, materials and delivery costs.</p>
+  </div>
+  <!--Begin Plan Basic!-->
+  <div class="col-md-3 klausbg hvr-float">
+    <div class="klausheader">
+    <h5>BRONZE</h5>
+    <h3 class="klaus_package">package</h3>
+    <h3 class="klaus_price skinonecolor">$ 54.99</h3>
+    <p>/per vehicle</p>
+    </div>
+    
+    <div class="klaus_features skinoneklaus_features">
+    <li><i class="fa fa-check-circle"></i>Interior Vacuum Cleaning</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Interior Mats</li>
+    <li><i class="fa fa-check-circle"></i>Windshield Cleaning</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Dashboard Cleaning</li>
+    <li><i class="fa fa-check-circle"></i>Air Freshener</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Earn Loyalty Points</li>
+    </div>  
+    
+    <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
+                 Book Now
+            </a>
+  </div>
+  <!--End Plan Basic!-->
+  
+  <!--Begin Plan Personal!-->
+  <div class="col-md-3 klausbg hvr-float">
+    <div class="klausheader">
+    <h5>SILVER</h5>
+    <h3 class="klaus_package">package</h3>
+   <h3 class="klaus_price skinonecolor">$ 69.99</h3>
+    <p>/per vehicle</p>
+    </div>
+    
+    <div class="klaus_features skinoneklaus_features">
+    <li><i class="fa fa-check-circle"></i>Interior Vacuum + Mats</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Windshield + Dashboard Cleaning</li>
+    <li><i class="fa fa-check-circle"></i>All Interior Window Cleaning</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Plastic + Vinyl Cleaning</li>
+    <li><i class="fa fa-check-circle"></i>Vent Freshener + Fabric Freshener</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Earn Loyalty Points</li>
+    </div>  
+    
+   <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
+                 Book Now
+            </a>
+  </div>
+  <!--End Plan Personal!-->
+  
+  <!--Begin Plan Business!-->
+  <div class="col-md-3 klausbg hvr-float">
+    <div class="klausheader">
+    <h5>GOLD</h5>
+    <h3 class="klaus_package">package</h3>
+    <h3 class="klaus_price skinonecolor">$ 84.99</h3>
+    <p>/per vehicle</p>
+    </div>
+    <div class="klaus_features skinoneklaus_features">
+    <li><i class="fa fa-check-circle"></i>Interior Vacuum + Mats</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Windshield + Dashboard Cleaning</li>
+    <li><i class="fa fa-check-circle"></i>All Interior Window Cleaning</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Plastic + Vinyl + Upholstery Cleaning</li>
+    <li><i class="fa fa-check-circle"></i>Fabric Protection Coating</li>
+    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Vent Freshener + Fabric Freshener</li>
+    </div>  
+    
+    <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
+                 Book Now
+            </a>
+  </div>
+  <!--End Plan Business!-->
+  
+  <!--Begin Plan Ultimate!-->
+  <!--Begin Plan Ultimate!-->
+  <div class="col-md-3 klausbg skinoneultimate hvr-float">
+    <div class="klausheader skinoneucolor">
+      <div style="background:#fff;color:#000;width: 200px;"class="klaus_featured skinonebg">FEATURED</div>
+    <h5>FOUR BROTHERS</h5>
+    <h3 class="klaus_package">package</h3>
+    <h3 class="klaus_price skinonecolor">$89.99</h3>
+   <p>/per vehicle</p>
+    </div>
+     <div class="klaus_features skinoneklaus_features skinoneucolor">
+    <li><i class="fa fa-check-circle"></i>Interior Vacuum + Mats</li>
+    <li class="skinoneklaus_plancolor"><i class="fa fa-check-circle"></i>Windshield + Dashboard Cleaning</li>
+    <li><i class="fa fa-check-circle"></i>All Interior Window Cleaning</li>
+    <li class="skinoneklaus_plancolor"><i class="fa fa-check-circle"></i>Plastic + Vinyl + Upholstery Cleaning</li>
+    <li><i class="fa fa-check-circle"></i>Fabric Protection + Carpet Salt Clean</li>
+    <li class="skinoneklaus_plancolor"><i class="fa fa-check-circle"></i>Vent Freshener + Fabric Freshener</li>
+    </div>  
+    
+    <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
+                 Book Now
+            </a>
+  </div>
+</div>
+</div>
 <div class="service-details">
      <div class="container">
         <div class="row">
@@ -26,6 +138,7 @@
 <div class="container">
   <div class="col-lg-12">
         <h1 class="page-name">OIL SERVICES</h1>
+        <p>All prices include all fees, including environmental fees, materials and delivery costs.</p>
   </div>
   <!--Begin Plan Basic!-->
   <div class="col-md-3 klausbg hvr-float">
@@ -130,117 +243,7 @@
   </div>
 </div>
 </div>
-<div class="service-details">
-     <div class="container">
-        <div class="row">
-            <div style="padding: 96px 0px;" class="col-md-offset-1 col-lg-11 text-left">
-                 <img class="service-img" style="margin-top:-60px;" height="100%" src="{% static 'img/Car-Cleaning-Kit.png' %}">
-            </div>
-    </div>
-  </div>
-</div>
-<div class="products-services">
-           <div class="triple-banners">
-<div class="container">
-<div class="col-lg-12">
-        <h1 class="page-name">INTERIOR DETAILING</h1>
-  </div>
-  <!--Begin Plan Basic!-->
-  <div class="col-md-3 klausbg hvr-float">
-    <div class="klausheader">
-    <h5>BRONZE</h5>
-    <h3 class="klaus_package">package</h3>
-    <h3 class="klaus_price skinonecolor">$ 54.99</h3>
-    <p>/per vehicle</p>
-    </div>
-    
-    <div class="klaus_features skinoneklaus_features">
-    <li><i class="fa fa-check-circle"></i>Interior Vacuum Cleaning</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Interior Mats</li>
-    <li><i class="fa fa-check-circle"></i>Windshield Cleaning</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Dashboard Cleaning</li>
-    <li><i class="fa fa-check-circle"></i>Air Freshener</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Earn Loyalty Points</li>
-    </div>  
-    
-    <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
-                 Book Now
-            </a>
-  </div>
-  <!--End Plan Basic!-->
-  
-  <!--Begin Plan Personal!-->
-  <div class="col-md-3 klausbg hvr-float">
-    <div class="klausheader">
-    <h5>SILVER</h5>
-    <h3 class="klaus_package">package</h3>
-   <h3 class="klaus_price skinonecolor">$ 69.99</h3>
-    <p>/per vehicle</p>
-    </div>
-    
-    <div class="klaus_features skinoneklaus_features">
-    <li><i class="fa fa-check-circle"></i>Interior Vacuum + Mats</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Windshield + Dashboard Cleaning</li>
-    <li><i class="fa fa-check-circle"></i>All Interior Window Cleaning</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Plastic + Vinyl Cleaning</li>
-    <li><i class="fa fa-check-circle"></i>Vent Freshener + Fabric Freshener</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Earn Loyalty Points</li>
-    </div>  
-    
-   <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
-                 Book Now
-            </a>
-  </div>
-  <!--End Plan Personal!-->
-  
-  <!--Begin Plan Business!-->
-  <div class="col-md-3 klausbg hvr-float">
-    <div class="klausheader">
-    <h5>GOLD</h5>
-    <h3 class="klaus_package">package</h3>
-    <h3 class="klaus_price skinonecolor">$ 84.99</h3>
-    <p>/per vehicle</p>
-    </div>
-    <div class="klaus_features skinoneklaus_features">
-    <li><i class="fa fa-check-circle"></i>Interior Vacuum + Mats</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Windshield + Dashboard Cleaning</li>
-    <li><i class="fa fa-check-circle"></i>All Interior Window Cleaning</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Plastic + Vinyl + Upholstery Cleaning</li>
-    <li><i class="fa fa-check-circle"></i>Fabric Protection Coating</li>
-    <li class="klaus_plancolor"><i class="fa fa-check-circle"></i>Vent Freshener + Fabric Freshener</li>
-    </div>  
-    
-    <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
-                 Book Now
-            </a>
-  </div>
-  <!--End Plan Business!-->
-  
-  <!--Begin Plan Ultimate!-->
-  <!--Begin Plan Ultimate!-->
-  <div class="col-md-3 klausbg skinoneultimate hvr-float">
-    <div class="klausheader skinoneucolor">
-      <div style="background:#fff;color:#000;width: 200px;"class="klaus_featured skinonebg">FEATURED</div>
-    <h5>FOUR BROTHERS</h5>
-    <h3 class="klaus_package">package</h3>
-    <h3 class="klaus_price skinonecolor">$89.99</h3>
-   <p>/per vehicle</p>
-    </div>
-     <div class="klaus_features skinoneklaus_features skinoneucolor">
-    <li><i class="fa fa-check-circle"></i>Interior Vacuum + Mats</li>
-    <li class="skinoneklaus_plancolor"><i class="fa fa-check-circle"></i>Windshield + Dashboard Cleaning</li>
-    <li><i class="fa fa-check-circle"></i>All Interior Window Cleaning</li>
-    <li class="skinoneklaus_plancolor"><i class="fa fa-check-circle"></i>Plastic + Vinyl + Upholstery Cleaning</li>
-    <li><i class="fa fa-check-circle"></i>Fabric Protection + Carpet Salt Clean</li>
-    <li class="skinoneklaus_plancolor"><i class="fa fa-check-circle"></i>Vent Freshener + Fabric Freshener</li>
-    </div>  
-    
-    <a href="{% url 'appt-choose-type' %}" class="btn btn-primary btn-lg hvr-shrink">
-                 Book Now
-            </a>
-  </div>
-</div>
-</div>
+
 <div class="service-details">
      <div class="container">
         <div class="row">
