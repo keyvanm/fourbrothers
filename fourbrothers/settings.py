@@ -238,6 +238,8 @@ DISABLED_DATES = (
     datetime.date(2016, 3, 28),
     datetime.date(2016, 5, 23),
     datetime.date(2016, 7, 1),
+    datetime.date(2016, 7, 2),
+    datetime.date(2016, 7, 3),
     datetime.date(2016, 8, 1),
     datetime.date(2016, 9, 5),
     datetime.date(2016, 10, 10),
