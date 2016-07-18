@@ -1214,3 +1214,25 @@ height: auto;
     font-size: 20pt;
 }
 
+.features-price-list {
+  list-style: none;
+  padding-left: 0px;
+}
+
+#int-detail h6 {
+font-family: "Fjalla One",sans-serif;
+}
+
+#int-detail .white-icons i, #int-detail .white-icons li {
+
+  color:#fff;
+}
+
+#int-detail li {
+ font-size:.8rem;
+
+}
+
+#int-detail i {
+  color: #337AB7;
+}
