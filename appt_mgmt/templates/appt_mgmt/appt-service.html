@@ -235,12 +235,12 @@
 
                     
                     </div>
-                       <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Detailing Services<i class="fa fa-plus-square-o"></i>
+                       <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add_detail" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Detailing Services<i class="fa fa-plus-square-o"></i>
 </h1></a>
 
-                   <div class="collapse" id="id_collapse_add">
+                   <div class="collapse" id="id_collapse_add_detail">
                           <div id="id_services" >
-                        {% for service in form.services.field.queryset.all|slice:"24:25" %}---
+                        {% for service in form.services.field.queryset.all|slice:"24:25" %}
                             <div  class="col-lg-12 checkbox" id="id_check_21">
                                 <label >
                                 <div >
@@ -273,7 +273,7 @@
                     </div>
 
                     <div id="id_services" >
-                        {% for service in form.services.field.queryset.all|slice:"25:26" %} --
+                        {% for service in form.services.field.queryset.all|slice:"25:26" %}
                             <div  class="col-lg-12 checkbox" id="id_check_22">
                                 <label >
                                 <div >
@@ -305,7 +305,7 @@
                         {% endfor %}
                     </div>
                      <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"21:22" %}--
+                        {% for service in form.services.field.queryset.all|slice:"21:22" %}
                             <div  class="col-lg-12 checkbox" id="id_check_124">
                                 <label>
                                 <div>
@@ -337,7 +337,7 @@
                         {% endfor %}
                     </div>
                      <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"20:21" %}--
+                        {% for service in form.services.field.queryset.all|slice:"20:21" %}
                             <div  class="col-lg-12 checkbox" id="id_check_19">
                                 <label >
                                 <div>
