@@ -200,8 +200,15 @@
     
                         {% endfor %}
                     </div>
-                      <div id="id_services">
-                        {% for service in form.services.field.queryset.all|slice:"22:23" %} --
+                      
+                    
+                    </div>
+                       <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add_detail" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Detailing Services<i class="fa fa-plus-square-o"></i>
+</h1></a>
+
+                   <div class="collapse" id="id_collapse_add_detail">
+                   <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"22:23" %}
                             <div  class="col-lg-12 checkbox" id="id_check_20">
                                 <label >
                                 <div >
@@ -233,12 +240,6 @@
                         {% endfor %}
                     </div>
 
-                    
-                    </div>
-                       <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add_detail" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Detailing Services<i class="fa fa-plus-square-o"></i>
-</h1></a>
-
-                   <div class="collapse" id="id_collapse_add_detail">
                           <div id="id_services" >
                         {% for service in form.services.field.queryset.all|slice:"24:25" %}
                             <div  class="col-lg-12 checkbox" id="id_check_21">
