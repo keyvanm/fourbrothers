@@ -208,6 +208,105 @@
 
                    <div class="collapse" id="id_collapse_add_detail">
                    <div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"26:27" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_26">
+                                <label >
+                                <div >
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_26" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_26" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_26">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
+
+<div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"27:28" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_27">
+                                <label >
+                                <div >
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_27" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_27" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_27">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
+
+<div id="id_services">
+                        {% for service in form.services.field.queryset.all|slice:"28:29" %}
+                            <div  class="col-lg-12 checkbox" id="id_check_28">
+                                <label >
+                                <div >
+                                 {% if service.picture %}
+                                            <img class="img-responsive" src="{{ service.picture.url }}" height="100"
+                                                 width="100" alt="">
+                                        {% else %}
+                                            <img style="display:none;" src="https://placehold.it/50x50" alt="">
+                                    {% endif %}
+                                 <input class="" id="id_services_28" name="services"
+                                           type="checkbox" value="{{ service.id }}" data-price="{{ service.fee }}">
+                                              
+                                     {{ service }}
+                                    <a class="more-details" role="button" data-toggle="collapse" href="#id_collapse_28" aria-expanded="false" aria-controls="collapseExample">More Details</a>
+                                    <div class="collapse" id="id_collapse_28">
+                                    <div>
+                                    <p>
+                                        
+                                        <small>
+                                            {{ service.description }}
+                                        </small>
+                                    </p>
+                                    </div>
+                                    </div>
+                                    </div>
+                                </label>
+                            </div>
+    
+                        {% endfor %}
+                    </div>
+
+                   <div id="id_services">
                         {% for service in form.services.field.queryset.all|slice:"22:23" %}
                             <div  class="col-lg-12 checkbox" id="id_check_20">
                                 <label >
