@@ -240,7 +240,7 @@
                         {% endfor %}
                     </div>
 
-<div id="id_services">
+<div id="id_services" style="display:none;">
                         {% for service in form.services.field.queryset.all|slice:"27:28" %}
                             <div  class="col-lg-12 checkbox" id="id_check_27">
                                 <label >
@@ -469,7 +469,7 @@
                         {% endfor %}
                     </div>
                    </div>
-                     <a style="clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Vehicle Services&nbsp;<i class="fa fa-plus-square-o"></i>
+                     <a style="display:none;clear: both;" class="more-details" role="button" data-toggle="collapse" href="#id_collapse_add" aria-expanded="false" aria-controls="collapseExample"> <h1>Additional Vehicle Services&nbsp;<i class="fa fa-plus-square-o"></i>
 </h1></a>
 
                    <div class="collapse" id="id_collapse_add">
